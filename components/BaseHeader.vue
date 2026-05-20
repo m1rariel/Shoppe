@@ -17,9 +17,15 @@
         </nav>
         <span aria-hidden="true" class="divider"></span>
         <nav class="page-header-nav__buttons">
-          <button type="button"><SearchIcon class="icon-button__nav" /></button>
-          <button type="button"><PeopleIcon class="icon-button__nav" /></button>
-          <button type="button"><StoreIcon class="icon-button__nav" /></button>
+          <BaseButton type="transparent">
+            <SearchIcon class="icon-button__nav" />
+          </BaseButton>
+          <BaseButton type="transparent">
+            <PeopleIcon class="icon-button__nav" />
+          </BaseButton>
+          <BaseButton type="transparent">
+            <StoreIcon class="icon-button__nav" />
+          </BaseButton>
         </nav>
       </div>
     </div>
