@@ -14,8 +14,8 @@
     <div class="mobile-menu__header">
       <p class="mobile-menu__logo"></p>
       <div class="mobile-menu__actions">
-        <button class="mobile-menu__icon-button"></button>
-        <button class="mobile-menu__icon-button"></button>
+        <BaseButton type="transparent"> </BaseButton>
+        <BaseButton type="transparent"> </BaseButton>
       </div>
     </div>
     <label for="" class="mobile-menu__search">
