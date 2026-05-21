@@ -34,6 +34,15 @@
 
 <style lang="scss" scoped>
   @use '~/assets/styles/variables' as *;
+  @use '~/assets/styles/breakpoints' as *;
+
+  .page-header {
+    display: none;
+
+    @media (min-width: $breakpoints-m) {
+      display: block;
+    }
+  }
 
   .page-header__inner {
     display: flex;

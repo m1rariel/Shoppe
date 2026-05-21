@@ -73,10 +73,16 @@
 </template>
 <style lang="scss" scoped>
   @use '~/assets/styles/variables' as *;
+  @use '~/assets/styles/breakpoints' as *;
 
   .mobile-menu__outer {
+    display: block;
     width: 100%;
     max-width: none;
+
+    @media (min-width: $breakpoints-m) {
+      display: none;
+    }
   }
 
   .mobile-menu__header {
