@@ -1,3 +1,3 @@
 <template>
-  <BaseHeader />
+  <MobileMenu />
 </template>
