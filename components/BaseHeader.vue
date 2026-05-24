@@ -4,30 +4,28 @@
   import StoreIcon from '@/assets/icons/shop-icon.svg'
 </script>
 <template>
-  <header class="page-header">
-    <div class="page-header__inner container">
-      <div class="page-header__left">
-        <p class="page-header__logo">SHOPPE</p>
-      </div>
-      <div class="page-header__right">
-        <nav class="page-header-nav__actions">
-          <NuxtLink to="/#">Shop</NuxtLink>
-          <NuxtLink to="/#">Blog</NuxtLink>
-          <NuxtLink to="/#">Our Story</NuxtLink>
-        </nav>
-        <span aria-hidden="true" class="divider"></span>
-        <nav class="page-header-nav__buttons">
-          <BaseButton type="transparent">
-            <SearchIcon class="icon-button__nav" />
-          </BaseButton>
-          <BaseButton type="transparent">
-            <PeopleIcon class="icon-button__nav" />
-          </BaseButton>
-          <BaseButton type="transparent">
-            <StoreIcon class="icon-button__nav" />
-          </BaseButton>
-        </nav>
-      </div>
+  <header class="page-header container">
+    <div class="page-header__left">
+      <p class="page-header__logo">SHOPPE</p>
+    </div>
+    <div class="page-header__right">
+      <nav class="page-header-nav__actions">
+        <NuxtLink to="/#">Shop</NuxtLink>
+        <NuxtLink to="/#">Blog</NuxtLink>
+        <NuxtLink to="/#">Our Story</NuxtLink>
+      </nav>
+      <span aria-hidden="true" class="divider"></span>
+      <nav class="page-header-nav__buttons">
+        <BaseButton type="transparent">
+          <SearchIcon class="icon-button__nav" />
+        </BaseButton>
+        <BaseButton type="transparent">
+          <PeopleIcon class="icon-button__nav" />
+        </BaseButton>
+        <BaseButton type="transparent">
+          <StoreIcon class="icon-button__nav" />
+        </BaseButton>
+      </nav>
     </div>
   </header>
 </template>
@@ -40,13 +38,9 @@
     display: none;
 
     @media (min-width: $breakpoints-m) {
-      display: block;
+      display: flex;
+      justify-content: space-between;
     }
-  }
-
-  .page-header__inner {
-    display: flex;
-    justify-content: space-between;
   }
 
   .page-header__logo {

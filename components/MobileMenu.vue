@@ -1,4 +1,10 @@
 <script setup lang="ts">
+  import CloseIcon from '@/assets/icons/close-icon.svg'
+  import StoreIcon from '@/assets/icons/shop-icon.svg'
+  import SearchIcon from '@/assets/icons/search-icon.svg'
+  import OutIcon from '@/assets/icons/out-icon.svg'
+  import PeopleIcon from '@/assets/icons/people-icon.svg'
+
   const menuLinks = [
     { label: 'Shop', to: '/#shop' },
     { label: 'Blog', to: '/#blog' },
@@ -15,11 +21,6 @@
     },
     { icon: OutIcon, label: 'Logout', to: '/#logout' },
   ]
-  import CloseIcon from '@/assets/icons/close-icon.svg'
-  import StoreIcon from '@/assets/icons/shop-icon.svg'
-  import SearchIcon from '@/assets/icons/search-icon.svg'
-  import OutIcon from '@/assets/icons/out-icon.svg'
-  import PeopleIcon from '@/assets/icons/people-icon.svg'
 </script>
 
 <template>
@@ -94,16 +95,12 @@
 
   .mobile-menu__actions {
     display: flex;
-    gap: 24px;
-    align-items: center;
-  }
-
-  .mobile-menu__actions .base-button {
-    display: flex;
+    gap: 21px;
     align-items: center;
     justify-content: center;
     width: 24px;
     height: 24px;
+    margin-right: 10px;
     color: $color-black;
   }
 
@@ -195,13 +192,15 @@
     height: 20px;
   }
 
-  .mobile-menu__nav,
-  .mobile-menu__footer-inner,
-  .mobile-menu__footer-inner__actions {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    align-items: start;
+  .mobile-menu {
+    &__nav,
+    &__footer-inner,
+    &__footer-inner__actions {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: start;
+    }
   }
 
   .mobile-menu__nav {
