@@ -1,9 +1,10 @@
 <script setup lang="ts">
-  import CloseIcon from '@/assets/icons/close-icon.svg'
+  import { ref } from 'vue'
   import StoreIcon from '@/assets/icons/shop-icon.svg'
   import SearchIcon from '@/assets/icons/search-icon.svg'
   import OutIcon from '@/assets/icons/out-icon.svg'
   import PeopleIcon from '@/assets/icons/people-icon.svg'
+  import CloseIcon from '@/assets/icons/close-icon.svg'
 
   const menuLinks = [
     { label: 'Shop', to: '/#shop' },
@@ -21,8 +22,13 @@
     },
     { icon: OutIcon, label: 'Logout', to: '/#logout' },
   ]
-</script>
 
+  const isMenuOpen = ref(false)
+
+  const toggleMenu = () => {
+    isMenuOpen.value = !isMenuOpen.value
+  }
+</script>
 <template>
   <div class="mobile-menu__outer container-mobile">
     <aside class="mobile-menu">
@@ -32,49 +38,79 @@
           <BaseButton type="transparent">
             <StoreIcon class="mobile-menu__cart-icon" />
           </BaseButton>
-          <BaseButton type="transparent">
-            <CloseIcon class="mobile-menu__close-icon" />
+          <BaseButton type="transparent" @click="toggleMenu">
+            <CloseIcon v-if="isMenuOpen" class="mobile-menu__close-icon" />
+            <div v-else class="mobile-menu-burger">
+              <span class="burger-line"> </span>
+              <span class="burger-line"> </span>
+              <span class="burger-line__small"> </span>
+            </div>
           </BaseButton>
         </div>
       </div>
-      <label for="" class="mobile-menu__search">
-        <span class="mobile-menu__search-icon">
-          <SearchIcon class="icon-button" width="12px" height="12px"
-        /></span>
-        <input type="search" placeholder="Search" />
-      </label>
-      <nav class="mobile-menu__nav">
-        <NuxtLink
-          v-for="link in menuLinks"
-          :key="link.label"
-          :to="link.to"
-          class="mobile-menu__link"
-        >
-          {{ link.label }}
-        </NuxtLink>
-      </nav>
-    </aside>
-    <footer class="mobile-menu__footer">
-      <div class="mobile-menu__footer-inner">
-        <span aria-hidden="true" class="mobile-menu__footer-innner__divider"></span>
-        <nav class="mobile-menu__footer-inner__actions">
+      <div v-if="isMenuOpen" class="mobile-menu__content">
+        <label for="" class="mobile-menu__search">
+          <span class="mobile-menu__search-icon">
+            <SearchIcon class="icon-button" width="12px" height="12px"
+          /></span>
+          <input type="search" placeholder="Search" />
+        </label>
+        <nav class="mobile-menu__nav">
           <NuxtLink
-            v-for="link in menuActionsLink"
+            v-for="link in menuLinks"
             :key="link.label"
             :to="link.to"
-            class="mobile-menu__footer-link"
+            class="mobile-menu__link"
           >
-            <component :is="link.icon" class="mobile-menu__footer-icon" aria-hidden="true" />
-            <span>{{ link.label }}</span>
+            {{ link.label }}
           </NuxtLink>
         </nav>
+
+        <footer class="mobile-menu__footer">
+          <div class="mobile-menu__footer-inner">
+            <span aria-hidden="true" class="mobile-menu__footer-innner__divider"></span>
+            <nav class="mobile-menu__footer-inner__actions">
+              <NuxtLink
+                v-for="link in menuActionsLink"
+                :key="link.label"
+                :to="link.to"
+                class="mobile-menu__footer-link"
+              >
+                <component :is="link.icon" class="mobile-menu__footer-icon" aria-hidden="true" />
+                <span>{{ link.label }}</span>
+              </NuxtLink>
+            </nav>
+          </div>
+        </footer>
       </div>
-    </footer>
+    </aside>
   </div>
 </template>
 <style lang="scss" scoped>
   @use '~/assets/styles/variables' as *;
   @use '~/assets/styles/breakpoints' as *;
+
+  .burger-line {
+    width: 20px;
+    height: 2px;
+  }
+
+  .burger-line__small {
+    width: 13px;
+    height: 2px;
+  }
+
+  .burger-line,
+  .burger-line__small {
+    background-color: $color-black;
+  }
+
+  .mobile-menu-burger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: end;
+  }
 
   .mobile-menu__outer {
     display: block;
@@ -98,9 +134,8 @@
     gap: 21px;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
+    width: auto;
+    height: auto;
     color: $color-black;
   }
 

@@ -9,12 +9,20 @@
  */
 
 html {
+  box-sizing: border-box;
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 button {
   padding-block: 0;
+  padding-inline: 0;
   margin-block: 0;
   background-color: transparent;
   border: none;
