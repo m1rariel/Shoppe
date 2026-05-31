@@ -1,0 +1,11 @@
+@use './variables' as *;
+@use './layout';
+
+.allerta-stencil-regular {
+  font-family: $font-accent;
+  font-weight: $font-weight-regular;
+}
+
+.dm-sans {
+  font-family: $font-main;
+}
