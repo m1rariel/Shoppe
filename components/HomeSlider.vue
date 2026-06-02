@@ -50,30 +50,87 @@
 </template>
 
 <style lang="scss" scoped>
-  @use '~/assets/styles/variables' as *;
-  @use '~/assets/styles/breakpoints' as *;
+  :deep(.swiper-pagination) {
+    bottom: 4px;
+  }
 
   :deep(.swiper-pagination-bullet) {
-    width: 4px;
-    height: 4px;
-    background-color: $color-white;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    margin: 0 -6px !important;
+    background-color: transparent;
     opacity: 1;
+
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 4px;
+      height: 4px;
+      content: '';
+      background-color: $color-white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 
   :deep(.swiper-pagination-bullet-active) {
-    width: 7px;
-    height: 7px;
     background-color: transparent;
-    border: 1px solid $color-white;
-    opacity: 1;
+
+    &::before {
+      width: 9px;
+      height: 9px;
+      background-color: transparent;
+      border: 1px solid $color-white;
+    }
+  }
+
+  @media (min-width: $breakpoints-m) {
+    :deep(.swiper-pagination) {
+      bottom: 8px;
+    }
+
+    :deep(.swiper-pagination-bullet) {
+      margin: 0 2px !important;
+    }
+
+    :deep(.swiper-pagination-bullet-active)::before {
+      width: 7px;
+      height: 7px;
+    }
   }
 
   .home-slider {
     position: relative;
-    height: 646px;
+    height: 354px;
     margin: 0 auto;
     margin-top: 16px;
     overflow: hidden;
+
+    &__image {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__text {
+      position: absolute;
+      bottom: 30px;
+      left: 8px;
+      z-index: 2;
+
+      @media (min-width: $breakpoints-m) {
+        top: 50%;
+        bottom: auto;
+        left: 34px;
+        transform: translateY(-50%);
+      }
+    }
+
+    @media (min-width: $breakpoints-m) {
+      height: 646px;
+    }
   }
 
   .swiper,
@@ -93,20 +150,6 @@
     font-size: 24px;
     background-color: #eee;
     border-radius: 16px;
-  }
-
-  .home-slider__image {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  .home-slider__text {
-    position: absolute;
-    top: 50%;
-    left: 34px;
-    z-index: 2;
-    transform: translateY(-50%);
   }
 
   :deep(.swiper-lazy-preloader) {

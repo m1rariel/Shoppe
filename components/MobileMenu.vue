@@ -87,9 +87,6 @@
   </div>
 </template>
 <style lang="scss" scoped>
-  @use '~/assets/styles/variables' as *;
-  @use '~/assets/styles/breakpoints' as *;
-
   .burger-line {
     width: 20px;
     height: 2px;

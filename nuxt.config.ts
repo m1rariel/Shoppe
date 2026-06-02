@@ -6,6 +6,16 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   vite: {
     plugins: [svgLoader()],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+            @use "~/assets/styles/variables" as *;
+            @use "~/assets/styles/breakpoints" as *;
+          `,
+        },
+      },
+    },
   },
   runtimeConfig: {
     public: {

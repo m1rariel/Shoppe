@@ -31,11 +31,9 @@
 </template>
 
 <style lang="scss" scoped>
-  @use '~/assets/styles/variables' as *;
-  @use '~/assets/styles/breakpoints' as *;
-
   .page-header {
     display: none;
+    margin-top: 64px;
 
     @media (min-width: $breakpoints-m) {
       display: flex;
@@ -47,6 +45,7 @@
     font-family: $font-accent;
     font-size: 35px;
     font-weight: $font-weight-regular;
+    user-select: none;
 
     &::first-letter {
       color: $color-accent;
