@@ -1,7 +1,7 @@
 @use './breakpoints' as *;
 
 .container {
-  width: 96%;
+  width: 100%;
   max-width: 346px;
   padding: 0 16px;
   margin: 0 auto;
@@ -15,11 +15,11 @@
     padding: 0 36px;
   }
   @media (min-width: $breakpoints-xl) {
-    max-width: 1216px;
-    padding: 0 112px;
+    max-width: 1440px;
+    padding: 0 96px;
   }
   @media (min-width: $breakpoints-xxl) {
-    max-width: 1680px;
-    padding: 0 120px;
+    max-width: 1920px;
+    padding: 0 96px;
   }
 }
