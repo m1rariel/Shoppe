@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <BaseHeader />
+    <MobileMenu />
     <NuxtPage />
-    <HomeSlider />
   </div>
 </template>
