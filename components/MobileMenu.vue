@@ -30,7 +30,10 @@
   }
 </script>
 <template>
-  <div class="mobile-menu__outer container-mobile">
+  <div
+    class="mobile-menu__outer container-mobile"
+    :class="{ 'mobile-menu__outer-open': isMenuOpen }"
+  >
     <aside class="mobile-menu">
       <div class="mobile-menu__header">
         <p class="mobile-menu__logo">SHOPPE</p>
@@ -113,10 +116,18 @@
     display: block;
     width: 100%;
     max-width: none;
+    background-color: $color-white;
 
     @media (min-width: $breakpoints-m) {
       display: none;
     }
+  }
+
+  .mobile-menu__outer-open {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    overflow-y: auto;
   }
 
   .mobile-menu__header {

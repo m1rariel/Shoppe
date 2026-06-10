@@ -1,3 +1,4 @@
 <template>
-  <MobileMenu />
+  <HomeSlider />
+  <AboutSection />
 </template>
