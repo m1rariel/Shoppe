@@ -15,9 +15,22 @@
 <style lang="scss" scoped>
   .app-notification {
     position: fixed;
-    top: 0;
+    top: 24px;
     right: 0;
     left: 0;
     z-index: 1000;
+    animation: notification-slide-in 0.6s ease;
+  }
+
+  @keyframes notification-slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>

@@ -23,6 +23,14 @@
     const normalizedEmail = email.value.trim()
 
     if (!normalizedEmail) {
+      showNotification('Email is required.', 'error')
+      return
+    }
+    if (!isVariableEmail.value) {
+      showNotification('Email isnt valid.', 'error')
+      return
+    }
+    if (!normalizedEmail || !isVariableEmail.value) {
       return
     }
 
