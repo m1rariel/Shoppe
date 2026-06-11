@@ -2,9 +2,6 @@
   import SearchIcon from '@/assets/icons/search-icon.svg'
   import PeopleIcon from '@/assets/icons/people-icon.svg'
   import StoreIcon from '@/assets/icons/shop-icon.svg'
-  import { useState } from '#app'
-
-  const isEmailSaved = useState('isEmailSaved', () => false)
 </script>
 <template>
   <div class="page-header-inner container">
@@ -32,12 +29,6 @@
         </nav>
       </div>
     </header>
-    <BaseNotification
-      v-if="isEmailSaved"
-      class="page-header__notification"
-      message="Email correctly saved."
-      action-text="View cart"
-    />
   </div>
 </template>
 

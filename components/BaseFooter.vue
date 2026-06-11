@@ -4,14 +4,19 @@
   import InstIcon from '@/assets/icons/inst-icon.svg'
   import TWIcon from '@/assets/icons/twitter-icon.svg'
   import { onMounted, ref } from 'vue'
-  import { useState } from '#app'
+  import { useNotification } from '#imports'
+  import { computed } from 'vue'
 
   const email = ref('')
-  const emailStorageKey = 'shoppe:newsletter-email'
-  const isEmailSaved = useState('isEmailSaved', () => false)
+  const EMAIL_STORAGE_KEY = 'shoppe:newsletter-email'
+  const { showNotification } = useNotification()
 
-  onMounted(() => {
-    email.value = localStorage.getItem(emailStorageKey) || ''
+  const isVariableEmail = computed(() => {
+    return typeof email.value === `string` && email.value.includes(`@`)
+  })
+
+  const hasEmailError = computed(() => {
+    return Boolean(email.value) && !isVariableEmail.value
   })
 
   const handleSubscribe = () => {
@@ -21,9 +26,14 @@
       return
     }
 
-    localStorage.setItem(emailStorageKey, normalizedEmail)
-    isEmailSaved.value = true
+    localStorage.setItem(EMAIL_STORAGE_KEY, normalizedEmail)
+
+    showNotification('Email correctly saved.', 'success')
   }
+
+  onMounted(() => {
+    email.value = localStorage.getItem(EMAIL_STORAGE_KEY) || ''
+  })
 </script>
 
 <template>
@@ -42,10 +52,13 @@
             class="base-footer__input"
             placeholder="Give an email, get the newsletter."
             autocomplete="email"
+            :error="hasEmailError"
+            error-message="Email isnt valid"
           />
-          <button class="base-footer__button" type="submit">
+
+          <BaseButton class="base-footer__button" type="submit">
             <ArrowIcon />
-          </button>
+          </BaseButton>
         </form>
       </div>
     </div>
@@ -123,6 +136,7 @@
     display: flex;
     gap: 80px;
     align-items: center;
+    border-bottom: 1px solid $color-dark-gray;
   }
 
   .base-footer__socials {

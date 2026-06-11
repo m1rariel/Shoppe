@@ -1,19 +1,20 @@
 <script setup lang="ts">
-  import { computed } from 'vue'
+  defineProps<{
+    error?: boolean
+    errorMessage?: string
+  }>()
 
   const modelValue = defineModel<string | number>()
-  const isVariableEmail = computed(() => {
-    return typeof modelValue.value === `string` && modelValue.value.includes(`@`)
-  })
-  const hasEmailError = computed(() => {
-    return modelValue.value && !isVariableEmail.value
-  })
 </script>
 
 <template>
   <div class="base-input">
-    <input v-model="modelValue" class="base-input__field" />
-    <span v-if="hasEmailError" class="base-input__error"> Email isn't valid</span>
+    <input
+      v-model="modelValue"
+      class="base-input__field"
+      placeholder="Give an email, get the newsletter."
+    />
+    <span v-if="error" class="base-input__error"> {{ errorMessage }}</span>
   </div>
 </template>
 
@@ -25,6 +26,7 @@
     outline: none;
     background-color: transparent;
     border: none;
+    field-sizing: content;
   }
 
   .base-input__field::placeholder {

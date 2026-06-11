@@ -3,7 +3,9 @@
 
   defineProps<{
     message: string
-    actionText: string
+    actionText?: string
+    type?: 'success' | 'error' | 'info'
+    visible?: boolean
   }>()
 </script>
 <template>

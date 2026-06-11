@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <button type="button" class="base-button"><slot></slot></button>
+  <button type="submit" class="base-button"><slot></slot></button>
 </template>
 <style scoped>
   .base-button {
