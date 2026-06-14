@@ -4,39 +4,37 @@
   import InstIcon from '@/assets/icons/inst-icon.svg'
   import TWIcon from '@/assets/icons/twitter-icon.svg'
   import { onMounted, ref } from 'vue'
-  import { useNotification } from '#imports'
+  import { NotificationTypes, useNotification } from '#imports'
   import { computed } from 'vue'
 
   const email = ref('')
   const EMAIL_STORAGE_KEY = 'shoppe:newsletter-email'
   const { showNotification } = useNotification()
+  let isSubmitAttempt = ref(false)
 
   const isVariableEmail = computed(() => {
     return typeof email.value === `string` && email.value.includes(`@`)
   })
 
   const hasEmailError = computed(() => {
-    return Boolean(email.value) && !isVariableEmail.value
+    return isSubmitAttempt.value && !isVariableEmail.value
   })
 
   const handleSubscribe = () => {
     const normalizedEmail = email.value.trim()
+    isSubmitAttempt.value = true
 
-    if (!normalizedEmail) {
-      showNotification('Email is required.', 'error')
-      return
-    }
-    if (!isVariableEmail.value) {
-      showNotification('Email isnt valid.', 'error')
-      return
-    }
     if (!normalizedEmail || !isVariableEmail.value) {
+      showNotification({
+        message: 'Email isnt valid',
+        type: NotificationTypes.ERROR,
+      })
       return
     }
 
     localStorage.setItem(EMAIL_STORAGE_KEY, normalizedEmail)
 
-    showNotification('Email correctly saved.', 'success')
+    showNotification({ message: 'Email saved', type: NotificationTypes.SUCCESS })
   }
 
   onMounted(() => {
@@ -64,10 +62,15 @@
             error-message="Email isnt valid"
           />
 
-          <BaseButton class="base-footer__button" type="submit">
+          <BaseButton class="base-footer__button" variant="transparent" type="submit">
             <ArrowIcon />
           </BaseButton>
         </form>
+        <div class="base-footer__agree">
+          <p class="base-footer__agree-title base-footer__mobile">
+            i agree to the website’s terms and conditions
+          </p>
+        </div>
       </div>
     </div>
     <div class="base-footer__bottom">
@@ -76,24 +79,63 @@
         Terms of use
         <span class="base-footer__accent"> and </span> privacy policy
       </p>
-      <div class="base-footer__socials">
-        <a href="#" class="base-footer__social-link"><FCIcon /></a>
-        <a href="#" class="base-footer__social-link"><InstIcon /></a>
-        <a href="#" class="base-footer__social-link"><TWIcon /></a>
+      <div class="base-footer__soc1als">
+        <h2 class="base-footer__soc1als-title">Follow us</h2>
+        <span class="base-footer__soc1ials__divider"></span>
+        <a href="#" class="base-footer__soc1al-link"><FCIcon /></a>
+        <a href="#" class="base-footer__soc1al-link"><InstIcon /></a>
+        <a href="#" class="base-footer__soc1al-link"><TWIcon /></a>
       </div>
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
+  .base-footer__soc1als-title {
+    margin: 0;
+    font-family: $font-main;
+    font-size: 12px;
+    font-weight: $font-weight-regular;
+    line-height: 20px;
+    color: $color-black;
+  }
+
+  .base-footer__soc1ials__divider {
+    width: 47px;
+    height: 0;
+    border: 1px solid black;
+  }
+
+  .base-footer__mobile {
+    display: none;
+    margin-top: 12px;
+    font-family: $font-accent;
+    font-size: 12px;
+    font-weight: $font-weight-regular;
+    line-height: 20px;
+    color: $color-black;
+
+    @media (max-width: $breakpoints-s) {
+      display: block;
+    }
+  }
+
   .base-footer {
     margin-top: 250px;
     margin-bottom: 100px;
+
+    @media (max-width: $breakpoints-s) {
+      margin-top: 70px;
+    }
   }
 
   .base-footer__content {
     display: flex;
     justify-content: space-between;
     padding: 48px 0;
+
+    @media (max-width: $breakpoints-s) {
+      flex-direction: column-reverse;
+    }
   }
 
   .base-footer__link {
@@ -108,6 +150,12 @@
   .base-footer__left {
     display: flex;
     gap: 41px;
+
+    @media (max-width: $breakpoints-s) {
+      flex-direction: column-reverse;
+      gap: 8px;
+      margin-top: 40px;
+    }
   }
 
   .base-footer__copyright {
@@ -116,6 +164,10 @@
     font-weight: $font-weight-regular;
     line-height: 27px;
     color: $color-dark-gray;
+
+    @media (max-width: $breakpoints-s) {
+      margin-top: 36px;
+    }
   }
 
   .base-footer__accent {
@@ -126,6 +178,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: $breakpoints-s) {
+      flex-direction: column-reverse;
+      align-items: start;
+    }
   }
 
   .base-footer__input {
@@ -144,12 +201,22 @@
     display: flex;
     gap: 80px;
     align-items: center;
+    padding-bottom: 6px;
     border-bottom: 1px solid $color-dark-gray;
+
+    @media (max-width: $breakpoints-s) {
+      justify-content: space-between;
+    }
   }
 
-  .base-footer__socials {
+  .base-footer__soc1als {
     display: flex;
     gap: 30px;
+    align-items: flex-end;
+
+    @media (max-width: $breakpoints-s) {
+      gap: 14px;
+    }
   }
 
   .base-footer__button:hover {

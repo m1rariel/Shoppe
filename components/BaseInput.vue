@@ -3,7 +3,6 @@
     error?: boolean
     errorMessage?: string
   }>()
-
   const modelValue = defineModel<string | number>()
 </script>
 
@@ -32,5 +31,14 @@
   .base-input__field::placeholder {
     color: currentcolor;
     opacity: 0.5;
+  }
+
+  .base-input {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .base-input__error {
+    color: red;
   }
 </style>

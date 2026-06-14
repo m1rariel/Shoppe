@@ -1,10 +1,21 @@
 import { useNotificationStore } from '#imports'
 
+export enum NotificationTypes {
+  SUCCESS = 'success',
+  ERROR = 'error',
+  INFO = 'info',
+}
+
+export interface NotificationPayload {
+  message: string
+  type?: NotificationTypes
+}
+
 export const useNotification = () => {
   const notificationStore = useNotificationStore()
   let timer: ReturnType<typeof setTimeout> | null = null
 
-  const showNotification = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
+  const showNotification = ({ message, type = NotificationTypes.INFO }: NotificationPayload) => {
     notificationStore.showNotification({ message, type })
 
     if (timer) {
@@ -20,6 +31,7 @@ export const useNotification = () => {
     if (timer) {
       clearTimeout(timer)
     }
+
     notificationStore.hideNotification()
   }
 

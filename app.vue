@@ -1,5 +1,5 @@
-<script setup lang="ts">
-  import AppNotification from './components/AppNotification.vue'
+<script setup>
+  import BaseNotification from './components/BaseNotification.vue'
 </script>
 
 <template>
@@ -7,6 +7,6 @@
     <BaseHeader />
     <MobileMenu />
     <NuxtPage />
-    <AppNotification />
+    <BaseNotification />
   </div>
 </template>
