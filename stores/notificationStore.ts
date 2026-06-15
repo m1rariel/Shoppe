@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { NotificationTypes, type NotificationPayload } from '@/composables/useNotification'
 
 export const useNotificationStore = defineStore('notification', () => {
@@ -8,9 +8,11 @@ export const useNotificationStore = defineStore('notification', () => {
 
   const type = ref<NotificationTypes>(NotificationTypes.INFO)
 
-  const showNotification = (msgInfo: NotificationPayload) => {
+  const showNotification = async (msgInfo: NotificationPayload) => {
+    if (!msgInfo.message) return
     message.value = msgInfo.message
     type.value = msgInfo.type ?? NotificationTypes.INFO
+    await nextTick()
     visible.value = true
   }
 

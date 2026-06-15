@@ -15,8 +15,11 @@ export const useNotification = () => {
   const notificationStore = useNotificationStore()
   let timer: ReturnType<typeof setTimeout> | null = null
 
-  const showNotification = ({ message, type = NotificationTypes.INFO }: NotificationPayload) => {
-    notificationStore.showNotification({ message, type })
+  const showNotification = async ({
+    message,
+    type = NotificationTypes.INFO,
+  }: NotificationPayload) => {
+    await notificationStore.showNotification({ message, type })
 
     if (timer) {
       clearTimeout(timer)

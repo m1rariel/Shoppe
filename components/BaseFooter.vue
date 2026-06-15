@@ -10,7 +10,7 @@
   const email = ref('')
   const EMAIL_STORAGE_KEY = 'shoppe:newsletter-email'
   const { showNotification } = useNotification()
-  let isSubmitAttempt = ref(false)
+  const isSubmitAttempt = ref(false)
 
   const isVariableEmail = computed(() => {
     return typeof email.value === `string` && email.value.includes(`@`)
@@ -20,12 +20,12 @@
     return isSubmitAttempt.value && !isVariableEmail.value
   })
 
-  const handleSubscribe = () => {
+  const handleSubscribe = async () => {
     const normalizedEmail = email.value.trim()
     isSubmitAttempt.value = true
 
     if (!normalizedEmail || !isVariableEmail.value) {
-      showNotification({
+      await showNotification({
         message: 'Email isnt valid',
         type: NotificationTypes.ERROR,
       })
@@ -34,7 +34,7 @@
 
     localStorage.setItem(EMAIL_STORAGE_KEY, normalizedEmail)
 
-    showNotification({ message: 'Email saved', type: NotificationTypes.SUCCESS })
+    await showNotification({ message: 'Email saved', type: NotificationTypes.SUCCESS })
   }
 
   onMounted(() => {

@@ -10,6 +10,6 @@
     <BaseHeader />
     <MobileMenu />
     <NuxtPage />
-    <BaseNotification v-if="notificationStore.visible" />
+    <BaseNotification v-if="notificationStore.visible && notificationStore.message" />
   </div>
 </template>
