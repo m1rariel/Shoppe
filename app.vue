@@ -1,5 +1,8 @@
 <script setup>
   import BaseNotification from './components/BaseNotification.vue'
+  import { useNotificationStore } from './stores/notificationStore'
+
+  const notificationStore = useNotificationStore()
 </script>
 
 <template>
@@ -7,6 +10,6 @@
     <BaseHeader />
     <MobileMenu />
     <NuxtPage />
-    <BaseNotification />
+    <BaseNotification v-if="notificationStore.visible && notificationStore.message" />
   </div>
 </template>

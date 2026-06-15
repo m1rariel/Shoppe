@@ -5,7 +5,7 @@
   const notificationStore = useNotificationStore()
 
   defineProps<{
-    message?: string
+    message: string
     actionText?: string
     type?: 'success' | 'error' | 'info'
     visible?: boolean
@@ -13,7 +13,10 @@
 </script>
 <template>
   <Teleport to="body">
-    <div v-if="notificationStore.visible" class="base-notification container">
+    <div
+      v-if="notificationStore.visible && notificationStore.message"
+      class="base-notification container"
+    >
       <div class="base-notification__inner">
         <span class="base-notification-icon">
           <SuccessIcon />
