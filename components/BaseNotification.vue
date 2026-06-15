@@ -5,7 +5,6 @@
   const notificationStore = useNotificationStore()
 
   defineProps<{
-    message: string
     actionText?: string
     type?: 'success' | 'error' | 'info'
     visible?: boolean
