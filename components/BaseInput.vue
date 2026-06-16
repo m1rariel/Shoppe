@@ -19,13 +19,13 @@
 
 <style lang="scss" scoped>
   .base-input__field {
+    width: 100%;
     min-width: 0;
     padding: 0;
     color: currentcolor;
     outline: none;
     background-color: transparent;
     border: none;
-    field-sizing: content;
   }
 
   .base-input__field::placeholder {
@@ -36,6 +36,7 @@
   .base-input {
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 
   .base-input__error {

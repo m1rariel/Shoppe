@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  defineProps<{
+  const { buttonType = 'button' } = defineProps<{
     buttonType?: 'button' | 'submit' | 'reset'
     variant?: 'default' | 'transparent'
   }>()

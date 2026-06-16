@@ -33,6 +33,8 @@
     }
 
     localStorage.setItem(EMAIL_STORAGE_KEY, normalizedEmail)
+    email.value = ''
+    isSubmitAttempt.value = false
 
     await showNotification({ message: 'Email saved', type: NotificationTypes.SUCCESS })
   }
@@ -58,14 +60,13 @@
             class="base-footer__input"
             placeholder="Give an email, get the newsletter."
             autocomplete="email"
-            :error="hasEmailError"
-            error-message="Email isnt valid"
           />
 
-          <BaseButton class="base-footer__button" variant="transparent" type="submit">
+          <BaseButton class="base-footer__button" variant="transparent" button-type="submit">
             <ArrowIcon />
           </BaseButton>
         </form>
+        <span v-if="hasEmailError" class="base-footer__input-error">Email isnt valid</span>
         <div class="base-footer__agree">
           <p class="base-footer__agree-title base-footer__mobile">
             i agree to the website’s terms and conditions
@@ -185,7 +186,13 @@
     }
   }
 
+  .base-footer__right {
+    width: 100%;
+    max-width: 396px;
+  }
+
   .base-footer__input {
+    flex: 1;
     min-width: 0;
     font-family: $font-main;
     font-size: 16px;
@@ -194,19 +201,39 @@
     color: $color-dark-gray;
     background-color: transparent;
     border: none;
-    field-sizing: content;
   }
 
   .base-footer__subscribe {
     display: flex;
     gap: 80px;
     align-items: center;
+    width: 100%;
     padding-bottom: 6px;
     border-bottom: 1px solid $color-dark-gray;
 
     @media (max-width: $breakpoints-s) {
+      gap: 16px;
       justify-content: space-between;
     }
+  }
+
+  .base-footer__button {
+    flex: 0 0 auto;
+  }
+
+  .base-footer__button::before {
+    position: absolute;
+    padding: 24px;
+    content: '';
+  }
+
+  с .base-footer__input-error {
+    display: block;
+    margin-top: 6px;
+    font-family: $font-main;
+    font-size: 12px;
+    line-height: 18px;
+    color: red;
   }
 
   .base-footer__soc1als {
