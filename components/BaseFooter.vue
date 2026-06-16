@@ -227,7 +227,7 @@
     content: '';
   }
 
-  с .base-footer__input-error {
+  .base-footer__input-error {
     display: block;
     margin-top: 6px;
     font-family: $font-main;
