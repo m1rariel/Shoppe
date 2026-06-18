@@ -131,6 +131,10 @@
     @media (min-width: $breakpoints-m) {
       height: 646px;
     }
+
+    @media (max-width: $breakpoints-m) {
+      max-width: 768px;
+    }
   }
 
   .swiper,

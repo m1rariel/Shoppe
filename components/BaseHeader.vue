@@ -81,6 +81,10 @@
     font-weight: $font-weight-regular;
     line-height: 27px;
     color: $color-black;
+
+    @media (max-width: $breakpoints-l) {
+      gap: 35px;
+    }
   }
 
   .icon-button__nav {

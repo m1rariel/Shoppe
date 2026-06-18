@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import SuccessIcon from '@/assets/icons/succ-icon.svg'
+  import ErrorIcon from '@/assets/icons/error-icon.svg'
   import { useNotificationStore } from '@/stores/notificationStore'
 
   const notificationStore = useNotificationStore()
@@ -12,21 +13,28 @@
 </script>
 <template>
   <Teleport to="body">
-    <div
-      v-if="notificationStore.visible && notificationStore.message"
-      class="base-notification container"
-    >
-      <div class="base-notification__inner">
-        <span class="base-notification-icon">
-          <SuccessIcon />
-        </span>
-        <div class="base-notification__message">
-          {{ notificationStore.message }}
+    <div v-if="notificationStore.visible && notificationStore.message" class="base-notification">
+      <div class="container">
+        <div class="base-notification__content">
+          <div class="base-notification__inner">
+            <span class="base-notification-icon">
+              <SuccessIcon v-if="notificationStore.type === 'success'" />
+              <ErrorIcon v-else="notificationStore.type === 'error'" />
+            </span>
+            <div
+              :class="[
+                'base-notification__message',
+                { 'base-notification__message--error': notificationStore.type === 'error' },
+              ]"
+            >
+              {{ notificationStore.message }}
+            </div>
+          </div>
+          <button v-if="actionText" class="base-notification__action" type="button">
+            {{ actionText }}
+          </button>
         </div>
       </div>
-      <button v-if="actionText" class="base-notification__action" type="button">
-        {{ actionText }}
-      </button>
     </div>
   </Teleport>
 </template>
@@ -43,7 +51,9 @@
     right: 0;
     left: 0;
     z-index: 1000;
-    box-sizing: border-box;
+  }
+
+  .base-notification__content {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -80,5 +90,9 @@
     font-weight: $font-weight-regular;
     line-height: 27px;
     color: $color-dark-gray;
+  }
+
+  .base-notification__message--error {
+    color: red;
   }
 </style>
