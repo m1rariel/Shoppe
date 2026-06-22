@@ -7,7 +7,7 @@
   import 'swiper/css/navigation'
   import 'swiper/css/pagination'
 
-  const { data: photos } = await useGetRandomPhotos(10)
+  const { data: photos } = useGetRandomPhotos(10)
   const swiper = ref(null)
 
   const imageUrls = computed(() => {

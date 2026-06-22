@@ -7,6 +7,9 @@ export const useGetRandomPhotos = (limit = 10) => {
 
   return useApiFetch<PicsumPhoto[]>('/v2/list', {
     baseURL: 'https://picsum.photos',
+    server: false,
+    lazy: true,
+    default: () => [],
     headers: {},
     params: {
       page: randomPage.value,
