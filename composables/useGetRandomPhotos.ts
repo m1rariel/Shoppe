@@ -9,7 +9,6 @@ export const useGetRandomPhotos = (limit = 10) => {
     baseURL: 'https://picsum.photos',
     server: false,
     lazy: true,
-    default: () => [],
     headers: {},
     params: {
       page: randomPage.value,
