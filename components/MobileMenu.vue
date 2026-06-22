@@ -170,6 +170,16 @@
     border-radius: 4px;
   }
 
+  .mobile-menu,
+  .mobile-menu__header,
+  .mobile-menu__content,
+  .mobile-menu__nav,
+  .mobile-menu__footer,
+  .mobile-menu__footer-inner,
+  .mobile-menu__footer-inner__actions {
+    width: 100%;
+  }
+
   .mobile-menu__logo {
     margin: 0;
     font-family: $font-accent;
@@ -251,7 +261,7 @@
   }
 
   .mobile-menu__footer-innner__divider {
-    width: 288px;
+    width: 100%;
     height: 1px;
     margin-top: 24px;
     background-color: $color-gray;

@@ -4,6 +4,7 @@ import svgLoader from 'vite-svg-loader'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+
   vite: {
     plugins: [svgLoader()],
     css: {
@@ -17,12 +18,15 @@ export default defineNuxtConfig({
       },
     },
   },
+
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.apiBaseUrl || '',
     },
   },
+
   css: ['normalize.css', '~/assets/styles/reset.scss', '~/assets/styles/basic.scss'],
+
   app: {
     baseURL: '/',
     head: {
@@ -53,4 +57,6 @@ export default defineNuxtConfig({
       ],
     },
   },
+
+  modules: ['@pinia/nuxt'],
 })

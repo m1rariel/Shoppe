@@ -4,30 +4,32 @@
   import StoreIcon from '@/assets/icons/shop-icon.svg'
 </script>
 <template>
-  <header class="page-header container">
-    <div class="page-header__left">
-      <p class="page-header__logo">SHOPPE</p>
-    </div>
-    <div class="page-header__right">
-      <nav class="page-header-nav__actions">
-        <NuxtLink to="/#">Shop</NuxtLink>
-        <NuxtLink to="/#">Blog</NuxtLink>
-        <NuxtLink to="/#">Our Story</NuxtLink>
-      </nav>
-      <span aria-hidden="true" class="divider"></span>
-      <nav class="page-header-nav__buttons">
-        <BaseButton type="transparent">
-          <SearchIcon class="icon-button__nav" />
-        </BaseButton>
-        <BaseButton type="transparent">
-          <PeopleIcon class="icon-button__nav" />
-        </BaseButton>
-        <BaseButton type="transparent">
-          <StoreIcon class="icon-button__nav" />
-        </BaseButton>
-      </nav>
-    </div>
-  </header>
+  <div class="page-header-inner container">
+    <header class="page-header">
+      <div class="page-header__left">
+        <p class="page-header__logo">SHOPPE</p>
+      </div>
+      <div class="page-header__right">
+        <nav class="page-header-nav__actions">
+          <NuxtLink to="/#">Shop</NuxtLink>
+          <NuxtLink to="/#">Blog</NuxtLink>
+          <NuxtLink to="/#">Our Story</NuxtLink>
+        </nav>
+        <span aria-hidden="true" class="divider"></span>
+        <nav class="page-header-nav__buttons">
+          <BaseButton type="transparent">
+            <SearchIcon class="icon-button__nav" />
+          </BaseButton>
+          <BaseButton type="transparent">
+            <PeopleIcon class="icon-button__nav" />
+          </BaseButton>
+          <BaseButton type="transparent">
+            <StoreIcon class="icon-button__nav" />
+          </BaseButton>
+        </nav>
+      </div>
+    </header>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -37,8 +39,13 @@
 
     @media (min-width: $breakpoints-m) {
       display: flex;
+      align-items: center;
       justify-content: space-between;
     }
+  }
+
+  .page-header__notification {
+    margin-top: 17px;
   }
 
   .page-header__logo {
@@ -74,6 +81,10 @@
     font-weight: $font-weight-regular;
     line-height: 27px;
     color: $color-black;
+
+    @media (max-width: $breakpoints-l) {
+      gap: 35px;
+    }
   }
 
   .icon-button__nav {

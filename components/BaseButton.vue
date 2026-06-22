@@ -1,14 +1,12 @@
-<script setup>
-  defineProps({
-    type: {
-      type: String,
-      default: 'transparent',
-    },
-  })
+<script setup lang="ts">
+  const { buttonType = 'button' } = defineProps<{
+    buttonType?: 'button' | 'submit' | 'reset'
+    variant?: 'default' | 'transparent'
+  }>()
 </script>
 
 <template>
-  <button type="button" class="base-button"><slot></slot></button>
+  <button :type="buttonType" class="base-button"><slot></slot></button>
 </template>
 <style scoped>
   .base-button {

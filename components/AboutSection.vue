@@ -46,13 +46,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
     max-width: 672px;
     padding: 0 16px;
     margin: 0 auto;
     text-align: center;
 
     @media (max-width: $breakpoints-s) {
+      max-width: 768px;
       text-align: left;
     }
   }
