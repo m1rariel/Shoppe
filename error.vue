@@ -10,28 +10,26 @@
   }
 </script>
 <template>
-  <div class="error-page">
-    <BaseHeader />
-    <MobileMenu />
+  <NuxtLayout>
+    <div class="error-page">
+      <main class="error-page__main container">
+        <section class="error-page__content">
+          <h1 class="error-page__title">
+            <span>4</span>
+            <span class="error-page__runaway-zero">0</span>
+            <span>4</span>
+            <span class="error-page__title-word">ERROR</span>
+          </h1>
+          <p class="error-page__text">
+            This page not found; <br />
+            back to home and start again
+          </p>
 
-    <main class="error-page__main container">
-      <section class="error-page__content">
-        <h1 class="error-page__title">
-          <span>4</span>
-          <span class="error-page__runaway-zero">0</span>
-          <span>4</span>
-          <span class="error-page__title-word">ERROR</span>
-        </h1>
-        <p class="error-page__text">
-          This page not found; <br />
-          back to home and start again
-        </p>
-
-        <BaseButton class="error-page__button" @click="goHome">HOMEPAGE</BaseButton>
-      </section>
-    </main>
-    <BaseFooter />
-  </div>
+          <BaseButton class="error-page__button" @click="goHome">HOMEPAGE</BaseButton>
+        </section>
+      </main>
+    </div>
+  </NuxtLayout>
 </template>
 <style lang="scss" scoped>
   .error-page__main {
