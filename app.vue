@@ -7,9 +7,9 @@
 
 <template>
   <div class="app">
-    <BaseHeader />
-    <MobileMenu />
-    <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
     <BaseNotification v-if="notificationStore.visible && notificationStore.message" />
   </div>
 </template>
