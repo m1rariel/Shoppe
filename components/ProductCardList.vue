@@ -9,28 +9,14 @@
   const emit = defineEmits<{
     addToCart: [product: Product]
   }>()
-
-  const cardNames = [
-    'Lira Earrings',
-    'Hal Earrings',
-    'Kaede Hair Pin Set Of 3',
-    'Hair Pin Set of 3',
-    'Plaine Necklace',
-    'Yuki Hair Pin Set of 3',
-  ]
-
-  const getCardProduct = (product: Product, index: number): Product => ({
-    ...product,
-    name: cardNames[index] || product.name,
-  })
 </script>
 <template>
   <div class="product-list">
     <ProductCard
-      v-for="(product, index) in products"
+      v-for="product in products"
       :key="product.id"
-      :product="getCardProduct(product, index)"
-      @add-to-cart="emit('addToCart', getCardProduct(product, index))"
+      :product="product"
+      @add-to-cart="emit('addToCart', product)"
     />
   </div>
 </template>
@@ -39,7 +25,7 @@
 
   .product-list {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 70px 25px;
   }
 

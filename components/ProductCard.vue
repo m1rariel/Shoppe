@@ -2,6 +2,7 @@
   import type { Product } from '~/types/api'
   import { ref } from 'vue'
   import { useRouter } from '#app'
+  import { useIsMobile } from '#imports'
 
   const props = defineProps<{
     product: Product
@@ -13,8 +14,9 @@
   const router = useRouter()
 
   const isActive = ref(false)
+
   const handleCardClick = () => {
-    if (!isMobile()) {
+    if (!useIsMobile()) {
       return
     }
     if (!isActive.value) {
@@ -23,11 +25,6 @@
     }
 
     router.push(`/products/${props.product.id}`)
-  }
-  const mobileWidth = 768
-
-  const isMobile = () => {
-    return window.innerWidth <= mobileWidth
   }
 </script>
 
@@ -38,7 +35,7 @@
     @click="handleCardClick"
   >
     <div class="product-card__preview">
-      <img class="product-card__image" :src="product.image" :alt="product.name" />
+      <img class="product-card__image" :src="product.image" :alt="product.title" />
       <BaseButton
         class="product-card__button"
         button-type="button"
@@ -49,7 +46,7 @@
     </div>
 
     <h2 class="product-card__title">
-      {{ product.name }}
+      {{ product.title }}
     </h2>
 
     <p class="product-card__price">$ {{ product.price }}</p>
