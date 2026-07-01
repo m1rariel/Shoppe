@@ -5,8 +5,8 @@
   import ProductFilter from '~/components/ProductFilter.vue'
   import { computed } from '#imports'
   import { useRoute, useRouter } from '#imports'
-  import { ref } from 'vue'
-  import { onMounted } from 'vue'
+  import { useVisiblePages } from '~/composables/useVisiblePages'
+  import { useIsMobile } from '~/composables/useIsMobile'
 
   const route = useRoute()
   const router = useRouter()
@@ -14,7 +14,7 @@
 
   const pageSize = 6
 
-  const isMobile = ref(false)
+  const isMobile = useIsMobile()
 
   const currentPage = computed(() => Number(route.query.page) || 1)
 
@@ -24,26 +24,7 @@
 
   const totalPages = computed(() => Math.ceil(safeProducts.value.length / pageSize))
 
-  const visiblePages = computed(() => {
-    const pagesCount = 3
-    const total = totalPages.value
-    const current = currentPage.value
-
-    let start = current - 1
-    let end = current + 1
-
-    if (start < 1) {
-      start = 1
-      end = Math.min(pagesCount, total)
-    }
-
-    if (end > total) {
-      end = total
-      start = Math.max(1, total - pagesCount + 1)
-    }
-
-    return Array.from({ length: end - start + 1 }, (_, index) => start + index)
-  })
+  const visiblePages = useVisiblePages(currentPage, totalPages)
 
   const paginationProducts = computed(() => {
     const startPage = (currentPage.value - 1) * pageSize
@@ -63,10 +44,6 @@
       type: NotificationTypes.SUCCESS,
     })
   }
-
-  onMounted(() => {
-    isMobile.value = window.innerWidth < 768
-  })
 </script>
 <template>
   <section class="products-page container">
