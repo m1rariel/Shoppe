@@ -2,6 +2,8 @@
   defineProps<{
     error?: boolean
     errorMessage?: string
+    placeholder?: string
+    disabled?: boolean
   }>()
   const modelValue = defineModel<string | number>()
 </script>
@@ -11,7 +13,8 @@
     <input
       v-model="modelValue"
       class="base-input__field"
-      placeholder="Give an email, get the newsletter."
+      :placeholder="placeholder"
+      :disabled="disabled"
     />
     <span v-if="error" class="base-input__error"> {{ errorMessage }}</span>
   </div>

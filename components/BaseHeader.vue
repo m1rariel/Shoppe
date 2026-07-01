@@ -11,7 +11,7 @@
       </div>
       <div class="page-header__right">
         <nav class="page-header-nav__actions">
-          <NuxtLink to="/#">Shop</NuxtLink>
+          <NuxtLink to="/products">Shop</NuxtLink>
           <NuxtLink to="/#">Blog</NuxtLink>
           <NuxtLink to="/#">Our Story</NuxtLink>
         </nav>

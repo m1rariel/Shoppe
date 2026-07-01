@@ -51,13 +51,13 @@
           </BaseButton>
         </div>
       </div>
+      <label for="" class="mobile-menu__search">
+        <span class="mobile-menu__search-icon">
+          <SearchIcon class="icon-button" width="12px" height="12px"
+        /></span>
+        <input type="search" placeholder="Search" />
+      </label>
       <div v-if="isMenuOpen" class="mobile-menu__content">
-        <label for="" class="mobile-menu__search">
-          <span class="mobile-menu__search-icon">
-            <SearchIcon class="icon-button" width="12px" height="12px"
-          /></span>
-          <input type="search" placeholder="Search" />
-        </label>
         <nav class="mobile-menu__nav">
           <NuxtLink
             v-for="link in menuLinks"
