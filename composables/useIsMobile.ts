@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 const mobileWidth = 768
 const isMobile = ref(false)
 let initialized = false
@@ -15,6 +15,10 @@ export const useIsMobile = () => {
 
     checkIsMobile()
     window.addEventListener('resize', checkIsMobile)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', checkIsMobile)
   })
 
   return isMobile
