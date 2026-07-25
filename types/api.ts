@@ -6,6 +6,21 @@ export interface Product {
   category: string
 }
 
+export enum ProductSort {
+  PriceAsc = 'price-minus',
+  PriceDesc = 'price-plus',
+  TitleAsc = 'title-filter',
+}
+
+export interface ProductCategory {
+  id: number
+  name: string
+}
+
+export interface ProductCategoriesResponse {
+  categories: ProductCategory[]
+}
+
 export interface PicsumPhoto {
   id: string
   author: string

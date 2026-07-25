@@ -2,12 +2,13 @@
   import FiltersIcon from '@/assets/icons/filters-icon.svg'
   import SearchIcon from '@/assets/icons/search-icon-filter.svg'
   import CloseIcon from '@/assets/icons/close-icon.svg'
-  import { ref } from '#imports'
+  import { onBeforeUnmount, ref } from '#imports'
+  import { ProductSort } from '~/types/api'
 
   type ProductFilters = {
     search: string
     category: string
-    sortBy: string
+    sortBy: ProductSort | ''
     onSale: boolean
     inStock: boolean
   }
@@ -18,10 +19,32 @@
   }>()
 
   const emit = defineEmits<{
-    'update:filters': (filters: ProductFilters) => void
+    (event: 'update:filters', filters: ProductFilters): void
   }>()
 
   const isOpen = ref(false)
+
+  const searchValue = ref(props.filters.search)
+
+  let searchTimeout: ReturnType<typeof setTimeout> | null = null
+
+  const updateSearch = (value: string | number | undefined) => {
+    searchValue.value = String(value || '')
+
+    if (searchTimeout) {
+      clearTimeout(searchTimeout)
+    }
+
+    searchTimeout = setTimeout(() => {
+      updateFilter('search', searchValue.value)
+    }, 500)
+  }
+
+  onBeforeUnmount(() => {
+    if (searchTimeout) {
+      clearTimeout(searchTimeout)
+    }
+  })
 
   const updateFilter = <Key extends keyof ProductFilters>(key: Key, value: ProductFilters[Key]) => {
     emit('update:filters', {
@@ -49,8 +72,8 @@
         <BaseInput
           class="product-filters__input"
           placeholder="Search..."
-          :model-value="filters.search"
-          @update:model-value="updateFilter('search', $event)"
+          :model-value="searchValue"
+          @update:model-value="updateSearch"
         />
 
         <SearchIcon class="product-filters__search-icon" width="19px" height="19px" />
@@ -70,12 +93,14 @@
         <div class="product-filters__select">
           <select
             :value="filters.sortBy"
-            @change="updateFilter('sortBy', ($event.target as HTMLSelectElement).value)"
+            @change="
+              updateFilter('sortBy', ($event.target as HTMLSelectElement).value as ProductSort | '')
+            "
           >
             <option value="">Sort By</option>
-            <option value="price-minus">Цена: от меньшего к большему</option>
-            <option value="price-plus">Цена: от большего к меньшему</option>
-            <option value="title-filter">Название: от А до Я</option>
+            <option :value="ProductSort.PriceAsc">Цена: от меньшего к большему</option>
+            <option :value="ProductSort.PriceDesc">Цена: от большего к меньшему</option>
+            <option :value="ProductSort.TitleAsc">Название: от А до Я</option>
           </select>
         </div>
       </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { Product } from '~/types/api'
+  import { ProductSort, type Product } from '~/types/api'
   import { NotificationTypes, useNotification } from '#imports'
   import { useGetAllProducts } from '~/composables/api/products/useGetAllProducts'
   import ProductFilter from '~/components/ProductFilter.vue'
@@ -12,7 +12,7 @@
   const route = useRoute()
   const router = useRouter()
   const { showNotification } = useNotification()
-  const { data: categoryProducts } = await useGetCategories()
+  const { data: categories } = await useGetCategories()
   const pageSize = 6
 
   const filters = reactive({
@@ -21,13 +21,6 @@
     sortBy: String(route.query.sortBy || ''),
     onSale: route.query.onSale === 'true',
     inStock: route.query.inStock === 'true',
-  })
-
-  const categories = computed(() => {
-    const products = categoryProducts.value || []
-    const categoryTitles = products.map((product) => product.category)
-
-    return [...new Set(categoryTitles)]
   })
 
   const isMobile = useIsMobile()
@@ -51,15 +44,15 @@
       result = result.filter((product) => product.title.toLowerCase().includes(search))
     }
 
-    if (filters.sortBy === 'price-minus') {
+    if (filters.sortBy === ProductSort.PriceAsc) {
       result.sort((a, b) => a.price - b.price)
     }
 
-    if (filters.sortBy === 'price-plus') {
+    if (filters.sortBy === ProductSort.PriceDesc) {
       result.sort((a, b) => b.price - a.price)
     }
 
-    if (filters.sortBy === 'title-filter') {
+    if (filters.sortBy === ProductSort.TitleAsc) {
       result.sort((a, b) => a.title.localeCompare(b.title))
     }
     return result
@@ -82,6 +75,8 @@
         search: filters.search || undefined,
         category: filters.category || undefined,
         sortBy: filters.sortBy || undefined,
+        onSale: filters.onSale ? 'true' : undefined,
+        inStock: filters.inStock ? 'true' : undefined,
       },
     })
   }
@@ -103,8 +98,8 @@
           search: filters.search || undefined,
           category: filters.category || undefined,
           sortBy: filters.sortBy || undefined,
-          onSale: filters.onSale || undefined,
-          inStock: filters.inStock || undefined,
+          onSale: filters.onSale ? 'true' : undefined,
+          inStock: filters.inStock ? 'true' : undefined,
         },
       })
     },
