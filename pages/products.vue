@@ -9,16 +9,28 @@
   import { useIsMobile } from '~/composables/useIsMobile'
   import { useGetCategories } from '~/composables/api/products/useGetCategories'
 
+  type ProductFilters = {
+    search: string
+    category: string
+    sortBy: ProductSort | ''
+    onSale: boolean
+    inStock: boolean
+  }
+
   const route = useRoute()
   const router = useRouter()
   const { showNotification } = useNotification()
   const { data: categories } = await useGetCategories()
   const pageSize = 6
 
-  const filters = reactive({
+  const getSortBy = (sortBy: unknown): ProductSort | '' => {
+    return Object.values(ProductSort).includes(sortBy as ProductSort) ? (sortBy as ProductSort) : ''
+  }
+
+  const filters = reactive<ProductFilters>({
     search: String(route.query.search || ''),
     category: String(route.query.category || ''),
-    sortBy: String(route.query.sortBy || ''),
+    sortBy: getSortBy(route.query.sortBy),
     onSale: route.query.onSale === 'true',
     inStock: route.query.inStock === 'true',
   })

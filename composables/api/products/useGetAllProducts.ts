@@ -6,7 +6,7 @@ import { computed, toValue } from 'vue'
 export const useGetAllProducts = (
   options: {
     limit?: MaybeRefOrGetter<number> | undefined
-    category?: MaybeRefOrGetter<string> | undefined
+    category?: MaybeRefOrGetter<string | undefined> | undefined
   } = {},
 ) => {
   const params = computed(() => ({
