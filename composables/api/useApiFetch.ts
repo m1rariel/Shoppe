@@ -1,7 +1,11 @@
 import { useCookie, useFetch, useRuntimeConfig } from 'nuxt/app'
 import type { UseFetchOptions } from 'nuxt/app'
+import { computed, toValue } from 'vue'
 
-export const useApiFetch = <DataT = unknown>(request: string, options?: UseFetchOptions<DataT>) => {
+export const useApiFetch = <ResT = unknown, DataT = ResT>(
+  request: string,
+  options?: UseFetchOptions<ResT, DataT>,
+) => {
   const config = useRuntimeConfig()
   const authToken = useCookie('authToken')
   const baseURL = options?.baseURL || config.public.apiBaseUrl
@@ -9,17 +13,17 @@ export const useApiFetch = <DataT = unknown>(request: string, options?: UseFetch
   if (!baseURL) {
     throw new Error('API_BASE_URL is not set')
   }
+  const key = computed(() => request + JSON.stringify(toValue(options?.params) || {}))
 
-  const defaults: UseFetchOptions<DataT> = {
+  const defaults: UseFetchOptions<ResT, DataT> = {
     baseURL,
-    key: request + JSON.stringify(options?.params),
+    key,
     headers: {
       'Content-Type': 'application/json',
       Authorization: authToken.value ? `Bearer ${authToken.value}` : 'amigo',
     },
   }
-
-  const params = { ...defaults, ...options }
+  const params: UseFetchOptions<ResT, DataT> = { ...defaults, ...options }
 
   return useFetch(request, params)
 }

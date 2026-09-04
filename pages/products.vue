@@ -1,40 +1,95 @@
 <script setup lang="ts">
-  import type { Product } from '~/types/api'
+  import { ProductSort, type Product } from '~/types/api'
   import { NotificationTypes, useNotification } from '#imports'
   import { useGetAllProducts } from '~/composables/api/products/useGetAllProducts'
   import ProductFilter from '~/components/ProductFilter.vue'
-  import { computed } from '#imports'
+  import { computed, reactive, watch } from '#imports'
   import { useRoute, useRouter } from '#imports'
   import { useVisiblePages } from '~/composables/useVisiblePages'
   import { useIsMobile } from '~/composables/useIsMobile'
+  import { useGetCategories } from '~/composables/api/products/useGetCategories'
+
+  type ProductFilters = {
+    search: string
+    category: string
+    sortBy: ProductSort | ''
+    onSale: boolean
+    inStock: boolean
+  }
 
   const route = useRoute()
   const router = useRouter()
   const { showNotification } = useNotification()
-
+  const { data: categories } = await useGetCategories()
   const pageSize = 6
+
+  const getSortBy = (sortBy: unknown): ProductSort | '' => {
+    return Object.values(ProductSort).includes(sortBy as ProductSort) ? (sortBy as ProductSort) : ''
+  }
+
+  const filters = reactive<ProductFilters>({
+    search: String(route.query.search || ''),
+    category: String(route.query.category || ''),
+    sortBy: getSortBy(route.query.sortBy),
+    onSale: route.query.onSale === 'true',
+    inStock: route.query.inStock === 'true',
+  })
 
   const isMobile = useIsMobile()
 
   const currentPage = computed(() => Number(route.query.page) || 1)
 
-  const { data: products, pending } = await useGetAllProducts()
+  const selectedCategory = computed(() => filters.category || undefined)
+
+  const { data: products, pending } = await useGetAllProducts({
+    category: selectedCategory,
+  })
 
   const safeProducts = computed<Product[]>(() => products.value || [])
 
-  const totalPages = computed(() => Math.ceil(safeProducts.value.length / pageSize))
+  const filteredProducts = computed(() => {
+    let result = [...safeProducts.value]
+
+    if (filters.search) {
+      const search = filters.search.toLowerCase()
+
+      result = result.filter((product) => product.title.toLowerCase().includes(search))
+    }
+
+    if (filters.sortBy === ProductSort.PriceAsc) {
+      result.sort((a, b) => a.price - b.price)
+    }
+
+    if (filters.sortBy === ProductSort.PriceDesc) {
+      result.sort((a, b) => b.price - a.price)
+    }
+
+    if (filters.sortBy === ProductSort.TitleAsc) {
+      result.sort((a, b) => a.title.localeCompare(b.title))
+    }
+    return result
+  })
+
+  const totalPages = computed(() => Math.ceil(filteredProducts.value.length / pageSize))
 
   const visiblePages = useVisiblePages(currentPage, totalPages)
 
   const paginationProducts = computed(() => {
     const startPage = (currentPage.value - 1) * pageSize
-    return safeProducts.value.slice(startPage, startPage + pageSize)
+    return filteredProducts.value.slice(startPage, startPage + pageSize)
   })
 
   const changePage = (page: number) => {
     router.push({
       path: '/products',
-      query: { page },
+      query: {
+        page,
+        search: filters.search || undefined,
+        category: filters.category || undefined,
+        sortBy: filters.sortBy || undefined,
+        onSale: filters.onSale ? 'true' : undefined,
+        inStock: filters.inStock ? 'true' : undefined,
+      },
     })
   }
 
@@ -44,6 +99,24 @@
       type: NotificationTypes.SUCCESS,
     })
   }
+
+  watch(
+    filters,
+    () => {
+      router.push({
+        path: '/products',
+        query: {
+          page: 1,
+          search: filters.search || undefined,
+          category: filters.category || undefined,
+          sortBy: filters.sortBy || undefined,
+          onSale: filters.onSale ? 'true' : undefined,
+          inStock: filters.inStock ? 'true' : undefined,
+        },
+      })
+    },
+    { deep: true },
+  )
 </script>
 <template>
   <section class="products-page container">
@@ -55,7 +128,12 @@
     </div>
 
     <div class="products-page__layout">
-      <ProductFilter class="products-page__filters" />
+      <ProductFilter
+        class="products-page__filters"
+        :filters="filters"
+        :categories="categories || []"
+        @update:filters="Object.assign(filters, $event)"
+      />
 
       <div class="products-page__content">
         <p v-if="pending">Loading...</p>
