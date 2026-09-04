@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { useCartStore } from '~/stores/cartStore'
   import StoreIcon from '@/assets/icons/shop-icon.svg'
   import SearchIcon from '@/assets/icons/search-icon.svg'
   import OutIcon from '@/assets/icons/out-icon.svg'
@@ -22,7 +23,7 @@
     },
     { icon: OutIcon, label: 'Logout', to: '/#logout' },
   ]
-
+  const cartStore = useCartStore()
   const isMenuOpen = ref(false)
 
   const toggleMenu = () => {
@@ -38,7 +39,7 @@
       <div class="mobile-menu__header">
         <p class="mobile-menu__logo">SHOPPE</p>
         <div class="mobile-menu__actions">
-          <BaseButton type="transparent">
+          <BaseButton type="transparent" @click="cartStore.openSidebar">
             <StoreIcon class="mobile-menu__cart-icon" />
           </BaseButton>
           <BaseButton type="transparent" @click="toggleMenu">
