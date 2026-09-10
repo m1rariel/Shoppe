@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import { useCartStore } from '~/stores/cartStore'
-
+  import { onMounted } from 'vue'
   const cartStore = useCartStore()
 
   const formattedSubtotal = computed(() => {
@@ -9,6 +9,10 @@
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })
+  })
+
+  onMounted(() => {
+    cartStore.loadCart()
   })
 </script>
 
@@ -26,52 +30,14 @@
         </p>
 
         <ul v-else class="cart-sidebar__list">
-          <li v-for="item in cartStore.items" :key="item.product.id" class="cart-sidebar__item">
-            <img class="cart-sidebar__image" :src="item.product.image" :alt="item.product.title" />
-
-            <div class="cart-sidebar__info">
-              <div class="cart-sidebar__item-header">
-                <h3 class="cart-sidebar__product-title">
-                  {{ item.product.title }}
-                </h3>
-
-                <button
-                  class="cart-sidebar__remove"
-                  type="button"
-                  aria-label="Remove item"
-                  @click="cartStore.removeItem(item.product.id)"
-                >
-                  ×
-                </button>
-              </div>
-
-              <p class="cart-sidebar__meta">{{ item.product.category }}</p>
-
-              <p class="cart-sidebar__price">$ {{ item.product.price }}</p>
-
-              <div class="cart-sidebar__quantity">
-                <button
-                  class="cart-sidebar__quantity-button"
-                  type="button"
-                  @click="cartStore.updateQuantity(item.product.id, item.quantity - 1)"
-                >
-                  -
-                </button>
-
-                <span>{{ item.quantity }}</span>
-
-                <button
-                  class="cart-sidebar__quantity-button"
-                  type="button"
-                  @click="cartStore.updateQuantity(item.product.id, item.quantity + 1)"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </li>
+          <CartSidebarItem
+            v-for="item in cartStore.items"
+            :key="item.product.id"
+            :item="item"
+            @remove="cartStore.removeItem"
+            @update-quantity="cartStore.updateQuantity"
+          />
         </ul>
-
         <div v-if="cartStore.items.length > 0" class="cart-sidebar__footer">
           <div class="cart-sidebar__subtotal">
             <span>Subtotal ({{ cartStore.totalItems }} items)</span>
@@ -106,9 +72,9 @@
     right: 0;
     display: flex;
     flex-direction: column;
-    width: min(100%, 360px);
+    width: min(100%, 540px);
     height: 100vh;
-    padding: 90px 36px 27px;
+    padding: 90px 54px 27px;
     background: $color-white;
     box-shadow: -1px 0 0 $color-gray;
   }
@@ -187,101 +153,6 @@
     list-style: none;
   }
 
-  .cart-sidebar__item {
-    display: grid;
-    grid-template-columns: 136px minmax(0, 1fr);
-    gap: 10px;
-    margin-top: 5px;
-  }
-
-  .cart-sidebar__image {
-    width: 136px;
-    height: 136px;
-    object-fit: cover;
-    background: $color-light-gray;
-    border-radius: 4px;
-  }
-
-  .cart-sidebar__info {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-
-  .cart-sidebar__item-header {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-
-  .cart-sidebar__product-title {
-    margin: 0;
-    font-family: $font-main;
-    font-size: 16px;
-    font-weight: $font-weight-regular;
-    line-height: 26px;
-    color: $color-black;
-  }
-
-  .cart-sidebar__meta {
-    margin-top: 6px;
-    font-family: $font-main;
-    font-size: 16px;
-    line-height: 24px;
-    color: $color-dark-gray;
-    text-transform: capitalize;
-  }
-
-  .cart-sidebar__price {
-    margin-top: 4px;
-    font-family: $font-main;
-    font-size: 14px;
-    line-height: 22px;
-    color: $color-accent;
-    text-align: left;
-  }
-
-  .cart-sidebar__quantity {
-    display: inline-flex;
-    align-items: center;
-    align-self: flex-end;
-    justify-content: space-between;
-    min-width: 102px;
-    min-height: 36px;
-    padding: 0 14px;
-    margin-top: auto;
-    font-family: $font-main;
-    font-size: 16px;
-    line-height: 24px;
-    color: $color-dark-gray;
-    background: $color-light-gray;
-  }
-
-  .cart-sidebar__quantity-button {
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    font-family: $font-main;
-    font-size: 16px;
-    color: $color-dark-gray;
-    background: transparent;
-    border: none;
-  }
-
-  .cart-sidebar__remove {
-    flex: 0 0 auto;
-    width: 24px;
-    height: 24px;
-    padding: 0;
-    font-family: $font-main;
-    font-size: 20px;
-    line-height: 1;
-    color: $color-black;
-    background: transparent;
-    border: none;
-  }
-
   .cart-sidebar__footer {
     padding-top: 30px;
     margin-top: 28px;
@@ -315,5 +186,46 @@
     background: $color-white;
     border: 1px solid $color-black;
     border-radius: 4px;
+  }
+
+  @media (max-width: $breakpoints-s) {
+    .cart-sidebar__panel {
+      padding-right: 20px;
+      padding-left: 20px;
+    }
+
+    .cart-sidebar__item {
+      grid-template-columns: 112px minmax(0, 1fr);
+    }
+
+    .cart-sidebar__image {
+      width: 112px;
+      height: 112px;
+    }
+
+    .cart-sidebar__quantity {
+      align-self: flex-start;
+      min-width: 128px;
+      min-height: 40px;
+      margin-top: 14px;
+    }
+  }
+
+  @media (max-width: $breakpoints-s) {
+    .cart-sidebar__item {
+      grid-template-columns: 112px minmax(0, 1fr);
+    }
+
+    .cart-sidebar__image {
+      width: 112px;
+      height: 112px;
+    }
+
+    .cart-sidebar__quantity {
+      align-self: flex-start;
+      min-width: 128px;
+      min-height: 40px;
+      margin-top: 14px;
+    }
   }
 </style>
