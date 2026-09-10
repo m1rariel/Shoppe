@@ -3,4 +3,3 @@
     <h1>Checkout</h1>
   </section>
 </template>
-d
