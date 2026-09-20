@@ -2,6 +2,9 @@
   import SearchIcon from '@/assets/icons/search-icon.svg'
   import PeopleIcon from '@/assets/icons/people-icon.svg'
   import StoreIcon from '@/assets/icons/shop-icon.svg'
+  import { useCartStore } from '~/stores/cartStore'
+
+  const cartStore = useCartStore()
 </script>
 <template>
   <div class="page-header-inner container">
@@ -23,7 +26,7 @@
           <BaseButton type="transparent">
             <PeopleIcon class="icon-button__nav" />
           </BaseButton>
-          <BaseButton type="transparent">
+          <BaseButton type="transparent" @click="cartStore.openSidebar">
             <StoreIcon class="icon-button__nav" />
           </BaseButton>
         </nav>

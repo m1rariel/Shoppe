@@ -8,6 +8,7 @@
   import { useVisiblePages } from '~/composables/useVisiblePages'
   import { useIsMobile } from '~/composables/useIsMobile'
   import { useGetCategories } from '~/composables/api/products/useGetCategories'
+  import { useCartStore } from '~/stores/cartStore'
 
   type ProductFilters = {
     search: string
@@ -20,6 +21,7 @@
   const route = useRoute()
   const router = useRouter()
   const { showNotification } = useNotification()
+  const cartStore = useCartStore()
   const { data: categories } = await useGetCategories()
   const pageSize = 6
 
@@ -94,6 +96,8 @@
   }
 
   const handleAddToCart = (product: Product) => {
+    cartStore.addItem(product)
+
     showNotification({
       message: `${product.title} was been added to your Shopping bag`,
       type: NotificationTypes.SUCCESS,
