@@ -5,6 +5,7 @@
   import OutIcon from '@/assets/icons/out-icon.svg'
   import PeopleIcon from '@/assets/icons/people-icon.svg'
   import CloseIcon from '@/assets/icons/close-icon.svg'
+  import SearchIcon from '@/assets/icons/search-icon.svg'
 
   const menuLinks = [
     { label: 'Shop', to: '/#shop' },
@@ -51,6 +52,13 @@
           </BaseButton>
         </div>
       </div>
+      <label for="" class="mobile-menu__search">
+        <span class="mobile-menu__search-icon">
+          <SearchIcon class="icon-button" width="12px" height="12px"
+        /></span>
+        <input type="search" placeholder="Search" />
+      </label>
+
       <div v-if="isMenuOpen" class="mobile-menu__content">
         <nav class="mobile-menu__nav">
           <NuxtLink
@@ -227,5 +235,43 @@
   .container-mobile {
     padding: 0 16px;
     margin: 0 auto;
+  }
+
+  .mobile-menu__search {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+    min-height: 48px;
+    padding: 0 10px;
+    background-color: $color-light-gray;
+    border-radius: 4px;
+  }
+
+  .mobile-menu__search-icon {
+    display: flex;
+    flex: 0 0 20px;
+    color: $color-dark-gray;
+  }
+
+  .icon-button {
+    display: block;
+  }
+
+  .mobile-menu__search input {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    font-family: $font-main;
+    font-size: 12px;
+    font-weight: $font-weight-regular;
+    line-height: 20px;
+    color: $color-dark-gray;
+    background-color: transparent;
+    border: none;
+
+    &::placeholder {
+      color: $color-dark-gray;
+    }
   }
 </style>
