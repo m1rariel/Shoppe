@@ -6,6 +6,7 @@ type CartItem = {
   product: Product
   quantity: number
 }
+
 export const useCartStore = defineStore('cart', () => {
   const items = ref<CartItem[]>([])
   const isSidebarOpen = ref(false)
@@ -24,17 +25,17 @@ export const useCartStore = defineStore('cart', () => {
     return items.value.reduce((sum, item) => sum + item.quantity, 0)
   })
 
-  const addItem = (product: Product) => {
+  const addItem = (product: Product, quantity = 1) => {
     const hasItem = items.value.find((item) => item.product.id === product.id)
 
     if (hasItem) {
-      hasItem.quantity += 1
+      hasItem.quantity += quantity
       openSidebar()
       saveCart()
       return
     }
 
-    items.value.push({ product, quantity: 1 })
+    items.value.push({ product, quantity })
     openSidebar()
     saveCart()
   }

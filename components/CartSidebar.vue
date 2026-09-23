@@ -22,6 +22,14 @@
       <div class="cart-sidebar__overlay" @click="cartStore.closeSidebar"></div>
 
       <aside class="cart-sidebar__panel">
+        <button
+          class="cart-sidebar__close"
+          type="button"
+          aria-label="Close shopping bag"
+          @click="cartStore.closeSidebar"
+        >
+          <span aria-hidden="true" class="cart-sidebar__back-icon"></span>
+        </button>
         <h2 class="cart-sidebar__title">Shopping bag</h2>
         <p class="cart-sidebar__count">{{ cartStore.totalItems }} items</p>
 
@@ -83,6 +91,7 @@
     position: absolute;
     top: 92px;
     right: 40px;
+    display: none;
     font-family: $font-main;
     font-size: 20px;
     line-height: 1;
@@ -190,42 +199,74 @@
 
   @media (max-width: $breakpoints-s) {
     .cart-sidebar__panel {
-      padding-right: 20px;
-      padding-left: 20px;
+      width: 100%;
+      height: 100dvh;
+      padding: max(16px, env(safe-area-inset-top)) 18px 0;
+      overflow: hidden;
+      box-shadow: none;
     }
 
-    .cart-sidebar__item {
-      grid-template-columns: 112px minmax(0, 1fr);
+    .cart-sidebar__close {
+      top: max(8px, env(safe-area-inset-top));
+      right: auto;
+      left: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      color: $color-black;
     }
 
-    .cart-sidebar__image {
-      width: 112px;
-      height: 112px;
+    .cart-sidebar__back-icon {
+      width: 13px;
+      height: 13px;
+      border-bottom: 2px solid currentcolor;
+      border-left: 2px solid currentcolor;
+      transform: rotate(45deg);
     }
 
-    .cart-sidebar__quantity {
-      align-self: flex-start;
-      min-width: 128px;
-      min-height: 40px;
-      margin-top: 14px;
-    }
-  }
-
-  @media (max-width: $breakpoints-s) {
-    .cart-sidebar__item {
-      grid-template-columns: 112px minmax(0, 1fr);
+    .cart-sidebar__title {
+      flex-shrink: 0;
+      padding: 0 32px;
+      font-size: 18px;
+      line-height: 28px;
+      text-align: center;
     }
 
-    .cart-sidebar__image {
-      width: 112px;
-      height: 112px;
+    .cart-sidebar__count {
+      flex-shrink: 0;
+      margin-top: 26px;
+      font-size: 12px;
+      line-height: 20px;
     }
 
-    .cart-sidebar__quantity {
-      align-self: flex-start;
-      min-width: 128px;
-      min-height: 40px;
-      margin-top: 14px;
+    .cart-sidebar__list {
+      gap: 28px;
+      min-height: 0;
+      margin-top: 8px;
+      overscroll-behavior-y: contain;
+    }
+
+    .cart-sidebar__footer {
+      flex-shrink: 0;
+      padding: 24px 18px max(42px, env(safe-area-inset-bottom));
+      margin: 0 -18px;
+      background: $color-white;
+    }
+
+    .cart-sidebar__subtotal {
+      gap: 12px;
+      font-size: 14px;
+      font-weight: $font-weight-medium;
+      line-height: 24px;
+    }
+
+    .cart-sidebar__checkout {
+      min-height: 36px;
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: $font-weight-regular;
     }
   }
 </style>
