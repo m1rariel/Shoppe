@@ -8,7 +8,7 @@
   import SearchIcon from '@/assets/icons/search-icon.svg'
 
   const menuLinks = [
-    { label: 'Shop', to: '/#shop' },
+    { label: 'Shop', to: '/products' },
     { label: 'Blog', to: '/#blog' },
     { label: 'Our Story', to: '/#story' },
     { label: 'Contact', to: '/#contact' },
@@ -66,6 +66,7 @@
             :key="link.label"
             :to="link.to"
             class="mobile-menu__link"
+            @click="isMenuOpen = false"
           >
             {{ link.label }}
           </NuxtLink>
