@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import type { NuxtError } from '#app'
   import { clearError } from '#app'
+  import { useNotificationStore } from '@/stores/notificationStore'
+
+  const notificationStore = useNotificationStore()
+
   defineProps<{
     error: NuxtError
   }>()
@@ -9,35 +13,48 @@
     clearError({ redirect: '/' })
   }
 </script>
-<template>
-  <NuxtLayout>
-    <div class="error-page">
-      <main class="error-page__main container">
-        <section class="error-page__content">
-          <h1 class="error-page__title">
-            <span>4</span>
-            <span class="error-page__runaway-zero">0</span>
-            <span>4</span>
-            <span class="error-page__title-word">ERROR</span>
-          </h1>
-          <p class="error-page__text">
-            This page not found; <br />
-            back to home and start again
-          </p>
 
+<template>
+  <div class="error-layout">
+    <NuxtLayout>
+      <div class="error-page container">
+        <section class="error-page__content" aria-labelledby="error-page-title">
+          <h1 id="error-page-title" class="error-page__title">404 ERROR</h1>
+          <p class="error-page__text">
+            <span>This page not found;</span>
+            <span>back to home and start again</span>
+          </p>
           <BaseButton class="error-page__button" @click="goHome">HOMEPAGE</BaseButton>
         </section>
-      </main>
-    </div>
-  </NuxtLayout>
+      </div>
+    </NuxtLayout>
+    <BaseNotification v-if="notificationStore.visible && notificationStore.message" />
+    <CartSidebar />
+  </div>
 </template>
+
 <style lang="scss" scoped>
-  .error-page__main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 720px;
+  .error-layout {
+    :deep(.page-header) {
+      margin-top: 64px;
+    }
+
+    :deep(.base-footer) {
+      @media (width < $breakpoints-m) {
+        display: none;
+      }
+    }
+  }
+
+  .error-page {
+    padding-top: 254px;
     text-align: center;
+
+    @media (width < $breakpoints-m) {
+      min-height: calc(100svh - 82px);
+      padding-top: 197px;
+      padding-bottom: 40px;
+    }
   }
 
   .error-page__content {
@@ -47,73 +64,72 @@
   }
 
   .error-page__title {
-    display: inline-flex;
-    gap: 8px;
-    align-items: baseline;
     margin: 0;
     font-family: $font-main;
     font-size: 33px;
     font-weight: $font-weight-medium;
     line-height: 43px;
     color: $color-black;
-  }
 
-  .error-page__runaway-zero {
-    display: inline-block;
-    color: $color-accent;
-    transform-origin: 50% 70%;
-    animation: zero-sneak 2.7s ease-in-out infinite;
-  }
-
-  .error-page__title-word {
-    display: inline-block;
+    @media (width < $breakpoints-m) {
+      font-size: 20px;
+      line-height: 26px;
+    }
   }
 
   .error-page__text {
+    display: flex;
+    flex-direction: column;
+    min-height: 63px;
     margin-top: 24px;
     font-family: $font-main;
     font-size: 20px;
     font-weight: $font-weight-regular;
+    line-height: 26px;
     color: $color-dark-gray;
-    text-align: center;
+
+    @media (width < $breakpoints-m) {
+      gap: 10px;
+      min-height: 50px;
+      margin-top: 10px;
+      font-size: 12px;
+      line-height: 20px;
+    }
   }
 
   .error-page__button {
-    padding: 16px 49px;
+    width: 187px;
+    height: 53px;
     margin-top: 64px;
+    font-size: 16px;
+    font-weight: $font-weight-bold;
+    line-height: 21px;
+    color: $color-black;
+    background-color: $color-white;
     border: 1px solid $color-black;
     border-radius: 4px;
-  }
+    transition: background-color 0.2s ease;
 
-  @keyframes zero-sneak {
-    0%,
-    28%,
-    100% {
-      transform: translateX(0) rotate(0deg);
+    &:hover {
+      background-color: $color-light-gray;
     }
 
-    36% {
-      transform: translateX(5px) rotate(8deg);
+    &:focus-visible {
+      outline: 2px solid $color-accent;
+      outline-offset: 3px;
     }
 
-    45% {
-      transform: translateX(-10px) translateY(4px) rotate(-14deg) scale(1.1, 0.9);
+    @media (width < $breakpoints-m) {
+      width: 115px;
+      height: 32px;
+      margin-top: 18px;
+      font-size: 12px;
+      font-weight: $font-weight-regular;
+      line-height: 20px;
     }
 
-    58% {
-      transform: translateX(2px) rotate(5deg);
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
     }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .error-page__runaway-zero {
-      animation: none;
-    }
-  }
-
-  .error-page__button:hover {
-    background-color: $color-light-gray;
-    opacity: 0.5;
-    transition-duration: 0.5s;
   }
 </style>

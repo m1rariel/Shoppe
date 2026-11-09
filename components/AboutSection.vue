@@ -5,9 +5,9 @@
 <template>
   <section class="about-section container">
     <div class="about-info">
-      <h1 class="about-info__title">About</h1>
+      <h2 class="about-info__title">About</h2>
       <p class="about-info__subtitle">Who we are and why we do what we do!</p>
-      <p class="about-info__text">
+      <p class="about-info__text about-info__text--desktop">
         Duis rutrum dictum libero quis rutrum. Etiam sed neque aliquam, sollicitudin ante a, gravida
         arcu. Nam fringilla molestie velit, eget pellentesque risus scelerisque a.
         <span class="about__text-mobile">
@@ -15,11 +15,16 @@
           placerat tortor lacus, ac sodales lectus placerat quis.</span
         >
       </p>
+      <p class="about-info__text about-info__text--mobile">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam placerat, augue a volutpat
+        hendrerit, sapien tortor faucibus augue, a maximus elit ex vitae libero. Sed quis mauris
+        eget
+      </p>
     </div>
     <div class="about__content">
-      <h2 class="about__head">Top trends</h2>
+      <h3 class="about__head">Top trends</h3>
       <picture class="about__picture">
-        <source media="(max-width: 320px)" :srcset="aboutMobileImg" />
+        <source media="(width < 768px)" :srcset="aboutMobileImg" />
         <img class="about__img" :src="aboutDesktopImg" alt="About image" />
       </picture>
 
@@ -37,7 +42,7 @@
   .about__text-mobile {
     display: inline;
 
-    @media (max-width: $breakpoints-s) {
+    @media (width < $breakpoints-m) {
       display: none;
     }
   }
@@ -46,12 +51,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 672px;
+    max-width: 704px;
     padding: 0 16px;
     margin: 0 auto;
     text-align: center;
 
-    @media (max-width: $breakpoints-s) {
+    @media (width < $breakpoints-m) {
       max-width: 768px;
       text-align: left;
     }
@@ -66,7 +71,7 @@
     line-height: 43px;
     color: $color-black;
 
-    @media (max-width: $breakpoints-s) {
+    @media (width < $breakpoints-m) {
       margin-top: 21px;
       font-size: 20px;
       font-weight: $font-weight-regular;
@@ -79,10 +84,10 @@
     font-family: $font-main;
     font-size: 20px;
     font-weight: $font-weight-regular;
-    line-height: 28px;
+    line-height: 26px;
     color: $color-black;
 
-    @media (max-width: $breakpoints-s) {
+    @media (width < $breakpoints-m) {
       margin-top: 2px;
       font-size: 14px;
       line-height: 22px;
@@ -98,7 +103,7 @@
     color: $color-black;
     text-align: left;
 
-    @media (max-width: $breakpoints-s) {
+    @media (width < $breakpoints-m) {
       margin-top: 15px;
       font-size: 12px;
       line-height: 20px;
@@ -108,6 +113,20 @@
   .about-info,
   .about__content {
     width: 100%;
+  }
+
+  .about-info__text--desktop {
+    @media (width < $breakpoints-m) {
+      display: none;
+    }
+  }
+
+  .about-info__text--mobile {
+    display: none;
+
+    @media (width < $breakpoints-m) {
+      display: block;
+    }
   }
 
   .about__head {
@@ -121,7 +140,7 @@
     text-align: left;
     letter-spacing: 0%;
 
-    @media (max-width: $breakpoints-s) {
+    @media (width < $breakpoints-m) {
       margin-top: 22px;
       margin-bottom: 13px;
       font-size: 16px;
@@ -136,7 +155,7 @@
     object-position: center;
     border-radius: 8px;
 
-    @media (max-width: $breakpoints-s) {
+    @media (width < $breakpoints-m) {
       height: 200px;
       object-fit: cover;
       object-position: 32% 50%;
@@ -152,8 +171,8 @@
     color: $color-black;
     text-align: left;
 
-    @media (max-width: $breakpoints-s) {
-      margin-top: 12px;
+    @media (width < $breakpoints-m) {
+      margin-top: 16px;
       font-size: 12px;
       line-height: 20px;
     }

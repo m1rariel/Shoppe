@@ -15,12 +15,30 @@
 </script>
 
 <template>
-  <div>
+  <div
+    :class="{ 'layout--catalog': $route.path === '/products', 'layout--home': $route.path === '/' }"
+  >
     <BaseHeader />
-    <MobileMenu />
+    <MobileMenu :hide-search="$route.path.startsWith('/products/')" />
     <main>
       <slot />
     </main>
     <BaseFooter />
   </div>
 </template>
+
+<style lang="scss" scoped>
+  .layout--home :deep(.base-footer) {
+    @media (width < $breakpoints-m) {
+      margin-top: 70px;
+    }
+  }
+
+  .layout--catalog :deep(.base-footer) {
+    margin-top: 112px;
+
+    @media (width < $breakpoints-m) {
+      margin-top: 70px;
+    }
+  }
+</style>

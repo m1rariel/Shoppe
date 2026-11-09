@@ -24,7 +24,7 @@ export default defineNuxtConfig({
       apiBaseUrl:
         process.env.NUXT_PUBLIC_API_BASE_URL ||
         process.env.apiBaseUrl ||
-        'https://shoppe-api-eleet.amvera.io',
+        'https://shoppe-api-eleet.msk1.amvera.tech',
     },
   },
 

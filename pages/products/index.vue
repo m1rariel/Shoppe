@@ -1,150 +1,75 @@
 <script setup lang="ts">
-  import { ProductSort, type Product } from '~/types/api'
-  import { NotificationTypes, useNotification } from '#imports'
-  import { useGetAllProducts } from '~/composables/api/products/useGetAllProducts'
+  import { type Product } from '~/types/api'
+  import { useProductCatalog } from '~/composables/useProductCatalog'
   import ProductFilter from '~/components/ProductFilter.vue'
-  import { computed, reactive, watch } from '#imports'
-  import { useRoute, useRouter } from '#imports'
-  import { useVisiblePages } from '~/composables/useVisiblePages'
-  import { useIsMobile } from '~/composables/useIsMobile'
   import { useGetCategories } from '~/composables/api/products/useGetCategories'
   import { useCartStore } from '~/stores/cartStore'
 
-  type ProductFilters = {
-    search: string
-    category: string
-    sortBy: ProductSort | ''
-    onSale: boolean
-    inStock: boolean
-  }
-
-  const route = useRoute()
-  const router = useRouter()
-  const { showNotification } = useNotification()
   const cartStore = useCartStore()
   const { data: categories } = await useGetCategories()
-  const pageSize = 6
-
-  const getSortBy = (sortBy: unknown): ProductSort | '' => {
-    return Object.values(ProductSort).includes(sortBy as ProductSort) ? (sortBy as ProductSort) : ''
-  }
-
-  const filters = reactive<ProductFilters>({
-    search: String(route.query.search || ''),
-    category: String(route.query.category || ''),
-    sortBy: getSortBy(route.query.sortBy),
-    onSale: route.query.onSale === 'true',
-    inStock: route.query.inStock === 'true',
-  })
-
-  const isMobile = useIsMobile()
-
-  const currentPage = computed(() => Number(route.query.page) || 1)
-
-  const selectedCategory = computed(() => filters.category || undefined)
-
-  const { data: products, pending } = await useGetAllProducts({
-    category: selectedCategory,
-  })
-
-  const safeProducts = computed<Product[]>(() => products.value || [])
-
-  const filteredProducts = computed(() => {
-    let result = [...safeProducts.value]
-
-    if (filters.search) {
-      const search = filters.search.toLowerCase()
-
-      result = result.filter((product) => product.title.toLowerCase().includes(search))
-    }
-
-    if (filters.sortBy === ProductSort.PriceAsc) {
-      result.sort((a, b) => a.price - b.price)
-    }
-
-    if (filters.sortBy === ProductSort.PriceDesc) {
-      result.sort((a, b) => b.price - a.price)
-    }
-
-    if (filters.sortBy === ProductSort.TitleAsc) {
-      result.sort((a, b) => a.title.localeCompare(b.title))
-    }
-    return result
-  })
-
-  const totalPages = computed(() => Math.ceil(filteredProducts.value.length / pageSize))
-
-  const visiblePages = useVisiblePages(currentPage, totalPages)
-
-  const paginationProducts = computed(() => {
-    const startPage = (currentPage.value - 1) * pageSize
-    return filteredProducts.value.slice(startPage, startPage + pageSize)
-  })
-
-  const changePage = (page: number) => {
-    router.push({
-      path: '/products',
-      query: {
-        page,
-        search: filters.search || undefined,
-        category: filters.category || undefined,
-        sortBy: filters.sortBy || undefined,
-        onSale: filters.onSale ? 'true' : undefined,
-        inStock: filters.inStock ? 'true' : undefined,
-      },
-    })
-  }
-
-  const handleAddToCart = (product: Product) => {
-    cartStore.addItem(product)
-
-    showNotification({
-      message: `${product.title} was been added to your Shopping bag`,
-      type: NotificationTypes.SUCCESS,
-    })
-  }
-
-  watch(
+  const {
     filters,
-    () => {
-      router.push({
-        path: '/products',
-        query: {
-          page: 1,
-          search: filters.search || undefined,
-          category: filters.category || undefined,
-          sortBy: filters.sortBy || undefined,
-          onSale: filters.onSale ? 'true' : undefined,
-          inStock: filters.inStock ? 'true' : undefined,
-        },
-      })
-    },
-    { deep: true },
-  )
+    searchDraft,
+    products,
+    pending,
+    error,
+    currentPage,
+    totalPages,
+    visiblePages,
+    setSearch,
+    setCategory,
+    setSort,
+    changePage,
+    retry,
+  } = await useProductCatalog()
+
+  const handleAddToCart = async (product: Product) => {
+    await cartStore.addItem(product)
+  }
 </script>
 <template>
   <section class="products-page container">
-    <div v-if="!isMobile" class="products-page__header">
-      <h1 class="products-page__header-title">Shop The Latest</h1>
-    </div>
-    <div v-else-if="isMobile" class="products-page__header">
-      <h1 class="products-page__header-title__mobile">Shop</h1>
-    </div>
+    <header class="products-page__header">
+      <h1 class="products-page__header-title">
+        <span class="products-page__desktop-title">Shop The Latest</span>
+        <span class="products-page__mobile-title">Shop</span>
+      </h1>
+    </header>
 
     <div class="products-page__layout">
       <ProductFilter
         class="products-page__filters"
         :filters="filters"
         :categories="categories || []"
-        @update:filters="Object.assign(filters, $event)"
+        :search-draft="searchDraft"
+        @search="setSearch"
+        @category="setCategory"
+        @sort="setSort"
       />
 
-      <div class="products-page__content">
-        <p v-if="pending">Loading...</p>
+      <div class="products-page__content" :aria-busy="pending">
+        <div v-if="pending" class="products-page__state" role="status">
+          <p class="products-page__state-title">Loading products…</p>
+          <p class="products-page__state-description">Please wait while we load the catalog.</p>
+        </div>
 
-        <ProductCardList v-else :products="paginationProducts" @add-to-cart="handleAddToCart" />
+        <div v-else-if="error" class="products-page__state" role="alert">
+          <h2 class="products-page__state-title">Unable to load products</h2>
+          <p class="products-page__state-description">Please try again or come back later.</p>
+          <BaseButton class="products-page__retry" @click="retry">Try again</BaseButton>
+        </div>
+
+        <div v-else-if="products.length === 0" class="products-page__state" role="status">
+          <h2 class="products-page__state-title">No products found</h2>
+          <p class="products-page__state-description">
+            Try a different search or change the filters.
+          </p>
+        </div>
+
+        <ProductCardList v-else :products="products" @add-to-cart="handleAddToCart" />
 
         <BasePagination
+          v-if="!pending && !error && products.length > 0 && totalPages > 1"
           :current-page="currentPage"
           :total-pages="totalPages"
           :visible-pages="visiblePages"
@@ -155,17 +80,14 @@
   </section>
 </template>
 <style lang="scss" scoped>
-  .products-page__header-title__mobile {
-    font-family: $font-main;
-    font-size: 20px;
-    font-weight: $font-weight-regular;
-    color: $color-black;
-  }
-
   .products-page {
-    padding-top: 96px;
+    padding-top: 101px;
 
-    @media (max-width: $breakpoints-l) {
+    @media (width < $breakpoints-l) {
+      padding-top: 48px;
+    }
+
+    @media (width < $breakpoints-m) {
       padding-top: 24px;
     }
   }
@@ -177,27 +99,95 @@
   }
 
   .products-page__header-title {
+    font-family: $font-main;
     font-size: 33px;
-    font-style: $font-main;
     font-weight: $font-weight-medium;
     line-height: 43px;
-    letter-spacing: 0%;
+    color: $color-black;
+
+    @media (width < $breakpoints-m) {
+      font-size: 20px;
+      font-weight: $font-weight-regular;
+      line-height: 26px;
+    }
+  }
+
+  .products-page__desktop-title {
+    @media (width < $breakpoints-m) {
+      display: none;
+    }
+  }
+
+  .products-page__mobile-title {
+    display: none;
+
+    @media (width < $breakpoints-m) {
+      display: inline;
+    }
   }
 
   .products-page__layout {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
+    margin-top: 15px;
+
+    @media (width >= $breakpoints-m) {
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 32px;
+      margin-top: 39px;
+    }
+
+    @media (width >= $breakpoints-l) {
+      grid-template-columns: 261px minmax(0, 1fr);
+      gap: 39px;
+    }
+  }
+
+  .products-page__content {
+    min-width: 0;
   }
 
   .products-page__filters {
-    margin-top: 15px;
+    @media (width < $breakpoints-m) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 
-  @media (width >= $breakpoints-m) {
-    .products-page__layout {
-      grid-template-columns: 260px 1fr;
-      gap: 48px;
-    }
+  .products-page__state {
+    min-height: 180px;
+    padding: 32px 24px;
+    font-family: $font-main;
+    background-color: $color-light-gray;
+    border-radius: 8px;
+  }
+
+  .products-page__state-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: $font-weight-medium;
+    line-height: 1.3;
+  }
+
+  .products-page__state-description {
+    max-width: 40ch;
+    margin-top: 12px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: $color-dark-gray;
+  }
+
+  .products-page__retry {
+    min-height: 44px;
+    padding: 8px 16px;
+    margin-top: 24px;
+    font-size: 14px;
+    line-height: 22px;
+    color: $color-black;
+    background: $color-white;
+    border: 1px solid $color-black;
+    border-radius: 4px;
   }
 </style>
