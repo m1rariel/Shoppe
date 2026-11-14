@@ -25,7 +25,7 @@
       :class="{ 'page-header--divided': hasDivider, 'page-header--home': !hasDivider }"
     >
       <div class="page-header__left">
-        <p class="page-header__logo">SHOPPE</p>
+        <p class="page-header__logo"><a href="/#" class="logo">SHOPPE</a></p>
       </div>
       <div class="page-header__right">
         <nav class="page-header-nav__actions" aria-label="Main navigation">
