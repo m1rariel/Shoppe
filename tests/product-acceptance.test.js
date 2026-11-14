@@ -4,7 +4,6 @@ import { registerHooks } from 'node:module'
 import { computed, h, nextTick, reactive, ref, Suspense, watch } from 'vue'
 import { loadSfc, mountComponent } from './helpers/sfc-runtime.js'
 
-// Exercise the actual page/components/composables; only external capabilities are adapters.
 registerHooks({
   resolve(specifier, context, nextResolve) {
     const adapters = {
@@ -44,7 +43,7 @@ const components = Object.fromEntries(
       'ProductReviews',
       'ProductSections',
       'BaseTabs',
-      'BaseAccordeon',
+      'BaseAccordion',
       'BaseButton',
       'ProductGallery',
       'ProductInfo',

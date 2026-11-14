@@ -18,7 +18,7 @@ registerHooks({
   },
 })
 const [sections, tabs, accordion] = await Promise.all(
-  ['ProductSections', 'BaseTabs', 'BaseAccordeon'].map((name) =>
+  ['ProductSections', 'BaseTabs', 'BaseAccordion'].map((name) =>
     loadSfc(new URL(`../components/${name}.vue`, import.meta.url)),
   ),
 )
@@ -34,7 +34,7 @@ async function setup(t, width = 1440, consumer = sections) {
   }
   const view = mountComponent(t, consumer, {
     props: { productId: 1 },
-    components: { BaseTabs: tabs, BaseAccordeon: accordion },
+    components: { BaseTabs: tabs, BaseAccordion: accordion },
   })
   await nextTick()
   t.after(() => {

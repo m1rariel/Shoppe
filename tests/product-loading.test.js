@@ -42,7 +42,7 @@ registerHooks({
 })
 const page = await loadSfc(new URL('../pages/products/[id].vue', import.meta.url))
 const [sections, tabs, accordion] = await Promise.all(
-  ['ProductSections', 'BaseTabs', 'BaseAccordeon'].map((name) =>
+  ['ProductSections', 'BaseTabs', 'BaseAccordion'].map((name) =>
     loadSfc(new URL(`../components/${name}.vue`, import.meta.url)),
   ),
 )
@@ -91,7 +91,7 @@ async function mount(t, initial = {}) {
         ProductReviews: { render: () => null },
         ProductSimilarItems: { render: () => null },
         BaseTabs: tabs,
-        BaseAccordeon: accordion,
+        BaseAccordion: accordion,
       },
     },
   )
@@ -145,7 +145,6 @@ test('real sections reset for route changes and unmount for loading, errors and 
   assert.doesNotMatch(view.text(), /First ring/)
 
   for (const state of ['loading', 'error', 'not-found', 'empty']) {
-    // Keep the previous response in data to reproduce Nuxt's cached-data states.
     view.state.pending.value = state === 'loading'
     view.state.error.value =
       state === 'error' ? { statusCode: 503 } : state === 'not-found' ? { statusCode: 404 } : null

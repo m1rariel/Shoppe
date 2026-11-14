@@ -16,25 +16,24 @@
 </script>
 
 <template>
-  <div class="base-accordeon" :class="{ 'base-accordeon--tabs': !accordion }">
-    <section v-for="section in sections" :key="section.id" class="base-accordeon__section">
-      <h2 v-show="accordion" class="base-accordeon__heading">
+  <div class="base-accordion" :class="{ 'base-accordion--tabs': !accordion }">
+    <section v-for="section in sections" :key="section.id" class="base-accordion__section">
+      <h2 v-show="accordion" class="base-accordion__heading">
         <button
           :id="`${idPrefix}-trigger-${section.id}`"
-          class="base-accordeon__trigger"
+          class="base-accordion__trigger"
           type="button"
           :aria-expanded="modelValue === section.id"
           :aria-controls="`${idPrefix}-panel-${section.id}`"
           @click="emit('update:modelValue', modelValue === section.id ? null : section.id)"
         >
           {{ section.label }}
-          <span class="base-accordeon__chevron" aria-hidden="true" />
+          <span class="base-accordion__chevron" aria-hidden="true" />
         </button>
       </h2>
-      <!-- Keep one mounted copy of each slot so drafts survive mode and section changes. -->
       <div
         :id="`${idPrefix}-panel-${section.id}`"
-        class="base-accordeon__panel"
+        class="base-accordion__panel"
         :hidden="modelValue !== section.id"
         :role="accordion ? 'region' : 'tabpanel'"
         :aria-labelledby="`${idPrefix}-${accordion ? 'trigger' : 'tab'}-${section.id}`"
@@ -47,13 +46,13 @@
 </template>
 
 <style lang="scss" scoped>
-  .base-accordeon__heading {
+  .base-accordion__heading {
     margin: 0;
     font-size: inherit;
     font-weight: $font-weight-regular;
   }
 
-  .base-accordeon__trigger {
+  .base-accordion__trigger {
     display: flex;
     gap: 12px;
     align-items: center;
@@ -73,7 +72,7 @@
     }
   }
 
-  .base-accordeon__chevron {
+  .base-accordion__chevron {
     width: 5px;
     height: 5px;
     margin-right: 2px;
@@ -86,7 +85,7 @@
     }
   }
 
-  .base-accordeon__panel {
+  .base-accordion__panel {
     padding: 12px 0 20px;
     overflow-wrap: anywhere;
 
@@ -95,8 +94,8 @@
     }
   }
 
-  .base-accordeon--tabs {
-    .base-accordeon__panel {
+  .base-accordion--tabs {
+    .base-accordion__panel {
       padding: 39px 0 0;
     }
   }

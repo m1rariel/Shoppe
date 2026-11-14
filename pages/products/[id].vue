@@ -6,7 +6,7 @@
   import { useSimilarProducts } from '~/composables/useSimilarProducts'
 
   const route = useRoute()
-  const event = useRequestEvent()
+  const requestEvent = useRequestEvent()
   const requestOrigin = useRequestURL().origin
   const productId = computed(() => String(route.params.id))
   const { data: product, pending, error, refresh } = await useGetProduct(productId)
@@ -29,8 +29,8 @@
   const isNotFound = computed(() => error.value?.statusCode === 404)
   const images = computed(() => (product.value?.image ? Array(4).fill(product.value.image) : []))
 
-  if (event && (isNotFound.value || (!pending.value && !error.value && !product.value))) {
-    setResponseStatus(event, 404)
+  if (requestEvent && (isNotFound.value || (!pending.value && !error.value && !product.value))) {
+    setResponseStatus(requestEvent, 404)
   }
 </script>
 

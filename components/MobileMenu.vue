@@ -16,7 +16,7 @@
     { label: 'Terms Of Services', to: '/#terms' },
     { label: 'Shipping And Returns', to: '/#shipping-and-returns' },
   ]
-  const menuActionsLink = [
+  const menuActionLinks = [
     {
       icon: PeopleIcon,
       label: 'My account',
@@ -192,7 +192,7 @@
             <span aria-hidden="true" class="mobile-menu__footer-innner__divider"></span>
             <nav class="mobile-menu__footer-inner__actions" aria-label="Account navigation">
               <NuxtLink
-                v-for="link in menuActionsLink"
+                v-for="link in menuActionLinks"
                 :key="link.label"
                 :to="link.to"
                 class="mobile-menu__footer-link"

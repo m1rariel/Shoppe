@@ -34,7 +34,6 @@
     "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-vue": "^10.2.0",
-    "fake-indexeddb": "^6.2.7",
     "globals": "^16.2.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",

@@ -95,12 +95,8 @@ test('desktop product card opens its product on the first click', async (t) => {
   assert.deepEqual(navigations, ['/products/7'])
 })
 
-test('mobile card reveals Add to cart before opening its product', async (t) => {
+test('mobile product card opens its product on the first tap', async (t) => {
   const { card, navigations } = await setup(t, 767.99)
-  card.props.onClick()
-  await nextTick()
-  assert.deepEqual(navigations, [])
-  assert.match(card.props.class, /product-card--active/)
   card.props.onClick()
   assert.deepEqual(navigations, ['/products/7'])
 })

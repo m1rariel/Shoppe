@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import type { Product } from '~/types/api'
   import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
-  import FCIcon from '~/assets/icons/fc-icon.svg'
-  import InstIcon from '~/assets/icons/inst-icon.svg'
-  import TWIcon from '~/assets/icons/twitter-icon.svg'
+  import FacebookIcon from '~/assets/icons/fc-icon.svg'
+  import InstagramIcon from '~/assets/icons/inst-icon.svg'
+  import TwitterIcon from '~/assets/icons/twitter-icon.svg'
   import MailIcon from '~/assets/icons/mail-icon.svg'
   import ShareIcon from '~/assets/icons/share-icon.svg'
   import StarIcon from '~/assets/icons/star-icon.svg'
@@ -14,21 +14,21 @@
 
   const { showNotification } = useNotification()
 
-  const quantity = ref(1)
-  const isAdding = ref(false)
+  const quantity = ref(1) // Храним реактивное количество товара. Изменяем через .value.
+  const isAdding = ref(false) // Храним реактивное состояние добавления товара в корзину. Изменяем через .value.
 
   const props = defineProps<{
     product: Product
     productUrl: string
-  }>()
+  }>() // Получаем свойства компонента, из родительского компонента, который передает :product and :productUrl через props
 
-  const manualLink = ref(false)
-  const manualInput = ref<HTMLInputElement | null>(null)
+  const isManualLinkVisible = ref(false)
+  const manualLinkInput = ref<HTMLInputElement | null>(null)
   const sharingMessage = ref('')
   let shareVersion = 0
   const resetSharing = () => {
     shareVersion++
-    manualLink.value = false
+    isManualLinkVisible.value = false
     sharingMessage.value = ''
   }
   watch(() => [props.product.id, props.product.title, props.productUrl], resetSharing, {
@@ -48,13 +48,13 @@
       {
         label: 'Share product on Facebook',
         href: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-        icon: FCIcon,
+        icon: FacebookIcon,
       },
-      { label: 'Copy product link for Instagram', href: '', icon: InstIcon },
+      { label: 'Copy product link for Instagram', href: '', icon: InstagramIcon },
       {
         label: 'Share product on Twitter',
         href: `https://twitter.com/intent/tweet?text=${title}&url=${url}`,
-        icon: TWIcon,
+        icon: TwitterIcon,
       },
     ]
   })
@@ -62,11 +62,11 @@
   const showManualLink = async (version: number, message: string) => {
     if (version !== shareVersion) return
     sharingMessage.value = message
-    manualLink.value = true
+    isManualLinkVisible.value = true
     await nextTick()
     if (version !== shareVersion) return
-    manualInput.value?.focus()
-    manualInput.value?.select()
+    manualLinkInput.value?.focus()
+    manualLinkInput.value?.select()
   }
 
   const copyProductLink = async () => {
@@ -118,19 +118,20 @@
     )
       return null
     return rate
-  })
+  }) // Вычисляем рейтинг продукта с проверками на корректность
+
   watch(
     () => props.product.id,
     () => {
       quantity.value = 1
     },
-  )
+  ) // вотчер следит за изменением id продукта и сбрасывает количество товара в 1 при смене продукта.
 
-  const disabledQuantity = () => {
+  const decreaseQuantity = () => {
     if (quantity.value > 1) {
       quantity.value--
     }
-  }
+  } // Изменяем количество товаров, учитывая, что оно не может быть меньше 1.
 
   const handleAddToCart = async () => {
     if (isAdding.value) return
@@ -140,7 +141,7 @@
     } finally {
       isAdding.value = false
     }
-  }
+  } // Обработчик клика, проверяем, что не идет процесс добавления. Если не идет, то вызываем метод добавление товара в корзину
 </script>
 
 <template>
@@ -169,6 +170,8 @@
           >
             <StarIcon />
           </span>
+          <!-- Заполнили через цикл звезды рейтинга, с проверкой на то, сколько звезд должно быть
+          заполнено в зависимости от рейтинга. -->
         </span>
       </span>
     </div>
@@ -184,10 +187,12 @@
           type="button"
           aria-label="Decrease quantity"
           :disabled="quantity <= 1 || isAdding"
-          @click="disabledQuantity"
+          @click="decreaseQuantity"
         >
           −
         </button>
+        <!-- Прячем минус, если количество равно одному и блокируем, пока идет процесс добавления товара
+        в корзину -->
 
         <span>{{ quantity }}</span>
 
@@ -199,6 +204,7 @@
         >
           +
         </button>
+        <!-- Плюс устроен так, что кол-во не может быть выше предельно допустимого значения для JS -->
       </div>
 
       <BaseButton
@@ -209,18 +215,19 @@
       >
         {{ isAdding ? 'ADDING…' : 'ADD TO CART' }}
       </BaseButton>
+      <!-- :aria-busy сообщает читалкам, что идет процесс добавления, чтобы не читали кнопки в процессе -->
     </div>
 
-    <div v-if="manualLink" class="product-info__manual-link">
+    <div v-if="isManualLinkVisible" class="product-info__manual-link">
       <p role="status">{{ sharingMessage }}</p>
       <label>
         Product link
         <input
-          ref="manualInput"
+          ref="manualLinkInput"
           :value="productUrl"
           type="text"
           readonly
-          @focus="manualInput?.select()"
+          @focus="manualLinkInput?.select()"
         />
       </label>
     </div>

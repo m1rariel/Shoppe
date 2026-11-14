@@ -47,7 +47,6 @@ const settle = async () => {
 async function setup(t, addItem = async () => true) {
   const calls = []
   const requests = []
-  // Model Nuxt's keyed AsyncData, allowing a late old response deliberately.
   const states = new Map()
   globalThis.similarTest = {
     route: reactive({ params: { id: '1' } }),

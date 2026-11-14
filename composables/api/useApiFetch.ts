@@ -18,7 +18,7 @@ export const useApiFetch = <ResT = unknown, DataT = ResT>(
     key,
     headers: createApiHeaders(authToken.value),
   }
-  const params: UseFetchOptions<ResT, DataT> = { ...defaults, ...options }
+  const fetchOptions: UseFetchOptions<ResT, DataT> = { ...defaults, ...options }
 
-  return useFetch(request, params)
+  return useFetch(request, fetchOptions)
 }

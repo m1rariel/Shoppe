@@ -26,7 +26,6 @@ const compiled = compileScript(descriptor, {
   inlineTemplate: true,
   templateOptions: { compilerOptions: { hoistStatic: false } },
 })
-// This component has only type-only props declarations, stripped by compileScript.
 const { stripTypeScriptTypes } = await import('node:module')
 const { default: component } = await import(
   `data:text/javascript;base64,${Buffer.from(stripTypeScriptTypes(compiled.content, { mode: 'transform' })).toString('base64')}`

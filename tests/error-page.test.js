@@ -33,6 +33,18 @@ const errorPage = (
     `data:text/javascript;base64,${Buffer.from(stripTypeScriptTypes(content, { mode: 'transform' })).toString('base64')}`
   )
 ).default
+const errorContentSource = parse(
+  readFileSync(new URL('../components/ErrorContent.vue', import.meta.url), 'utf8'),
+).descriptor
+const errorContentScript = compileScript(errorContentSource, {
+  id: 'error-content',
+  inlineTemplate: true,
+})
+const errorContent = (
+  await import(
+    `data:text/javascript;base64,${Buffer.from(stripTypeScriptTypes(errorContentScript.content, { mode: 'transform' })).toString('base64')}`
+  )
+).default
 const node = (type, text = '') => ({ type, text, props: {}, children: [] })
 const renderer = createRenderer({
   createElement: (type) => node(type),
@@ -64,6 +76,7 @@ test('HOMEPAGE clears the Nuxt error and redirects to the home route', (t) => {
   globalThis.errorPageRedirects = []
   const root = node('root')
   const app = renderer.createApp(errorPage, { error: { statusCode: 404 } })
+  app.component('ErrorContent', errorContent)
   app.component('CartSidebar', { render: () => h('aside', { 'aria-label': 'Shopping bag' }) })
   app.component('BaseNotification', { render: () => h('div', { role: 'status' }, 'Saved') })
   app.component('NuxtLayout', {

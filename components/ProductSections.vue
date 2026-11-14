@@ -7,26 +7,26 @@
   })
   const isMobile = useIsMobile()
   const idPrefix = `product-sections-${useId()}`
-  const selected = ref('description')
-  const expanded = ref<string | null>(null)
+  const selectedSectionId = ref('description')
+  const expandedSectionId = ref<string | null>(null)
   const sections = computed(() => [
     { id: 'description', label: 'Description' },
     { id: 'information', label: 'Additional information' },
     { id: 'reviews', label: `Reviews (${props.reviewCount})` },
   ])
-  const activeSection = computed({
-    get: () => (isMobile.value ? expanded.value : selected.value),
+  const activeSectionId = computed({
+    get: () => (isMobile.value ? expandedSectionId.value : selectedSectionId.value),
     set: (value: string | null) => {
-      if (isMobile.value) expanded.value = value
-      else if (value) selected.value = value
+      if (isMobile.value) expandedSectionId.value = value
+      else if (value) selectedSectionId.value = value
     },
   })
 
   watch(
     () => props.productId,
     () => {
-      selected.value = 'description'
-      expanded.value = null
+      selectedSectionId.value = 'description'
+      expandedSectionId.value = null
     },
   )
 </script>
@@ -35,14 +35,14 @@
   <div class="product-sections">
     <BaseTabs
       v-show="!isMobile"
-      v-model="selected"
+      v-model="selectedSectionId"
       :sections="sections"
       :id-prefix="idPrefix"
       label="Product information"
     />
-    <BaseAccordeon
+    <BaseAccordion
       :key="productId"
-      v-model="activeSection"
+      v-model="activeSectionId"
       :sections="sections"
       :id-prefix="idPrefix"
       :accordion="isMobile"
@@ -84,7 +84,7 @@
           <p class="product-sections__empty">There are no reviews yet.</p>
         </slot>
       </template>
-    </BaseAccordeon>
+    </BaseAccordion>
   </div>
 </template>
 

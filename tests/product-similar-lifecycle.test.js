@@ -5,8 +5,6 @@ import { readFileSync } from 'node:fs'
 import { effectScope, ref, onScopeDispose, nextTick } from 'vue'
 import './helpers/sfc-runtime.js'
 
-// Exercise the installed Nuxt AsyncData/useFetch lifecycle, with only its app,
-// build-time flags and HTTP transport adapted to this Node test environment.
 const nuxtRoot = new URL('../node_modules/nuxt/dist/app/', import.meta.url)
 const mock = (source) => ({
   url: `data:text/javascript,${encodeURIComponent(source)}`,
@@ -52,7 +50,7 @@ registerHooks({
   },
 })
 const { useFetch } = await import(new URL('composables/fetch.js', nuxtRoot))
-const { useGetAllProducts } = await import('../composables/api/products/useGetAllProducts.ts')
+const { useGetProducts } = await import('../composables/api/products/useGetProducts.ts')
 const { useSimilarProducts } = await import('../composables/useSimilarProducts.ts')
 const settle = async () => {
   await new Promise((resolve) => setTimeout(resolve, 10))
@@ -89,8 +87,6 @@ test('unmounting detail after catalog starts cannot clear the catalog response t
   })
   detailScope.run(() => {
     const product = ref({ id: 3024, category: 'chains' })
-    // useGetProduct's AsyncData cleanup clears its data before similar cleanup.
-    // Vue has stopped category watchers by this point, while computed keys update.
     onScopeDispose(() => {
       product.value = undefined
     })
@@ -100,7 +96,7 @@ test('unmounting detail after catalog starts cannot clear the catalog response t
   await settle()
   let catalog
   catalogScope.run(() => {
-    catalog = useGetAllProducts()
+    catalog = useGetProducts()
   })
   assert.equal(requests.at(-1).category, undefined)
   detailScope.stop()

@@ -3,7 +3,7 @@ import type { Product } from '~/types/api'
 import type { MaybeRefOrGetter } from 'vue'
 import { computed, toValue } from 'vue'
 
-export const useGetAllProducts = (
+export const useGetProducts = (
   options: {
     limit?: MaybeRefOrGetter<number> | undefined
     category?: MaybeRefOrGetter<string | undefined> | undefined

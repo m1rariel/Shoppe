@@ -5,7 +5,6 @@ export interface Product {
   image?: string
   category: string
   description: string
-  // Supported local fixture shape; the backend rating contract is not confirmed.
   rating?: { rate: number; count?: number } | null
 }
 

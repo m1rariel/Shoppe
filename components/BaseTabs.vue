@@ -12,19 +12,19 @@
   const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
 
   function onKeydown(event: KeyboardEvent, index: number) {
-    const last = props.sections.length - 1
-    const positions: Record<string, number> = {
+    const lastIndex = props.sections.length - 1
+    const tabIndexByKey: Record<string, number> = {
       ArrowRight: (index + 1) % props.sections.length,
-      ArrowLeft: (index + last) % props.sections.length,
+      ArrowLeft: (index + lastIndex) % props.sections.length,
       Home: 0,
-      End: last,
+      End: lastIndex,
     }
-    const next = positions[event.key]
-    if (next === undefined || !props.sections[next]) return
+    const nextIndex = tabIndexByKey[event.key]
+    if (nextIndex === undefined || !props.sections[nextIndex]) return
     event.preventDefault()
-    emit('update:modelValue', props.sections[next].id)
+    emit('update:modelValue', props.sections[nextIndex].id)
     const button = event.currentTarget as HTMLButtonElement
-    button.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[next]?.focus()
+    button.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[nextIndex]?.focus()
   }
 </script>
 

@@ -3,37 +3,47 @@
   import { NotificationTypes, useNotification } from '#imports'
   import ArrowIcon from '@/assets/icons/arrow-icon.svg'
   import ArrowIconMobile from '@/assets/icons/arrow-icon-mobile.svg'
-  import FCIcon from '@/assets/icons/fc-icon.svg'
-  import InstIcon from '@/assets/icons/inst-icon.svg'
-  import TWIcon from '@/assets/icons/twitter-icon.svg'
+  import FacebookIcon from '@/assets/icons/fc-icon.svg'
+  import InstagramIcon from '@/assets/icons/inst-icon.svg'
+  import TwitterIcon from '@/assets/icons/twitter-icon.svg'
 
   const footerLinks = ['CONTACT', 'TERMS OF SERVICES', 'SHIPPING AND RETURNS']
   const socialLinks = [
-    { label: 'Facebook', icon: FCIcon, className: 'base-footer__facebook', viewBox: '0 0 10 18' },
+    {
+      label: 'Facebook',
+      icon: FacebookIcon,
+      className: 'base-footer__facebook',
+      viewBox: '0 0 10 18',
+    },
     {
       label: 'Instagram',
-      icon: InstIcon,
+      icon: InstagramIcon,
       className: 'base-footer__instagram',
       viewBox: '0 0 18 18',
     },
-    { label: 'Twitter', icon: TWIcon, className: 'base-footer__twitter', viewBox: '0 0 20 17' },
+    {
+      label: 'Twitter',
+      icon: TwitterIcon,
+      className: 'base-footer__twitter',
+      viewBox: '0 0 20 17',
+    },
   ]
   const EMAIL_STORAGE_KEY = 'shoppe:newsletter-email'
   const email = ref('')
-  const isSubmitAttempt = ref(false)
+  const hasSubmitAttempt = ref(false)
   const hasNativeEmailError = ref(false)
   const { showNotification } = useNotification()
   const isValidEmail = computed(() => /^[^\s@]+@[^\s@]+$/.test(email.value.trim()))
   const hasEmailError = computed(
-    () => isSubmitAttempt.value && (!isValidEmail.value || hasNativeEmailError.value),
+    () => hasSubmitAttempt.value && (!isValidEmail.value || hasNativeEmailError.value),
   )
   const handleInvalidEmail = () => {
-    isSubmitAttempt.value = true
+    hasSubmitAttempt.value = true
     hasNativeEmailError.value = true
   }
 
   const handleSubscribe = async () => {
-    isSubmitAttempt.value = true
+    hasSubmitAttempt.value = true
     if (!isValidEmail.value) return
     try {
       localStorage.setItem(EMAIL_STORAGE_KEY, email.value.trim())
@@ -45,7 +55,7 @@
       return
     }
     email.value = ''
-    isSubmitAttempt.value = false
+    hasSubmitAttempt.value = false
     await showNotification({ message: 'Email saved', type: NotificationTypes.SUCCESS })
   }
 

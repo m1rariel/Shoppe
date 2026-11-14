@@ -5,15 +5,17 @@ import { NotificationTypes, type NotificationPayload } from '@/composables/useNo
 export const useNotificationStore = defineStore('notification', () => {
   const visible = ref(false)
   const message = ref('')
-
   const type = ref<NotificationTypes>(NotificationTypes.INFO)
   const action = ref<NotificationPayload['action']>()
   const actionText = ref('')
   let timer: ReturnType<typeof setTimeout> | undefined
+
   const clearTimer = () => {
     if (timer !== undefined) clearTimeout(timer)
+
     timer = undefined
   }
+
   const hideNotification = () => {
     clearTimer()
     visible.value = false
@@ -22,8 +24,10 @@ export const useNotificationStore = defineStore('notification', () => {
     action.value = undefined
     actionText.value = ''
   }
+
   const showNotification = (payload: NotificationPayload) => {
     if (!payload.message) return
+
     clearTimer()
     message.value = payload.message
     type.value = payload.type ?? NotificationTypes.INFO
@@ -32,6 +36,7 @@ export const useNotificationStore = defineStore('notification', () => {
     visible.value = true
     timer = setTimeout(hideNotification, 5000)
   }
+
   onScopeDispose(clearTimer)
 
   return {

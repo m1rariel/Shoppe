@@ -49,7 +49,6 @@ async function readCart(request) {
   }
 }
 
-// Temporary fixtures: rating is illustrative, not a confirmed backend field/shape.
 export const products = [
   {
     id: 1,
@@ -70,7 +69,7 @@ export const products = [
 ]
 
 export function createProductApi({ delay = 1500 } = {}) {
-  const attempts = new Map()
+  const attemptsByPath = new Map()
   return createServer(async (request, response) => {
     response.setHeader('Access-Control-Allow-Origin', '*')
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
@@ -96,10 +95,10 @@ export function createProductApi({ delay = 1500 } = {}) {
     if (segments.join('/') === 'carts') {
       if (request.method !== 'POST') return methodNotAllowed('POST')
       try {
-        const result = await readCart(request)
-        return result.cart
-          ? send(200, result.cart)
-          : send(result.status, { message: result.message })
+        const cartResult = await readCart(request)
+        return cartResult.cart
+          ? send(200, cartResult.cart)
+          : send(cartResult.status, { message: cartResult.message })
       } catch {
         return send(400, { message: 'Unable to read cart snapshot' })
       }
@@ -121,30 +120,30 @@ export function createProductApi({ delay = 1500 } = {}) {
     if (scenario === 'error') return send(503, { message: 'Fixture service unavailable' })
     if (scenario === 'retry') {
       const key = segments.join('/')
-      const count = attempts.get(key) || 0
-      attempts.set(key, count + 1)
-      if (count === 0) return send(503, { message: 'Retry this fixture request' })
+      const attemptCount = attemptsByPath.get(key) || 0
+      attemptsByPath.set(key, attemptCount + 1)
+      if (attemptCount === 0) return send(503, { message: 'Retry this fixture request' })
     }
     if (scenario === 'empty') return send(200, null)
     const origin = `http://${request.headers.host}`
-    const available = products.map((product) => ({
+    const availableProducts = products.map((product) => ({
       ...product,
       ...(product.image ? { image: `${origin}${product.image}` } : {}),
     }))
     if (!segments[1]) {
       const category = url.searchParams.get('category')
       const limit = Number(url.searchParams.get('limit'))
-      const filtered = category
-        ? available.filter((product) => product.category === category)
-        : available
+      const filteredProducts = category
+        ? availableProducts.filter((product) => product.category === category)
+        : availableProducts
       return send(
         200,
         url.searchParams.has('limit') && Number.isInteger(limit) && limit >= 0
-          ? filtered.slice(0, limit)
-          : filtered,
+          ? filteredProducts.slice(0, limit)
+          : filteredProducts,
       )
     }
-    const product = available.find((entry) => String(entry.id) === segments[1])
+    const product = availableProducts.find((entry) => String(entry.id) === segments[1])
     return product ? send(200, product) : send(404, { message: 'Product not found' })
   })
 }

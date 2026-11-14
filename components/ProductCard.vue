@@ -2,7 +2,6 @@
   import type { Product } from '~/types/api'
   import { ref, watch } from 'vue'
   import { useRouter } from '#app'
-  import { useIsMobile } from '#imports'
 
   const props = defineProps<{
     product: Product
@@ -14,8 +13,6 @@
   }>()
   const router = useRouter()
 
-  const isActive = ref(false)
-  const isMobile = useIsMobile()
   const imageFailed = ref(false)
   watch(
     () => props.product.image,
@@ -25,25 +22,12 @@
   )
 
   const handleCardClick = () => {
-    if (!isMobile.value) {
-      router.push(`/products/${props.product.id}`)
-      return
-    }
-    if (!isActive.value) {
-      isActive.value = true
-      return
-    }
-
     router.push(`/products/${props.product.id}`)
   }
 </script>
 
 <template>
-  <section
-    class="product-card"
-    :class="{ 'product-card--active': isActive }"
-    @click="handleCardClick"
-  >
+  <section class="product-card" @click="handleCardClick">
     <div class="product-card__preview">
       <img
         v-if="product.image && !imageFailed"
@@ -137,10 +121,16 @@
       min-height: 36px;
       font-size: 12px;
       line-height: 20px;
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      pointer-events: auto;
+      opacity: 1;
     }
   }
 
-  .product-card--active .product-card__button,
   .product-card:focus-within .product-card__button {
     pointer-events: auto;
     opacity: 1;

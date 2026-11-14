@@ -10,13 +10,16 @@ export function useProductReviews(productId: Ref<string>) {
   const authorError = ref('')
   const author = ref<ReviewAuthor | null>(null)
   let mounted = false
-  const key = () => `shoppe:product-reviews:${productId.value}`
+  const getReviewsStorageKey = () => `shoppe:product-reviews:${productId.value}`
 
   function load() {
     reviews.value = []
     error.value = ''
     try {
-      reviews.value = parseProductReviews(localStorage.getItem(key()), productId.value)
+      reviews.value = parseProductReviews(
+        localStorage.getItem(getReviewsStorageKey()),
+        productId.value,
+      )
     } catch {
       error.value = 'Unable to read saved reviews. Please try saving again to retry.'
     }
@@ -41,8 +44,10 @@ export function useProductReviews(productId: Ref<string>) {
     if (Object.values(reviewErrors(draft)).some(Boolean)) return false
     error.value = ''
     try {
-      // Read again before appending: a failed initial read must never erase unseen reviews.
-      const existing = parseProductReviews(localStorage.getItem(key()), productId.value)
+      const savedReviews = parseProductReviews(
+        localStorage.getItem(getReviewsStorageKey()),
+        productId.value,
+      )
       const review: ProductReview = {
         name: draft.name.trim(),
         email: draft.email.trim(),
@@ -54,9 +59,9 @@ export function useProductReviews(productId: Ref<string>) {
           `${Date.now()}-${Math.random().toString(36).slice(2)}`,
         createdAt: new Date().toISOString(),
       }
-      const next = [review, ...existing]
-      localStorage.setItem(key(), JSON.stringify(next))
-      reviews.value = next
+      const updatedReviews = [review, ...savedReviews]
+      localStorage.setItem(getReviewsStorageKey(), JSON.stringify(updatedReviews))
+      reviews.value = updatedReviews
       return true
     } catch {
       error.value = 'Unable to save your review. Your draft is kept. Please try again.'
@@ -68,8 +73,8 @@ export function useProductReviews(productId: Ref<string>) {
     mounted = true
     load()
     try {
-      const saved = localStorage.getItem(authorKey)
-      const value: unknown = saved ? JSON.parse(saved) : null
+      const savedAuthorJson = localStorage.getItem(authorKey)
+      const value: unknown = savedAuthorJson ? JSON.parse(savedAuthorJson) : null
       if (
         value &&
         typeof value === 'object' &&

@@ -40,13 +40,20 @@ const renderer = createRenderer({
 
 function setup(t, width) {
   const listeners = new Set()
+  const listenerCalls = { add: 0, remove: 0 }
   globalThis.window = {
     innerWidth: width,
     addEventListener(type, listener) {
-      if (type === 'resize') listeners.add(listener)
+      if (type === 'resize') {
+        listenerCalls.add++
+        listeners.add(listener)
+      }
     },
     removeEventListener(type, listener) {
-      if (type === 'resize') listeners.delete(listener)
+      if (type === 'resize') {
+        listenerCalls.remove++
+        listeners.delete(listener)
+      }
     },
   }
   const apps = []
@@ -55,9 +62,9 @@ function setup(t, width) {
     delete globalThis.window
   })
   return {
-    mount() {
+    mount(component = responsiveLabel) {
       const root = {}
-      const app = renderer.createApp(responsiveLabel)
+      const app = renderer.createApp(component)
       app.mount(root)
       apps.push(app)
       return {
@@ -74,6 +81,7 @@ function setup(t, width) {
       await nextTick()
     },
     listeners,
+    listenerCalls,
   }
 }
 
@@ -92,24 +100,68 @@ test('responsive content switches to desktop at 768px and back below it', async 
   assert.equal(view.label(), 'Mobile')
 })
 
-test('unmounting one consumer keeps the other responsive and remounts initialize again', async (t) => {
-  const { mount, resize, listeners } = setup(t, 390)
+test('consumers share one listener until the last unmount and remount reads the current width', async (t) => {
+  const { mount, resize, listeners, listenerCalls } = setup(t, 390)
   const first = mount()
   const second = mount()
   await nextTick()
+  assert.equal(listeners.size, 1)
+  assert.deepEqual(listenerCalls, { add: 1, remove: 0 })
+  assert.equal(first.label(), 'Mobile')
+  assert.equal(second.label(), 'Mobile')
+  await resize(768)
+  assert.equal(first.label(), 'Desktop')
+  assert.equal(second.label(), 'Desktop')
   first.unmount()
   assert.equal(listeners.size, 1)
-  await resize(1024)
-  assert.equal(second.label(), 'Desktop')
+  assert.deepEqual(listenerCalls, { add: 1, remove: 0 })
+  await resize(390)
+  assert.equal(second.label(), 'Mobile')
   second.unmount()
   assert.equal(listeners.size, 0)
-  await resize(320)
+  assert.deepEqual(listenerCalls, { add: 1, remove: 1 })
+  await resize(1024)
   const remounted = mount()
   await nextTick()
+  assert.equal(listeners.size, 1)
+  assert.deepEqual(listenerCalls, { add: 2, remove: 1 })
+  assert.equal(remounted.label(), 'Desktop')
+  await resize(320)
   assert.equal(remounted.label(), 'Mobile')
+  remounted.unmount()
+  assert.equal(listeners.size, 0)
+  assert.deepEqual(listenerCalls, { add: 2, remove: 2 })
 })
 
 test('SSR renders without accessing browser globals', async () => {
   assert.equal(typeof window, 'undefined')
+  assert.equal(await renderToString(createSSRApp(responsiveLabel)), '<span>Desktop</span>')
+})
+
+test('SSR and initial client render stay desktop while a mobile singleton is active', async (t) => {
+  const { mount, resize, listeners } = setup(t, 390)
+  const existing = mount()
+  await nextTick()
+  assert.equal(existing.label(), 'Mobile')
+  assert.equal(await renderToString(createSSRApp(responsiveLabel)), '<span>Desktop</span>')
+
+  const initialValues = []
+  const next = mount({
+    setup() {
+      const isMobile = useIsMobile()
+      return () => {
+        initialValues.push(isMobile.value)
+        return h('span', isMobile.value ? 'Mobile' : 'Desktop')
+      }
+    },
+  })
+  assert.equal(initialValues[0], false)
+  await nextTick()
+  assert.equal(next.label(), 'Mobile')
+  assert.equal(listeners.size, 1)
+
+  await resize(1024)
+  assert.equal(await renderToString(createSSRApp(responsiveLabel)), '<span>Desktop</span>')
+  await resize(390)
   assert.equal(await renderToString(createSSRApp(responsiveLabel)), '<span>Desktop</span>')
 })

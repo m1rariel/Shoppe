@@ -3,7 +3,6 @@ import { registerHooks, stripTypeScriptTypes } from 'node:module'
 import { compileScript, parse } from '@vue/compiler-sfc'
 import { createRenderer, h, markRaw, reactive } from 'vue'
 
-// Scenario-specific import resolution belongs to each suite. Only the language loader is shared.
 registerHooks({
   load(url, context, nextLoad) {
     if (url.startsWith('file:') && url.endsWith('.ts')) {
@@ -24,7 +23,6 @@ export async function loadSfc(url, { transformSource = (source) => source } = {}
   const compiled = compileScript(descriptor, {
     id: url.pathname,
     inlineTemplate: true,
-    // Static HTML insertion requires a browser DOM. Render each node through the host instead.
     templateOptions: { compilerOptions: { hoistStatic: false } },
   })
   const source = stripTypeScriptTypes(compiled.content, { mode: 'transform' })
@@ -45,11 +43,10 @@ export function observeTree(root) {
   }
 }
 
-// This is a Vue host tree, not a browser DOM. Suites explicitly supply any browser adapters.
 export function mountComponent(
   t,
   component,
-  { props: initial = {}, components = {}, decorateNode } = {},
+  { props: initialProps = {}, components = {}, decorateNode } = {},
 ) {
   const node = (type, text = '') => {
     const element = markRaw({ type, text, props: {}, style: {}, children: [], parent: null })
@@ -85,8 +82,8 @@ export function mountComponent(
     setText(element, text) {
       element.text = text
     },
-    patchProp(element, key, previous, next) {
-      element.props[key] = next
+    patchProp(element, key, previousValue, nextValue) {
+      element.props[key] = nextValue
     },
     parentNode: (element) => element.parent,
     nextSibling(element) {
@@ -94,7 +91,7 @@ export function mountComponent(
       return siblings?.[siblings.indexOf(element) + 1] ?? null
     },
   })
-  const props = reactive(initial)
+  const props = reactive(initialProps)
   const root = node('root')
   const app = renderer.createApp({ setup: () => () => h(component, props) })
   for (const [name, adapter] of Object.entries(components)) app.component(name, adapter)

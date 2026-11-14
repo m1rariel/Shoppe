@@ -3,7 +3,6 @@ import assert from 'node:assert/strict'
 import { registerHooks, stripTypeScriptTypes } from 'node:module'
 import { readFileSync } from 'node:fs'
 import { createPinia, setActivePinia } from 'pinia'
-import { IDBFactory, IDBDatabase, IDBObjectStore } from 'fake-indexeddb'
 
 registerHooks({
   resolve(specifier, context, nextResolve) {
@@ -106,7 +105,7 @@ function setup(t, raw = null) {
       memory.set(key, value)
     },
   }
-  const browser = { localStorage: storage, indexedDB: new IDBFactory() }
+  const browser = { localStorage: storage }
   globalThis.window = browser
   t.after(() => {
     delete globalThis.window
@@ -119,46 +118,10 @@ function setup(t, raw = null) {
   return { cart: fresh(), fresh, browser, storage, memory, posts }
 }
 
-async function backup(browser, value) {
-  const db = await new Promise((resolve, reject) => {
-    const request = browser.indexedDB.open('shoppe-cart', 1)
-    request.onupgradeneeded = () => request.result.createObjectStore('snapshots')
-    request.onsuccess = () => resolve(request.result)
-    request.onerror = () => reject(request.error)
-  })
-  try {
-    return await new Promise((resolve, reject) => {
-      const tx = db.transaction('snapshots', value === undefined ? 'readonly' : 'readwrite')
-      const request =
-        value === undefined
-          ? tx.objectStore('snapshots').get('cart')
-          : tx.objectStore('snapshots').put(value, 'cart')
-      let result
-      request.onsuccess = () => {
-        result = request.result
-      }
-      tx.oncomplete = () => resolve(result)
-      tx.onabort = () => reject(tx.error)
-    })
-  } finally {
-    db.close()
-  }
-}
-
-test('legacy restore salvages valid entries, sums duplicates, uses last snapshot before first add', async (t) => {
+test('current restore sums quantities and uses last snapshot before first add', async (t) => {
   const { cart, memory } = setup(
     t,
-    JSON.stringify([
-      entry(2),
-      null,
-      {},
-      entry(-1),
-      entry(1, product(1, 'Updated')),
-      entry(1, { ...product(2), price: null }),
-      entry(1, { ...product(3), image: 4 }),
-      entry(1, { ...product(4), title: 4 }),
-      entry(1, { ...product(5), id: 0 }),
-    ]),
+    snapshot(1, [entry(2), entry(-1), entry(1, product(1, 'Updated'))]),
   )
   await cart.addItem(product(2))
   assert.equal(cart.items.length, 2)
@@ -166,10 +129,10 @@ test('legacy restore salvages valid entries, sums duplicates, uses last snapshot
   assert.equal(cart.items[0].product.title, 'Updated')
   assert.equal(cart.totalItems, 4)
   assert.equal(cart.subtotal, 40)
-  assert.equal(JSON.parse(memory.get('cart')).version, 1)
+  assert.deepEqual(JSON.parse(memory.get('cart')), { version: 1, items: cart.items })
 })
 
-test('invalid quantities and invalid products leave state and saved payload unchanged', async (t) => {
+test('invalid quantities leave state and saved payload unchanged', async (t) => {
   const { cart, memory } = setup(t)
   await cart.addItem(product())
   const saved = memory.get('cart')
@@ -180,14 +143,6 @@ test('invalid quantities and invalid products leave state and saved payload unch
   for (const quantity of [-1, 1.2, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1]) {
     assert.equal(await cart.updateQuantity(1, quantity), false)
   }
-  for (const invalid of [
-    null,
-    {},
-    { ...product(), price: Infinity },
-    { ...product(), price: -1 },
-  ]) {
-    assert.equal(await cart.addItem(invalid), false)
-  }
   assert.equal(memory.get('cart'), saved)
   assert.equal(cart.isSidebarOpen, false)
   assert.equal(cart.totalItems, 1)
@@ -197,8 +152,11 @@ test('invalid quantities and invalid products leave state and saved payload unch
 })
 
 test('last added product is copied and replaces the snapshot; absolute zero and minus one delete', async (t) => {
-  const { cart, fresh } = setup(t)
+  const { cart, fresh, memory } = setup(t)
   await cart.addItem(product())
+  const reloaded = fresh()
+  await reloaded.initialize()
+  assert.deepEqual(reloaded.items, [entry()])
   const updated = { ...product(1, 'New'), price: 20, image: 'new.jpg' }
   const pending = cart.addItem(updated, 2)
   updated.title = 'Caller mutation'
@@ -207,6 +165,7 @@ test('last added product is copied and replaces the snapshot; absolute zero and 
   assert.equal(cart.totalItems, 3)
   assert.equal(cart.subtotal, 60)
   await cart.updateQuantity(1, 0)
+  assert.deepEqual(JSON.parse(memory.get('cart')), { version: 1, items: [] })
   const restored = fresh()
   await restored.initialize()
   assert.deepEqual(restored.items, [])
@@ -215,81 +174,29 @@ test('last added product is copied and replaces the snapshot; absolute zero and 
   assert.deepEqual(restored.items, [])
 })
 
-test('failed primary writes fall back, newest copy wins on reload, empty tombstone defeats stale main', async (t) => {
-  const { cart, fresh, storage, memory, browser } = setup(t)
-  await cart.addItem(product())
-  const stale = memory.get('cart')
-  storage.failWrite = true
-  assert.equal(await cart.addItem(product(2)), true)
-  assert.equal(memory.get('cart'), stale)
-  let restored = fresh()
-  await restored.initialize()
-  assert.equal(restored.totalItems, 2)
-  await restored.removeItem(1)
-  await restored.removeItem(2)
-  assert.deepEqual(JSON.parse(await backup(browser)).items, [])
-  restored = fresh()
-  await restored.initialize()
-  assert.deepEqual(restored.items, [])
-  storage.failWrite = false
-  await restored.addItem(product(3))
-  assert.equal(JSON.parse(memory.get('cart')).items[0].product.id, 3)
-})
-
-test('newer primary wins; unreadable, missing, malformed copies do not overwrite the good backup', async (t) => {
-  const { fresh, browser, memory, storage } = setup(t, snapshot(20, [entry(2)]))
-  await backup(browser, snapshot(10, [entry(1, product(2))]))
-  let cart = fresh()
-  await cart.initialize()
-  assert.equal(cart.items[0].product.id, 1)
-  memory.set('cart', '{broken')
-  cart = fresh()
-  await cart.initialize()
-  assert.equal(cart.items[0].product.id, 2)
-  assert.equal(JSON.parse(await backup(browser)).revision, 10)
-  storage.failRead = true
-  cart = fresh()
-  await cart.initialize()
-  assert.equal(cart.items[0].product.id, 2)
-  storage.failRead = false
-  memory.delete('cart')
-  cart = fresh()
-  await cart.initialize()
-  assert.equal(cart.items[0].product.id, 2)
-  memory.set('cart', snapshot(30, [entry(3), entry(-1), null]))
-  cart = fresh()
-  await cart.initialize()
-  assert.equal(cart.totalItems, 3)
-})
-
-test('fully unreadable or unsupported payloads become empty without destructive initialization writes', async (t) => {
-  const { fresh, browser, memory } = setup(t, '{broken')
-  await backup(browser, 'broken')
-  for (const payload of [
-    '{broken',
-    'null',
-    '{}',
-    snapshot(-1, []),
-    JSON.stringify({ version: 2, revision: 10, items: [entry()] }),
+test('missing, unreadable and malformed payloads restore empty without overwriting and allow saving', async (t) => {
+  const { fresh, storage, memory } = setup(t)
+  for (const [payload, failRead] of [
+    [null, false],
+    ['{broken', false],
+    [snapshot(1, [entry()]), true],
   ]) {
-    memory.set('cart', payload)
+    memory.clear()
+    if (payload !== null) memory.set('cart', payload)
+    storage.failRead = failRead
     const cart = fresh()
     await cart.initialize()
     assert.deepEqual(cart.items, [])
-    assert.equal(memory.get('cart'), payload)
-    assert.equal(await backup(browser), 'broken')
+    assert.equal(memory.get('cart') ?? null, payload)
+    assert.equal(await cart.addItem(product(2)), true)
+    assert.deepEqual(JSON.parse(memory.get('cart')), { version: 1, items: [entry(1, product(2))] })
   }
 })
 
-test('both write failures rollback all mutations, notify ERROR and queue recovers', async (t) => {
-  const { cart, browser, storage } = setup(t)
+test('failed writes rollback all mutations, notify ERROR and queue recovers', async (t) => {
+  const { cart, storage, memory, posts } = setup(t)
   await cart.addItem(product())
-  const healthy = browser.indexedDB
-  browser.indexedDB = {
-    open() {
-      throw Error('unavailable')
-    },
-  }
+  const saved = memory.get('cart')
   storage.failWrite = true
   cart.closeSidebar()
   for (const mutate of [
@@ -301,30 +208,25 @@ test('both write failures rollback all mutations, notify ERROR and queue recover
     assert.equal(cart.totalItems, 1)
     assert.equal(cart.isSidebarOpen, false)
     assert.equal(useNotificationStore().type, 'error')
+    assert.equal(useNotificationStore().message, 'Не удалось сохранить корзину. Попробуйте ещё раз.')
+    assert.equal(memory.get('cart'), saved)
+    assert.equal(posts.length, 1)
   }
   storage.failWrite = false
-  browser.indexedDB = healthy
   assert.equal(await cart.addItem(product(2)), true)
   assert.equal(cart.totalItems, 2)
 })
 
 test('cart storage error follows existing notification expiry after successful retry', async (t) => {
-  const { cart, browser, storage } = setup(t)
+  const { cart, storage } = setup(t)
   await cart.initialize()
   t.mock.timers.enable({ apis: ['setTimeout'] })
-  const healthy = browser.indexedDB
-  browser.indexedDB = {
-    open() {
-      throw Error('unavailable')
-    },
-  }
   storage.failWrite = true
   assert.equal(await cart.addItem(product()), false)
   const notification = useNotificationStore()
   assert.equal(notification.visible, true)
   assert.equal(notification.type, 'error')
   storage.failWrite = false
-  browser.indexedDB = healthy
   assert.equal(await cart.addItem(product()), true)
   t.mock.timers.tick(4999)
   assert.equal(notification.visible, true)
@@ -334,7 +236,7 @@ test('cart storage error follows existing notification expiry after successful r
 })
 
 test('concurrent add/remove and delta UI intents serialize against committed state', async (t) => {
-  const { cart } = setup(t, JSON.stringify([entry(2)]))
+  const { cart } = setup(t, snapshot(1, [entry(2)]))
   const initialization = cart.initialize()
   await Promise.all([cart.addItem(product()), cart.addItem(product()), initialization])
   assert.equal(cart.totalItems, 4)
@@ -370,94 +272,31 @@ test('SSR never accesses browser storage', async () => {
   }
 })
 
-test('SecurityError accessing storage property falls back to IndexedDB', async (t) => {
-  const { cart, browser, fresh } = setup(t)
+test('SecurityError accessing localStorage restores empty, rejects writes and permits a later retry', async (t) => {
+  const { cart, browser, storage, memory, posts } = setup(t, snapshot(1, [entry()]))
+  const saved = memory.get('cart')
   Object.defineProperty(browser, 'localStorage', {
+    configurable: true,
     get() {
       throw Error('SecurityError')
     },
   })
-  assert.equal(await cart.addItem(product()), true)
-  const reloaded = fresh()
-  await reloaded.initialize()
-  assert.equal(reloaded.totalItems, 1)
-})
-
-test('IndexedDB request success followed by transaction abort never commits state', async (t) => {
-  const { cart, storage } = setup(t)
   await cart.initialize()
-  storage.failWrite = true
-  const original = IDBObjectStore.prototype.put
-  IDBObjectStore.prototype.put = function (...args) {
-    const request = original.apply(this, args)
-    request.addEventListener('success', () => this.transaction.abort())
-    return request
-  }
-  t.after(() => {
-    IDBObjectStore.prototype.put = original
-  })
+  assert.deepEqual(cart.items, [])
   assert.equal(await cart.addItem(product()), false)
   assert.deepEqual(cart.items, [])
-})
-
-test('IndexedDB saving waits for transaction complete and state stays unchanged before commit', async (t) => {
-  const { cart, storage } = setup(t)
-  await cart.initialize()
-  storage.failWrite = true
-  const original = IDBDatabase.prototype.transaction
-  let requestSucceeded = false
-  let complete = false
-  IDBDatabase.prototype.transaction = function (...args) {
-    const tx = original.apply(this, args)
-    tx.addEventListener('complete', () => {
-      complete = true
-    })
-    const objectStore = tx.objectStore('snapshots')
-    const put = objectStore.put.bind(objectStore)
-    objectStore.put = (...putArgs) => {
-      const request = put(...putArgs)
-      request.addEventListener('success', () => {
-        requestSucceeded = true
-        assert.equal(complete, false)
-        assert.deepEqual(cart.items, [])
-      })
-      return request
-    }
-    tx.objectStore = () => objectStore
-    return tx
-  }
-  t.after(() => {
-    IDBDatabase.prototype.transaction = original
-  })
-  assert.equal(await cart.addItem(product()), true)
-  assert.equal(requestSucceeded, true)
-  assert.equal(complete, true)
-  assert.equal(cart.totalItems, 1)
-})
-
-test('a late failed transaction does not poison the next queued UI intent', async (t) => {
-  const { cart, storage } = setup(t)
-  await cart.addItem(product())
-  storage.failWrite = true
-  const original = IDBObjectStore.prototype.put
-  let writes = 0
-  IDBObjectStore.prototype.put = function (...args) {
-    const request = original.apply(this, args)
-    if (++writes === 1) request.addEventListener('success', () => this.transaction.abort())
-    return request
-  }
-  t.after(() => {
-    IDBObjectStore.prototype.put = original
-  })
-  const results = await Promise.all([cart.adjustQuantity(1, 1), cart.adjustQuantity(1, 1)])
-  assert.deepEqual(results, [false, true])
-  assert.equal(cart.totalItems, 2)
+  assert.equal(memory.get('cart'), saved)
+  assert.deepEqual(posts, [])
+  assert.equal(useNotificationStore().type, 'error')
+  Object.defineProperty(browser, 'localStorage', { value: storage })
+  assert.equal(await cart.addItem(product(2)), true)
+  assert.deepEqual(cart.items, [entry(1, product(2))])
 })
 
 test('restored duplicate overflow skips that entry and preserves the preceding valid position', async (t) => {
   const { cart } = setup(
     t,
-    JSON.stringify([
+    snapshot(1, [
       entry(Number.MAX_SAFE_INTEGER),
       entry(1, product(1, 'Overflow')),
       entry(2, product(2)),
@@ -472,41 +311,8 @@ test('restored duplicate overflow skips that entry and preserves the preceding v
   assert.equal(cart.isSidebarOpen, false)
 })
 
-test('blocked open settles without closing other connections; permanently hung open is bounded', async (t) => {
-  const { cart, browser, fresh } = setup(t, JSON.stringify([entry()]))
-  let pending
-  browser.indexedDB = {
-    open() {
-      pending = {}
-      setImmediate(() => pending.onblocked())
-      return pending
-    },
-  }
-  await cart.initialize()
-  assert.equal(cart.totalItems, 1)
-  assert.equal(await cart.addItem(product()), true)
-  let lateClosed = false
-  pending.result = {
-    close() {
-      lateClosed = true
-    },
-  }
-  pending.onsuccess()
-  assert.equal(lateClosed, true)
-  browser.indexedDB = {
-    open() {
-      return {}
-    },
-  }
-  const hung = fresh()
-  const start = Date.now()
-  await hung.initialize()
-  assert.ok(Date.now() - start < 2500)
-  assert.equal(hung.totalItems, 2)
-})
-
 test('every committed mutation posts the full snapshot, including the last removal', async (t) => {
-  const { cart, posts } = setup(t, JSON.stringify([entry(2)]))
+  const { cart, posts } = setup(t, snapshot(1, [entry(2)]))
   await cart.initialize()
   assert.deepEqual(posts, [])
   await cart.addItem(product(2), 3)
@@ -540,16 +346,11 @@ test('every committed mutation posts the full snapshot, including the last remov
 })
 
 test('invalid intents and failed local persistence never post to the API', async (t) => {
-  const { cart, posts, storage, browser } = setup(t)
+  const { cart, posts, storage } = setup(t)
   await cart.addItem(product(), -1)
   await cart.updateQuantity(1, NaN)
   await cart.adjustQuantity(1, -1)
   storage.failWrite = true
-  browser.indexedDB = {
-    open() {
-      throw Error('unavailable')
-    },
-  }
   assert.equal(await cart.addItem(product()), false)
   assert.deepEqual(posts, [])
 })

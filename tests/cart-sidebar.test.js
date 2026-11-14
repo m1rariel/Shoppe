@@ -17,7 +17,6 @@ registerHooks({
     )
   },
 })
-// CSS transition hooks need a browser DOM; retain the keyed list and its persistent host.
 const transformSource = (source) =>
   source
     .replace('<Transition name="cart-sidebar">', '')

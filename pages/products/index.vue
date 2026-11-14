@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { type Product } from '~/types/api'
-  import { useProductCatalog } from '~/composables/useProductCatalog'
+  import { useRoutedProductCatalog } from '~/composables/useRoutedProductCatalog'
   import ProductFilter from '~/components/ProductFilter.vue'
   import { useGetCategories } from '~/composables/api/products/useGetCategories'
   import { useCartStore } from '~/stores/cartStore'
@@ -21,7 +21,7 @@
     setSort,
     changePage,
     retry,
-  } = await useProductCatalog()
+  } = await useRoutedProductCatalog()
 
   const handleAddToCart = async (product: Product) => {
     await cartStore.addItem(product)

@@ -35,7 +35,7 @@ registerHooks({
 const page = await loadSfc(new URL('../pages/products/[id].vue', import.meta.url))
 const components = Object.fromEntries(
   await Promise.all(
-    ['ProductReviews', 'ProductSections', 'BaseTabs', 'BaseAccordeon', 'BaseButton'].map(
+    ['ProductReviews', 'ProductSections', 'BaseTabs', 'BaseAccordion', 'BaseButton'].map(
       async (name) => [name, await loadSfc(new URL(`../components/${name}.vue`, import.meta.url))],
     ),
   ),

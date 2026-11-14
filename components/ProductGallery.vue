@@ -34,15 +34,15 @@
   type Point = { x: number; y: number }
   const pointers = new Map<number, Point>()
   let gesture: { points: Point[]; scale: number; scroll: Point } | null = null
-  let pendingScroll: Point | null = null
-  let scrollUpdate = 0
+  let pendingScrollPosition: Point | null = null
+  let scrollUpdateId = 0
   const clearGesture = () => {
-    const ids = [...pointers.keys()]
+    const pointerIds = [...pointers.keys()]
     pointers.clear()
     gesture = null
-    pendingScroll = null
-    scrollUpdate++
-    for (const id of ids) {
+    pendingScrollPosition = null
+    scrollUpdateId++
+    for (const id of pointerIds) {
       if (viewerViewport.value?.hasPointerCapture(id))
         viewerViewport.value.releasePointerCapture(id)
     }
@@ -62,30 +62,29 @@
         ? {
             points: [...pointers.values()].slice(0, 2),
             scale: scale.value,
-            scroll: pendingScroll || { x: viewport.scrollLeft, y: viewport.scrollTop },
+            scroll: pendingScrollPosition || { x: viewport.scrollLeft, y: viewport.scrollTop },
           }
         : null
   }
   const setScroll = (point: Point) => {
     const viewport = viewerViewport.value
     if (!viewport) return
-    // The canvas is sized as a percentage of this viewport in both axes.
-    pendingScroll = {
+    pendingScrollPosition = {
       x: Math.max(0, Math.min(viewport.clientWidth * (scale.value - 1), point.x)),
       y: Math.max(0, Math.min(viewport.clientHeight * (scale.value - 1), point.y)),
     }
-    const update = ++scrollUpdate
+    const updateId = ++scrollUpdateId
     void nextTick(() => {
-      if (update !== scrollUpdate || !viewerImage.value || !pendingScroll) return
+      if (updateId !== scrollUpdateId || !viewerImage.value || !pendingScrollPosition) return
       viewport.scrollLeft = Math.min(
         Math.max(0, viewport.scrollWidth - viewport.clientWidth),
-        pendingScroll.x,
+        pendingScrollPosition.x,
       )
       viewport.scrollTop = Math.min(
         Math.max(0, viewport.scrollHeight - viewport.clientHeight),
-        pendingScroll.y,
+        pendingScrollPosition.y,
       )
-      pendingScroll = null
+      pendingScrollPosition = null
     })
   }
   const startViewerPointer = (event: PointerEvent) => {
@@ -100,17 +99,17 @@
     event.preventDefault()
     pointers.set(event.pointerId, { x: event.clientX, y: event.clientY })
     const points = [...pointers.values()].slice(0, 2)
-    const initial = gesture.points
+    const startPoints = gesture.points
     if (points.length === 1) {
       if (scale.value > 1)
         setScroll({
-          x: gesture.scroll.x + initial[0].x - points[0].x,
-          y: gesture.scroll.y + initial[0].y - points[0].y,
+          x: gesture.scroll.x + startPoints[0].x - points[0].x,
+          y: gesture.scroll.y + startPoints[0].y - points[0].y,
         })
       return
     }
     const distance = (pair: Point[]) => Math.hypot(pair[1].x - pair[0].x, pair[1].y - pair[0].y)
-    const startDistance = distance(initial)
+    const startDistance = distance(startPoints)
     if (!startDistance) {
       rebaseGesture()
       return
@@ -120,12 +119,12 @@
       x: (pair[0].x + pair[1].x) / 2 - bounds.left,
       y: (pair[0].y + pair[1].y) / 2 - bounds.top,
     })
-    const start = midpoint(initial)
-    const current = midpoint(points)
+    const startMidpoint = midpoint(startPoints)
+    const currentMidpoint = midpoint(points)
     scale.value = Math.max(1, Math.min(4, (gesture.scale * distance(points)) / startDistance))
     setScroll({
-      x: ((gesture.scroll.x + start.x) * scale.value) / gesture.scale - current.x,
-      y: ((gesture.scroll.y + start.y) * scale.value) / gesture.scale - current.y,
+      x: ((gesture.scroll.x + startMidpoint.x) * scale.value) / gesture.scale - currentMidpoint.x,
+      y: ((gesture.scroll.y + startMidpoint.y) * scale.value) / gesture.scale - currentMidpoint.y,
     })
   }
   const endViewerPointer = (event: PointerEvent) => {
@@ -154,7 +153,6 @@
   }
   const openViewer = (image: string, event: MouseEvent, mobile = false) => {
     const instance = swiper.value
-    // Swiper exposes this runtime click guard, but omits it from its public typings.
     const swiperBlocksClick = instance && 'allowClick' in instance && instance.allowClick === false
     if (
       viewerImage.value ||
@@ -208,7 +206,7 @@
     pointerStart = null
   }
   const changeScale = (step: number) => {
-    const position = pendingScroll || {
+    const position = pendingScrollPosition || {
       x: viewerViewport.value?.scrollLeft || 0,
       y: viewerViewport.value?.scrollTop || 0,
     }

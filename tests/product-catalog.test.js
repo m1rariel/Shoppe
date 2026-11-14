@@ -22,10 +22,8 @@ import { renderToString } from '@vue/server-renderer'
 
 const nuxtPageURL = new URL('../node_modules/nuxt/dist/pages/runtime/page.js', import.meta.url).href
 
-// Keep Nuxt context and remote transport inside the test seam; Vue and routing are real.
 registerHooks({
   resolve(specifier, context, nextResolve) {
-    // Resolve the router from Nuxt, which can differ from the root package version.
     if (
       specifier === '#catalog-router' ||
       (specifier === 'vue-router' && context.parentURL?.startsWith('data:'))
@@ -63,9 +61,9 @@ registerHooks({
         shortCircuit: true,
       }
     }
-    if (specifier === '~/composables/api/products/useGetAllProducts') {
+    if (specifier === '~/composables/api/products/useGetProducts') {
       return {
-        url: 'data:text/javascript,export const useGetAllProducts = (options) => globalThis.catalogTest.fetch(options)',
+        url: 'data:text/javascript,export const useGetProducts = (options) => globalThis.catalogTest.fetch(options)',
         shortCircuit: true,
       }
     }
@@ -109,7 +107,8 @@ globalThis.catalogInjectedRoute = () =>
   hasInjectionContext()
     ? inject(pageRouteSymbol, globalThis.catalogTest.route)
     : globalThis.catalogTest.route
-const { useProductCatalog } = await import('../composables/useProductCatalog.ts')
+const { useRoutedProductCatalog: useProductCatalog } =
+  await import('../composables/useRoutedProductCatalog.ts')
 const items = (count, category = 'all') =>
   Array.from({ length: count }, (_, i) => ({
     id: i + 1,
@@ -327,7 +326,6 @@ test('SSR renders the bounded page and canonicalizes URL after an awaited initia
   const error = ref(null)
   globalThis.catalogTest = {
     router,
-    // Nuxt RouteProvider retains the initial page route props during SSR.
     route: { ...router.currentRoute.value },
     fetch: () =>
       Object.assign(
@@ -444,7 +442,6 @@ test('initial canonicalization lets async page mount through Nuxt RouteProvider 
   const replace = router.replace.bind(router)
   router.replace = (target) => {
     replacements++
-    // Bound a microtask loop so a broken initial render cannot starve the test runner.
     if (replacements > 10) return new Promise(() => {})
     return replace(target)
   }

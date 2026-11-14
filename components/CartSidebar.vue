@@ -4,8 +4,8 @@
   const cartStore = useCartStore()
   const panel = ref<HTMLElement | null>(null)
   const closeButton = ref<HTMLButtonElement | null>(null)
-  const leavingItems = ref(0)
-  const pendingLeaves = new Set<Element>()
+  const leavingItemCount = ref(0)
+  const leavingElements = new Set<Element>()
   let previousFocus: HTMLElement | null = null
   let previousOverflow: string | undefined
 
@@ -18,8 +18,8 @@
   }
   const syncOpen = async (open: boolean) => {
     if (!open) {
-      pendingLeaves.clear()
-      leavingItems.value = 0
+      leavingElements.clear()
+      leavingItemCount.value = 0
       return restorePage()
     }
     if (previousOverflow === undefined) {
@@ -32,15 +32,15 @@
   }
 
   const prepareItemLeave = (element: Element) => {
-    pendingLeaves.add(element)
-    leavingItems.value = pendingLeaves.size
+    leavingElements.add(element)
+    leavingItemCount.value = leavingElements.size
     const hadFocus = element.contains(document.activeElement)
     ;(element as HTMLElement).inert = true
     if (hadFocus) closeButton.value?.focus()
   }
   const finishItemLeave = (element: Element) => {
-    pendingLeaves.delete(element)
-    leavingItems.value = pendingLeaves.size
+    leavingElements.delete(element)
+    leavingItemCount.value = leavingElements.size
   }
   const prepareItemEnter = (element: Element) => {
     ;(element as HTMLElement).inert = false
@@ -137,7 +137,10 @@
           Updating your bag…
         </p>
 
-        <p v-if="cartStore.items.length === 0 && leavingItems === 0" class="cart-sidebar__empty">
+        <p
+          v-if="cartStore.items.length === 0 && leavingItemCount === 0"
+          class="cart-sidebar__empty"
+        >
           Your shopping bag is empty
         </p>
 
