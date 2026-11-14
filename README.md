@@ -22,11 +22,6 @@ bun install
 
 ## Development Server
 
-Copy `.env.example` to `.env` and set `NUXT_PUBLIC_API_BASE_URL` to the product API base URL.
-For GitHub Actions builds and GitHub Pages deployment, add the same public API URL as the repository variable `NUXT_PUBLIC_API_BASE_URL` under **Settings → Secrets and variables → Actions → Variables**. Both workflows check this variable before building.
-
-Start the development server on `http://localhost:3000`:
-
 ```bash
 # npm
 npm run dev
