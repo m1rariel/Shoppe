@@ -2,87 +2,137 @@
   import FiltersIcon from '@/assets/icons/filters-icon.svg'
   import SearchIcon from '@/assets/icons/search-icon-filter.svg'
   import CloseIcon from '@/assets/icons/close-icon.svg'
-  import { onBeforeUnmount, ref } from '#imports'
+  import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+  import { useIsMobile } from '#imports'
   import { ProductSort } from '~/types/api'
 
-  type ProductFilters = {
-    search: string
-    category: string
-    sortBy: ProductSort | ''
-    onSale: boolean
-    inStock: boolean
-  }
+  import type { ProductFilters } from '~/types/catalog'
 
-  const props = defineProps<{
+  defineProps<{
     filters: ProductFilters
+    searchDraft: string
     categories: string[]
   }>()
 
   const emit = defineEmits<{
-    (event: 'update:filters', filters: ProductFilters): void
+    search: [value: string | number | undefined]
+    category: [value: string]
+    sort: [value: ProductFilters['sortBy']]
   }>()
 
   const isOpen = ref(false)
+  const isMobile = useIsMobile()
+  const trigger = ref<HTMLButtonElement | null>(null)
+  const panel = ref<HTMLDivElement | null>(null)
+  const searchInput = ref<HTMLInputElement | null>(null)
+  let previousOverflow: string | undefined
 
-  const searchValue = ref(props.filters.search)
-
-  let searchTimeout: ReturnType<typeof setTimeout> | null = null
-
-  const updateSearch = (value: string | number | undefined) => {
-    searchValue.value = String(value || '')
-
-    if (searchTimeout) {
-      clearTimeout(searchTimeout)
-    }
-
-    searchTimeout = setTimeout(() => {
-      updateFilter('search', searchValue.value)
-    }, 500)
+  const closePanel = () => {
+    isOpen.value = false
+    if (isMobile.value) trigger.value?.focus()
   }
-
-  onBeforeUnmount(() => {
-    if (searchTimeout) {
-      clearTimeout(searchTimeout)
+  const openPanel = async () => {
+    isOpen.value = true
+    await nextTick()
+    searchInput.value?.focus()
+  }
+  const handleKeydown = (event: KeyboardEvent) => {
+    if (!isOpen.value || !isMobile.value) return
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      closePanel()
+    } else if (event.key === 'Tab') {
+      const controls = panel.value?.querySelectorAll<HTMLElement>(
+        'button:not(:disabled), input:not(:disabled), select:not(:disabled)',
+      )
+      if (!controls?.length) return
+      const first = controls[0]
+      const last = controls[controls.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
     }
+  }
+  const restoreScroll = () => {
+    if (previousOverflow !== undefined) {
+      document.body.style.overflow = previousOverflow
+      previousOverflow = undefined
+    }
+  }
+  watch(isOpen, (open) => {
+    if (open) {
+      previousOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+    } else restoreScroll()
   })
-
-  const updateFilter = <Key extends keyof ProductFilters>(key: Key, value: ProductFilters[Key]) => {
-    emit('update:filters', {
-      ...props.filters,
-      [key]: value,
-    })
-  }
+  watch(isMobile, (mobile) => {
+    if (!mobile) isOpen.value = false
+  })
+  onBeforeUnmount(restoreScroll)
 </script>
 <template>
   <aside class="product-filters">
-    <button class="product-filters__mobile-toggle" type="button" @click="isOpen = true">
-      <FiltersIcon class="product-filters__mobile-icon" aria-hidden="true" />
+    <button
+      ref="trigger"
+      class="product-filters__mobile-toggle"
+      type="button"
+      :aria-expanded="isOpen"
+      aria-controls="catalog-filters"
+      @click="openPanel"
+    >
+      <FiltersIcon class="product-filters__mobile-icon" viewBox="0 0 18 18" aria-hidden="true" />
       <span class="product-filters__title">Filters</span>
     </button>
 
-    <div class="product-filters__controls" :class="{ 'product-filters__controls--open': isOpen }">
+    <div
+      id="catalog-filters"
+      ref="panel"
+      class="product-filters__controls"
+      :class="{ 'product-filters__controls--open': isOpen }"
+      :role="isOpen && isMobile ? 'dialog' : undefined"
+      :aria-modal="isOpen && isMobile ? true : undefined"
+      aria-label="Product filters"
+      @keydown="handleKeydown"
+    >
       <div class="product-filters__mobile-header">
         <h2 class="product-filters__mobile-heading">Filters</h2>
 
-        <button class="product-filters__close" type="button" @click="isOpen = false">
-          <CloseIcon width="16px" height="16px" />
+        <button
+          class="product-filters__close"
+          type="button"
+          aria-label="Close filters"
+          @click="closePanel"
+        >
+          <CloseIcon width="16px" height="16px" aria-hidden="true" />
         </button>
       </div>
       <div class="product-filters__search">
-        <BaseInput
+        <input
+          ref="searchInput"
+          type="search"
+          aria-label="Search products"
           class="product-filters__input"
           placeholder="Search..."
-          :model-value="searchValue"
-          @update:model-value="updateSearch"
+          :value="searchDraft"
+          @input="emit('search', ($event.target as HTMLInputElement).value)"
         />
 
-        <SearchIcon class="product-filters__search-icon" width="19px" height="19px" />
+        <SearchIcon
+          class="product-filters__search-icon"
+          viewBox="0 0 19.7597 19.7485"
+          aria-hidden="true"
+        />
       </div>
       <div class="product-filters__select-inner">
         <div class="product-filters__select">
           <select
+            aria-label="Category"
             :value="filters.category"
-            @change="updateFilter('category', ($event.target as HTMLSelectElement).value)"
+            @change="emit('category', ($event.target as HTMLSelectElement).value)"
           >
             <option value="">Category</option>
             <option v-for="category in categories" :key="category" :value="category">
@@ -92,10 +142,9 @@
         </div>
         <div class="product-filters__select">
           <select
+            aria-label="Sort products"
             :value="filters.sortBy"
-            @change="
-              updateFilter('sortBy', ($event.target as HTMLSelectElement).value as ProductSort | '')
-            "
+            @change="emit('sort', ($event.target as HTMLSelectElement).value as ProductSort | '')"
           >
             <option value="">Sort By</option>
             <option :value="ProductSort.PriceAsc">Цена: от меньшего к большему</option>
@@ -109,7 +158,12 @@
           <p class="product-filters__state-title">On sale</p>
           <div class="product-filters__state-toggle">
             <label class="switch">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                aria-label="On sale"
+                disabled
+                aria-describedby="unavailable-product-filters"
+              />
               <span></span>
             </label>
           </div>
@@ -120,12 +174,18 @@
           <p class="product-filters__state-title">In stock</p>
           <div class="product-filters__state-toggle">
             <label class="switch">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                aria-label="In stock"
+                disabled
+                aria-describedby="unavailable-product-filters"
+              />
               <span></span>
             </label>
           </div>
         </div>
       </div>
+      <p id="unavailable-product-filters">Sale and stock filters are currently unavailable.</p>
     </div>
   </aside>
 </template>
@@ -137,7 +197,7 @@
   }
 
   .product-filters__state-inner + .product-filters__state-inner {
-    margin-top: 32px;
+    margin-top: 42px;
   }
 
   .product-filters__state {
@@ -157,9 +217,15 @@
   .switch {
     position: relative;
     display: inline-flex;
-    width: 48px;
-    height: 26px;
-    cursor: pointer;
+    width: 33.333px;
+    height: 20px;
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    @media (width < $breakpoints-m) {
+      width: 44px;
+      height: 24px;
+    }
   }
 
   .switch input {
@@ -173,19 +239,24 @@
     inset: 0;
     background-color: $color-dark-gray;
     border-radius: 999px;
-    transition: background-color 0.2s ease;
   }
 
   .switch span::before {
     position: absolute;
-    top: 4px;
-    left: 4px;
-    width: 18px;
-    height: 18px;
+    top: 3.333px;
+    left: 3.333px;
+    width: 13.333px;
+    height: 13.333px;
     content: '';
     background-color: $color-white;
     border-radius: 50%;
-    transition: transform 0.2s ease;
+
+    @media (width < $breakpoints-m) {
+      top: 4px;
+      left: 4px;
+      width: 16px;
+      height: 16px;
+    }
   }
 
   .product-filters__mobile-header {
@@ -194,25 +265,37 @@
 
   .product-filters__controls {
     display: none;
+
+    @media (width >= $breakpoints-m) {
+      display: block;
+    }
   }
 
   .product-filters__controls--open {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: block;
-    padding: 20px;
-    overflow-y: auto;
-    background-color: $color-white;
+    @media (width < $breakpoints-m) {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: block;
+      padding: max(4px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      background-color: $color-white;
+    }
   }
 
   .product-filters__controls--open .product-filters__mobile-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @media (width < $breakpoints-m) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 40.5px;
+      margin-bottom: 27.5px;
+    }
   }
 
   .product-filters__mobile-heading {
+    margin: 0;
     font-family: $font-accent;
     font-size: 25px;
     font-weight: $font-weight-regular;
@@ -221,6 +304,14 @@
   }
 
   .product-filters__close {
+    position: absolute;
+    top: max(2px, env(safe-area-inset-top));
+    right: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
     padding: 0;
     font-size: 36px;
     line-height: 1;
@@ -240,29 +331,48 @@
 
   .product-filters__mobile-toggle {
     display: inline-flex;
-    gap: 22px;
+    gap: 8px;
     align-items: center;
     padding: 0;
     font-family: $font-main;
-    font-size: 26px;
+    font-size: 12px;
     font-weight: $font-weight-regular;
-    line-height: 34px;
+    line-height: 20px;
     color: $color-accent;
     cursor: pointer;
     background: none;
     border: 0;
+
+    @media (width >= $breakpoints-m) {
+      display: none;
+    }
+  }
+
+  .product-filters__mobile-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
   }
 
   .product-filters__select-inner {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin-top: 40px;
+    margin-top: 39px;
   }
 
   .product-filters__input {
-    padding-bottom: 11px;
-    margin-top: 41px;
+    display: block;
+    width: 100%;
+    height: 35px;
+    padding: 2px 32px 10px 0;
+    margin: 0;
+    font-family: $font-main;
+    font-size: 14px;
+    line-height: 22px;
+    color: $color-dark-gray;
+    background: transparent;
+    border: none;
     border-bottom: 1px solid $color-dark-gray;
   }
 
@@ -272,10 +382,11 @@
 
   .product-filters__search-icon {
     position: absolute;
+    top: 0;
     right: 0;
-    bottom: 12px;
-    width: 20px;
-    height: 20px;
+    width: 19px;
+    height: 19px;
+    pointer-events: none;
   }
 
   .product-filters__select {
@@ -285,7 +396,7 @@
 
   .product-filters__select select {
     width: 100%;
-    height: 54px;
+    height: 53px;
     padding: 0 44px 0 12px;
     font-family: $font-main;
     font-size: 14px;
@@ -293,7 +404,7 @@
     color: $color-black;
     appearance: none;
     background-color: $color-white;
-    border: 1px solid $color-light-gray;
+    border: 1px solid $color-gray;
     border-radius: 4px;
   }
 
@@ -310,13 +421,10 @@
     transform: translateY(-65%) rotate(45deg);
   }
 
-  @media (min-width: $breakpoints-m) {
-    .product-filters__mobile-toggle {
-      display: none;
-    }
-
-    .product-filters__controls {
-      display: block;
-    }
+  #unavailable-product-filters {
+    margin-top: 24px;
+    font-size: 12px;
+    line-height: 20px;
+    color: $color-dark-gray;
   }
 </style>
