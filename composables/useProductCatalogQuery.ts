@@ -15,6 +15,31 @@ const parsePage = (value: LocationQuery[string]) => {
 const parseSort = (value: string): ProductSort | '' =>
   Object.values(ProductSort).includes(value as ProductSort) ? (value as ProductSort) : ''
 
+function getNormalizedQuery(query: LocationQuery, totalPages: number, dataReady: boolean) {
+  const normalizedQuery = { ...query }
+  const rawPage = queryValue(query.page)
+  const page = parsePage(query.page)
+  let needsNormalization = false
+
+  if (query.page !== undefined && (!Number.isInteger(Number(rawPage)) || Number(rawPage) < 1)) {
+    normalizedQuery.page = '1'
+    needsNormalization = true
+  }
+
+  if (queryValue(query.sortBy) && !parseSort(queryValue(query.sortBy))) {
+    delete normalizedQuery.sortBy
+    needsNormalization = true
+  }
+
+  const lastPage = Math.max(1, totalPages)
+  if (dataReady && page > lastPage) {
+    normalizedQuery.page = String(lastPage)
+    needsNormalization = true
+  }
+
+  return needsNormalization ? normalizedQuery : undefined
+}
+
 export const useProductCatalogQuery = () => {
   const route = useRoute()
   const router = useRouter()
@@ -36,16 +61,20 @@ export const useProductCatalogQuery = () => {
     searchTimer = undefined
   }
 
+  const createLocation = (query: LocationQueryRaw) => ({
+    path: route.path,
+    hash: route.hash,
+    query,
+  })
+  const isDuplicateNavigation = (fullPath: string) =>
+    (!desiredQuery && fullPath === router.currentRoute.value.fullPath) ||
+    fullPath === router.resolve(createLocation(desiredQuery || route.query)).fullPath
+
   const navigate = (query: LocationQueryRaw, replace = false) => {
-    const target = { path: route.path, hash: route.hash, query }
+    const target = createLocation(query)
     const fullPath = router.resolve(target).fullPath
-    if (
-      (!desiredQuery && fullPath === router.currentRoute.value.fullPath) ||
-      fullPath ===
-        router.resolve({ path: route.path, hash: route.hash, query: desiredQuery || route.query })
-          .fullPath
-    )
-      return
+    if (isDuplicateNavigation(fullPath)) return
+
     const id = ++navigationId
     desiredQuery = query
     navigating.value = true
@@ -78,6 +107,7 @@ export const useProductCatalogQuery = () => {
     },
     { flush: 'sync' },
   )
+
   onScopeDispose(cancelSearch)
 
   const setFilter = (key: keyof ProductFilters, value: string, replace = false) => {
@@ -99,6 +129,7 @@ export const useProductCatalogQuery = () => {
 
   const setCategory = (value: string) => setFilter('category', value)
   const setSort = (value: ProductFilters['sortBy']) => setFilter('sortBy', value)
+
   const changePage = (page: number) => {
     const query = desiredQuery || route.query
     if (parsePage(query.page as LocationQuery[string]) === page) return
@@ -110,27 +141,10 @@ export const useProductCatalogQuery = () => {
   const bindPagination = (totalPages: ComputedRef<number>, dataReady: ComputedRef<boolean>) => {
     const normalizeQuery = () => {
       if (navigating.value) return pendingNavigation
-      const query = { ...route.query }
-      let needsNormalization = false
-      const rawPage = queryValue(query.page)
-      const page = parsePage(query.page)
-      if (query.page !== undefined && (!Number.isInteger(Number(rawPage)) || Number(rawPage) < 1)) {
-        query.page = '1'
-        needsNormalization = true
-      }
-      if (queryValue(query.sortBy) && !parseSort(queryValue(query.sortBy))) {
-        delete query.sortBy
-        needsNormalization = true
-      }
-      if (dataReady.value) {
-        const lastPage = Math.max(1, totalPages.value)
-        if (page > lastPage) {
-          query.page = String(lastPage)
-          needsNormalization = true
-        }
-      }
-      if (needsNormalization) return navigate(query, true)
+      const normalizedQuery = getNormalizedQuery(route.query, totalPages.value, dataReady.value)
+      if (normalizedQuery) return navigate(normalizedQuery, true)
     }
+
     watch(
       [() => route.query, totalPages, dataReady, navigating],
       () => {

@@ -268,6 +268,47 @@ test('invalid pages and sort normalize with replace and repeated queries read fi
   assert.deepEqual(c.visiblePages.value, [])
 })
 
+test('normalization preserves first-value parsing, foreign queries, hash and history', async (t) => {
+  const { catalog, router } = await setup(t, '/products?foreign=keep#catalog')
+  let replacements = 0
+  const replace = router.replace.bind(router)
+  router.replace = (target) => {
+    replacements++
+    return replace(target)
+  }
+
+  const validUrl =
+    '/products?page=2&page=99&sortBy=price-plus&sortBy=unknown&foreign=a&foreign=b#catalog'
+  await router.push(validUrl)
+  await settle()
+  assert.equal(catalog.currentPage.value, 2)
+  assert.equal(catalog.filters.value.sortBy, 'price-plus')
+  assert.deepEqual(router.currentRoute.value.query.page, ['2', '99'])
+  assert.equal(replacements, 0)
+
+  await router.push(
+    '/products?page=99&page=2&sortBy=unknown&sortBy=price-plus&search=Item&search=ignored&foreign=a&foreign=b#catalog',
+  )
+  await settle()
+  assert.equal(replacements, 1)
+  assert.equal(catalog.currentPage.value, 4)
+  assert.equal(catalog.filters.value.sortBy, '')
+  assert.equal(catalog.filters.value.search, 'Item')
+  assert.equal(router.currentRoute.value.query.page, '4')
+  assert.equal(router.currentRoute.value.query.sortBy, undefined)
+  assert.deepEqual(router.currentRoute.value.query.search, ['Item', 'ignored'])
+  assert.deepEqual(router.currentRoute.value.query.foreign, ['a', 'b'])
+  assert.equal(router.currentRoute.value.hash, '#catalog')
+
+  router.back()
+  await settle()
+  assert.equal(router.currentRoute.value.fullPath, validUrl)
+  assert.equal(replacements, 1)
+  router.back()
+  await settle()
+  assert.equal(router.currentRoute.value.fullPath, '/products?foreign=keep#catalog')
+})
+
 test('upper page clamp waits for successful data matching the new category', async (t) => {
   const {
     catalog: c,
