@@ -1,22 +1,34 @@
 <script setup lang="ts">
+  import { ref, useAttrs } from 'vue'
+  import type { InputHTMLAttributes } from 'vue'
+
+  defineOptions({ inheritAttrs: false })
   defineProps<{
     error?: boolean
     errorMessage?: string
+    errorId?: string
     placeholder?: string
     disabled?: boolean
   }>()
   const modelValue = defineModel<string | number>()
+  const input = ref<HTMLInputElement | null>(null)
+  const attrs = useAttrs() as InputHTMLAttributes
+
+  defineExpose({ focus: () => input.value?.focus() })
 </script>
 
 <template>
-  <div class="base-input">
+  <div class="base-input" :class="attrs.class" :style="attrs.style">
     <input
+      ref="input"
       v-model="modelValue"
+      v-bind="{ ...attrs, class: undefined, style: undefined }"
+      :aria-invalid="error || attrs['aria-invalid'] || undefined"
       class="base-input__field"
       :placeholder="placeholder"
       :disabled="disabled"
     />
-    <span v-if="error" class="base-input__error"> {{ errorMessage }}</span>
+    <span v-if="error" :id="errorId" class="base-input__error"> {{ errorMessage }}</span>
   </div>
 </template>
 

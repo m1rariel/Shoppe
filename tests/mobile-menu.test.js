@@ -1,9 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { registerHooks, stripTypeScriptTypes } from 'node:module'
-import { readFileSync } from 'node:fs'
-import { compileScript, parse } from '@vue/compiler-sfc'
-import { createRenderer, h, markRaw, nextTick, reactive } from 'vue'
+import { registerHooks } from 'node:module'
+import { h, nextTick, reactive } from 'vue'
+import { loadSfc, mountComponent, observeTree } from './helpers/sfc-runtime.js'
 
 registerHooks({
   resolve(specifier, context, nextResolve) {
@@ -17,6 +16,16 @@ registerHooks({
         url: 'data:text/javascript,export const useCartStore = () => globalThis.menuMocks.cart',
         shortCircuit: true,
       }
+    if (specifier === '~/stores/auth')
+      return {
+        url: 'data:text/javascript,export const useAuthStore = () => globalThis.menuMocks.auth',
+        shortCircuit: true,
+      }
+    if (specifier === '~/composables/useNotification')
+      return {
+        url: 'data:text/javascript,export const useNotification = () => ({ showNotification: (payload) => globalThis.menuMocks.notifications.push(payload) })',
+        shortCircuit: true,
+      }
     if (specifier.endsWith('.svg'))
       return {
         url: 'data:text/javascript,export default { render: () => null }',
@@ -27,70 +36,9 @@ registerHooks({
       context.parentURL?.startsWith('data:') ? { ...context, parentURL: import.meta.url } : context,
     )
   },
-  load(url, context, nextLoad) {
-    if (url.endsWith('.ts'))
-      return {
-        format: 'module',
-        source: stripTypeScriptTypes(readFileSync(new URL(url), 'utf8'), { mode: 'transform' }),
-        shortCircuit: true,
-      }
-    return nextLoad(url, context)
-  },
 })
-const { descriptor } = parse(
-  readFileSync(new URL('../components/MobileMenu.vue', import.meta.url), 'utf8'),
-)
-const compiled = compileScript(descriptor, {
-  id: 'mobile-menu-test',
-  inlineTemplate: true,
-  templateOptions: { compilerOptions: { hoistStatic: false } },
-})
-const { default: component } = await import(
-  `data:text/javascript;base64,${Buffer.from(stripTypeScriptTypes(compiled.content, { mode: 'transform' })).toString('base64')}`
-)
-const walk = (node) => [node, ...node.children.flatMap(walk)]
-const node = (type, text = '') =>
-  markRaw({
-    type,
-    tagName: type.toUpperCase(),
-    text,
-    props: {},
-    children: [],
-    addEventListener() {},
-    focus() {
-      document.activeElement = this
-    },
-    querySelectorAll() {
-      return walk(this).filter(
-        (child) => ['a', 'button', 'input'].includes(child.type) && !child.props.disabled,
-      )
-    },
-  })
-const renderer = createRenderer({
-  createElement: (type) => node(type),
-  createText: (text) => node('text', text),
-  createComment: (text) => node('comment', text),
-  insert(child, parent, anchor) {
-    child.parent = parent
-    const index = anchor ? parent.children.indexOf(anchor) : -1
-    if (index < 0) parent.children.push(child)
-    else parent.children.splice(index, 0, child)
-  },
-  remove(child) {
-    child.parent.children.splice(child.parent.children.indexOf(child), 1)
-  },
-  setElementText(element, text) {
-    element.text = text
-  },
-  setText(element, text) {
-    element.text = text
-  },
-  patchProp(element, key, previous, next) {
-    element.props[key] = next
-  },
-  parentNode: (element) => element.parent,
-  nextSibling: () => null,
-})
+const component = await loadSfc(new URL('../components/MobileMenu.vue', import.meta.url))
+
 async function setup(t, props = {}) {
   const listeners = new Set()
   globalThis.window = {
@@ -112,41 +60,64 @@ async function setup(t, props = {}) {
       this.isSidebarOpen = !this.isSidebarOpen
     },
   })
-  globalThis.menuMocks = { route, cart, router: { push: (to) => navigations.push(to) } }
-  const root = node('root')
-  const app = renderer.createApp(component, props)
-  app.component('NuxtLink', {
-    props: ['to'],
-    setup:
-      (props, { slots }) =>
-      () =>
-        h('a', { href: props.to }, slots.default?.()),
+  const notifications = []
+  const auth = reactive({
+    isAuthenticated: false,
+    logout() {
+      this.isAuthenticated = false
+    },
   })
-  app.component('BaseButton', {
-    setup:
-      (_, { slots }) =>
-      () =>
-        h('button', { type: 'button' }, slots.default?.()),
-  })
-  app.mount(root)
-  await nextTick()
-  let mounted = true
-  const unmount = () => {
-    if (mounted) app.unmount()
-    mounted = false
+  globalThis.menuMocks = {
+    route,
+    cart,
+    auth,
+    notifications,
+    router: { push: (to) => navigations.push(to) },
   }
+  const view = mountComponent(t, component, {
+    props,
+    components: {
+      NuxtLink: {
+        props: ['to'],
+        setup:
+          (props, { slots }) =>
+          () =>
+            h('a', { href: props.to }, slots.default?.()),
+      },
+      BaseButton: {
+        setup:
+          (_, { slots }) =>
+          () =>
+            h('button', { type: 'button' }, slots.default?.()),
+      },
+    },
+    decorateNode(element) {
+      element.tagName = element.type.toUpperCase()
+      element.addEventListener = () => {}
+      element.focus = () => {
+        document.activeElement = element
+      }
+      element.querySelectorAll = () =>
+        observeTree(element).all(
+          (child) => ['a', 'button', 'input'].includes(child.type) && !child.props.disabled,
+        )
+    },
+  })
+  await nextTick()
+  const { find, unmount } = view
   t.after(() => {
     unmount()
     delete globalThis.window
     delete globalThis.document
     delete globalThis.menuMocks
   })
-  const find = (predicate) => walk(root).find(predicate)
   const trigger = find((n) => n.props['aria-controls'] === 'mobile-navigation')
   return {
     find,
     trigger,
     cart,
+    auth,
+    notifications,
     route,
     navigations,
     unmount,
@@ -237,13 +208,34 @@ test('cart opening closes menu without restoring focus over the cart', async (t)
   assert.equal(view.trigger.props['aria-expanded'], false)
 })
 
-test('account links and logo retain existing destinations and close the menu', async (t) => {
+test('account and logo links close the menu; guest has no logout action', async (t) => {
   const view = await setup(t)
-  for (const href of ['/#account', '/#logout', '/']) {
+  for (const href of ['/account', '/']) {
     await view.open()
     const link = view.find((n) => n.type === 'a' && n.props.href === href)
     link.props.onClick()
     await nextTick()
     assert.equal(view.trigger.props['aria-expanded'], false)
   }
+  assert.equal(
+    view.find((n) => n.type === 'span' && n.text === 'Logout'),
+    undefined,
+  )
+})
+
+test('authenticated logout retains URL and cart, closes menu and restores focus and scroll', async (t) => {
+  const view = await setup(t)
+  view.auth.isAuthenticated = true
+  await view.open()
+  const label = view.find((n) => n.type === 'span' && n.text === 'Logout')
+  label.parent.props.onClick()
+  await nextTick()
+  assert.equal(view.auth.isAuthenticated, false)
+  assert.equal(view.route.fullPath, '/')
+  assert.deepEqual(view.navigations, [])
+  assert.equal(view.cart.totalItems, 2)
+  assert.equal(document.activeElement, view.trigger)
+  assert.equal(document.body.style.overflow, 'auto')
+  assert.equal(view.trigger.props['aria-expanded'], false)
+  assert.deepEqual(view.notifications, [{ message: 'Вы вышли из аккаунта' }])
 })

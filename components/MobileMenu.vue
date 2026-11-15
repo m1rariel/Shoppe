@@ -2,6 +2,8 @@
   import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
   import { useIsMobile, useRoute, useRouter } from '#imports'
   import { useCartStore } from '~/stores/cartStore'
+  import { useAuthStore } from '~/stores/auth'
+  import { useNotification } from '~/composables/useNotification'
   import StoreIcon from '@/assets/icons/shop-icon.svg'
   import OutIcon from '@/assets/icons/out-icon.svg'
   import PeopleIcon from '@/assets/icons/people-icon.svg'
@@ -16,15 +18,9 @@
     { label: 'Terms Of Services', to: '/#terms' },
     { label: 'Shipping And Returns', to: '/#shipping-and-returns' },
   ]
-  const menuActionLinks = [
-    {
-      icon: PeopleIcon,
-      label: 'My account',
-      to: '/#account',
-    },
-    { icon: OutIcon, label: 'Logout', to: '/#logout' },
-  ]
   const cartStore = useCartStore()
+  const authStore = useAuthStore()
+  const { showNotification } = useNotification()
   defineProps<{ hideSearch?: boolean }>()
   const isMenuOpen = ref(false)
   const searchDraft = ref('')
@@ -55,6 +51,12 @@
     await nextTick()
     if (isMenuOpen.value) searchInput.value?.focus()
   }
+  const logout = () => {
+    authStore.logout()
+    showNotification({ message: 'Вы вышли из аккаунта' })
+    closeMenu()
+  }
+
   const openCart = () => {
     closeMenu(false)
     cartStore.toggleSidebar()
@@ -191,16 +193,18 @@
           <div class="mobile-menu__footer-inner">
             <span aria-hidden="true" class="mobile-menu__footer-innner__divider"></span>
             <nav class="mobile-menu__footer-inner__actions" aria-label="Account navigation">
-              <NuxtLink
-                v-for="link in menuActionLinks"
-                :key="link.label"
-                :to="link.to"
-                class="mobile-menu__footer-link"
-                @click="closeMenu()"
-              >
-                <component :is="link.icon" class="mobile-menu__footer-icon" aria-hidden="true" />
-                <span>{{ link.label }}</span>
+              <NuxtLink to="/account" class="mobile-menu__footer-link" @click="closeMenu()">
+                <PeopleIcon class="mobile-menu__footer-icon" aria-hidden="true" />
+                <span>My account</span>
               </NuxtLink>
+              <BaseButton
+                v-if="authStore.isAuthenticated"
+                class="mobile-menu__footer-link"
+                @click="logout"
+              >
+                <OutIcon class="mobile-menu__footer-icon" aria-hidden="true" />
+                <span>Logout</span>
+              </BaseButton>
             </nav>
           </div>
         </footer>

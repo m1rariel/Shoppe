@@ -3,16 +3,32 @@
   import Swiper from 'swiper'
   import { Navigation, Pagination } from 'swiper/modules'
   import { useGetRandomPhotos } from '@/composables/useGetRandomPhotos'
+  import { homeSliderFallbackPhotos } from '@/utils/homeSliderPhotos'
   import 'swiper/css'
   import 'swiper/css/navigation'
   import 'swiper/css/pagination'
 
   const { data: photos } = await useGetRandomPhotos(10)
   const swiper = ref(null)
+  const sliderElement = ref(null)
+
+  const failedPhotoUrls = ref(new Set())
 
   const imageUrls = computed(() => {
-    return photos.value?.map((photo) => photo.download_url) ?? []
+    const urls = photos.value?.length
+      ? photos.value.map((photo) => photo.download_url)
+      : homeSliderFallbackPhotos
+
+    return urls.map((url, index) =>
+      failedPhotoUrls.value.has(url) ? homeSliderFallbackPhotos[index] : url,
+    )
   })
+
+  const handleImageError = (url, index) => {
+    if (url === homeSliderFallbackPhotos[index] || failedPhotoUrls.value.has(url)) return
+
+    failedPhotoUrls.value.add(url)
+  }
 
   watch(imageUrls, async () => {
     await nextTick()
@@ -20,6 +36,11 @@
   })
 
   onMounted(() => {
+    sliderElement.value.querySelectorAll('img').forEach((image, index) => {
+      if (image.complete && image.naturalWidth === 0)
+        handleImageError(imageUrls.value[index], index)
+    })
+
     swiper.value = new Swiper('.swiper', {
       modules: [Navigation, Pagination],
       slidesPerView: 1,
@@ -36,10 +57,16 @@
 
 <template>
   <div class="home-slider container">
-    <div class="swiper">
+    <div ref="sliderElement" class="swiper">
       <div class="swiper-wrapper">
-        <div v-for="url in imageUrls" :key="url" class="swiper-slide">
-          <img :src="url" alt="Slide Photo" class="home-slider__image" loading="lazy" />
+        <div v-for="(url, index) in imageUrls" :key="index" class="swiper-slide">
+          <img
+            :src="url"
+            alt="Slide Photo"
+            class="home-slider__image"
+            loading="lazy"
+            @error="handleImageError(url, index)"
+          />
           <div class="swiper-lazy-preloader"></div>
           <TextBlockSlider class="home-slider__text" />
         </div>
