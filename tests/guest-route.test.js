@@ -10,7 +10,7 @@ registerHooks({
       '#imports':
         'export const defineNuxtRouteMiddleware = (middleware) => middleware; export const navigateTo = (to) => globalThis.guestMocks.navigateTo(to)',
       'nuxt/app':
-        'export const useCookie = () => globalThis.guestMocks.cookie; export const useRuntimeConfig = () => ({ public: { apiBaseUrl: "https://api.example" } })',
+        'export const useCookie = () => globalThis.guestMocks.cookie; export const refreshCookie = () => {}; export const useRuntimeConfig = () => ({ public: { apiBaseUrl: "https://api.example" } })',
     }
     if (mocks[specifier])
       return { url: `data:text/javascript,${mocks[specifier]}`, shortCircuit: true }

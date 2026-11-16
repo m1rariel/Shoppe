@@ -144,6 +144,78 @@ test('only account declares the guest route middleware', (t) => {
   assert.equal(resetView.mocks.pageMeta, undefined)
 })
 
+test('sign in fields keep accessible names when placeholder hints are replaced by input', async (t) => {
+  const view = setup(t)
+
+  for (const [name, label] of [
+    ['username', 'Username'],
+    ['password', 'Password'],
+  ]) {
+    assert.equal(view.field(name).props.placeholder, label)
+    assert.equal(view.field(name).props['aria-label'], label)
+    await view.input(name, 'entered value')
+    assert.equal(view.field(name).value, 'entered value')
+    assert.equal(view.field(name).props['aria-label'], label)
+  }
+
+  assert.equal(
+    view.find((node) => node.type === 'label' && node.props.for?.startsWith('account-')),
+    undefined,
+  )
+  assert.ok(view.find((node) => node.type === 'a' && node.props.href === '/reset-password'))
+})
+
+test('Remember me defaults off and snapshots the selected choice for each submission', async (t) => {
+  const view = setup(t)
+  const checkbox = () => view.field('remember-me')
+  assert.equal(checkbox().props.type, 'checkbox')
+  assert.equal(checkbox().checked, false)
+  assert.match(
+    checkbox()
+      .parent.children.map((node) => node.text)
+      .join(' '),
+    /Remember me/,
+  )
+
+  await view.fillCredentials()
+  let pending = view.pendingLogin()
+  await view.submit()
+  assert.equal(view.calls[0][3], false)
+  checkbox().props['onUpdate:modelValue'](true)
+  await nextTick()
+  assert.equal(view.calls[0][3], false)
+  pending.reject({ statusCode: 401 })
+  await settle()
+
+  pending = view.pendingLogin()
+  await view.submit()
+  assert.equal(view.calls[1][3], true)
+  pending.resolve()
+  await settle()
+})
+
+test('Username clear empties the input, restores focus and preserves validation without submitting', async (t) => {
+  const view = setup(t)
+  const clear = () => view.find((node) => node.props['aria-label'] === 'Clear Username')
+  assert.equal(clear(), undefined)
+  await view.fillCredentials()
+  assert.equal(clear().props.type, 'button')
+  assert.equal(view.all((node) => node.props['aria-label']?.startsWith('Clear ')).length, 1)
+  clear().props.onClick()
+  await nextTick()
+  assert.equal(view.field('username').value, '')
+  assert.equal(view.field('username').props.placeholder, 'Username')
+  assert.equal(view.focused(), view.field('username'))
+  assert.equal(clear(), undefined)
+  assert.equal(view.calls.length, 0)
+  await view.submit()
+  assert.equal(view.calls.length, 0)
+  assert.equal(view.field('username').props['aria-invalid'], true)
+  assert.equal(view.focused(), view.field('username'))
+  await view.input('username', 'new user')
+  assert.ok(clear())
+})
+
 test('sign in validates first invalid input and submits trimmed username with unchanged password', async (t) => {
   const view = setup(t)
   assert.equal(view.field('username').props.autocomplete, 'username')
@@ -153,6 +225,8 @@ test('sign in validates first invalid input and submits trimmed username with un
   assert.equal(view.calls.length, 0)
   assert.equal(view.focused(), view.field('username'))
   assert.equal(view.field('username').props['aria-invalid'], true)
+  const errorId = view.field('username').props['aria-describedby']
+  assert.match(view.find((node) => node.props.id === errorId).text, /Enter your username/)
   await view.input('username', '  user  ')
   await view.input('password', '  ')
   await view.submit()
@@ -204,7 +278,7 @@ test('switching tabs aborts login; stale completion leaves the next request load
     view.find((node) => node.type === 'form'),
     undefined,
   )
-  await view.selectTab('Sign In')
+  await view.selectTab('Sign in')
   assert.equal(view.submitButton().props.disabled, false)
   const newLogin = view.pendingLogin()
   await view.submit()
@@ -237,6 +311,10 @@ test('unmount aborts pending login and prevents stale redirect', async (t) => {
 
 test('reset validates email, notifies without navigation and retains entered email', async (t) => {
   const view = setup(t, resetPassword)
+  assert.equal(view.field('email').props.placeholder, 'Email')
+  assert.equal(view.field('email').props['aria-label'], 'Email')
+  assert.equal(view.field('email').props.type, 'email')
+  assert.equal(view.field('email').props.autocomplete, 'email')
   await view.input('email', 'invalid')
   await view.submit()
   assert.equal(view.focused(), view.field('email'))

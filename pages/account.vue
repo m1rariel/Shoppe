@@ -7,8 +7,15 @@
 
   const authStore = useAuthStore()
   const activeTab = ref('sign-in')
+  const rememberMe = ref(false)
   const fields = [
-    { name: 'username', label: 'Username', type: 'text', autocomplete: 'username' },
+    {
+      name: 'username',
+      label: 'Username',
+      type: 'text',
+      autocomplete: 'username',
+      clearable: true,
+    },
     { name: 'password', label: 'Password', type: 'password', autocomplete: 'current-password' },
   ]
   const values = reactive<Record<string, string>>({ username: '', password: '' })
@@ -45,7 +52,12 @@
     request.value = controller
 
     try {
-      await authStore.login(values.username.trim(), values.password, controller.signal)
+      await authStore.login(
+        values.username.trim(),
+        values.password,
+        controller.signal,
+        rememberMe.value,
+      )
       if (request.value === controller) await navigateTo('/')
     } catch (error: unknown) {
       if (request.value !== controller) return
@@ -80,6 +92,12 @@
       @update="(name, value) => (values[name] = value)"
       @submit="signIn"
     >
+      <template #actions>
+        <label class="account-remember">
+          <input v-model="rememberMe" type="checkbox" name="remember-me" />
+          <span>Remember me</span>
+        </label>
+      </template>
       <NuxtLink to="/reset-password" class="account-reset-link"
         >Have you forgotten your password?</NuxtLink
       >
@@ -89,7 +107,68 @@
 </template>
 
 <style lang="scss" scoped>
+  .account-remember {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    width: fit-content;
+    min-height: 20px;
+    cursor: pointer;
+
+    @media (min-width: $breakpoints-m) {
+      gap: 8px;
+      min-height: 27px;
+    }
+
+    input {
+      width: 13px;
+      height: 13px;
+      margin: 0;
+      color: $color-white;
+      appearance: none;
+      cursor: pointer;
+      background-color: $color-white;
+      border: 1px solid $color-dark-gray;
+      border-radius: 2px;
+
+      @media (min-width: $breakpoints-m) {
+        width: 16px;
+        height: 16px;
+      }
+
+      &:checked {
+        background-color: $color-black;
+        border-color: $color-black;
+      }
+
+      &:checked::after {
+        display: block;
+        width: 4px;
+        height: 7px;
+        margin: 0 auto;
+        content: '';
+        border: solid currentcolor;
+        border-width: 0 1px 1px 0;
+        transform: rotate(45deg);
+
+        @media (min-width: $breakpoints-m) {
+          margin-top: 1px;
+        }
+      }
+
+      &:focus-visible {
+        outline: 2px solid $color-black;
+        outline-offset: 3px;
+      }
+    }
+  }
+
   .account-reset-link {
+    margin-top: -31px;
     text-align: center;
+
+    @media (min-width: $breakpoints-m) {
+      margin-top: -33px;
+    }
   }
 </style>

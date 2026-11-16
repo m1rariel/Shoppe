@@ -18,26 +18,27 @@
   .account-panel {
     width: 100%;
     max-width: 500px;
-    min-height: 440px;
-    margin: 40px auto 64px;
+    margin: 21px auto 0;
     font-family: $font-main;
-    font-size: 16px;
-    line-height: 27px;
+    font-size: 12px;
+    line-height: 20px;
     text-align: center;
 
     @media (min-width: $breakpoints-m) {
-      margin: 120px auto 180px;
+      margin-top: 143px;
+      font-size: 16px;
+      line-height: 27px;
     }
   }
 
   .account-panel__title {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     font-size: 20px;
     font-weight: $font-weight-regular;
     line-height: 26px;
 
     @media (min-width: $breakpoints-m) {
-      margin-bottom: 48px;
+      margin-bottom: 64px;
       font-size: 33px;
       line-height: 43px;
     }
