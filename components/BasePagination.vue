@@ -13,39 +13,57 @@
 </script>
 
 <template>
-  <div class="pagination">
+  <nav v-if="totalPages > 1" class="pagination" aria-label="Product pages">
     <BaseButton
       v-for="page in visiblePages"
       :key="page"
-      type="button"
+      button-type="button"
+      :aria-label="`Page ${page}`"
+      :aria-current="page === currentPage ? 'page' : undefined"
       :class="{ active: page === currentPage }"
-      @click="emit('changePage', page)"
+      @click="page !== currentPage && emit('changePage', page)"
     >
       {{ page }}
     </BaseButton>
     <BaseButton
       v-if="currentPage < totalPages"
-      type="button"
+      button-type="button"
+      aria-label="Next page"
       class="pagination__next"
       @click="emit('changePage', currentPage + 1)"
     >
-      <NextIcon class="pagination__next-icon" aria-hidden="true" />
+      <NextIcon class="pagination__next-icon" viewBox="0 0 6.36243 11.2447" aria-hidden="true" />
     </BaseButton>
-  </div>
+  </nav>
 </template>
 <style lang="scss" scoped>
   .pagination {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 12px;
     justify-content: center;
     margin-top: 86px;
+
+    @media (width < $breakpoints-m) {
+      margin-top: 32px;
+    }
   }
 
   .pagination button {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
+    font-family: $font-main;
+    font-size: 14px;
+    line-height: 22px;
+    color: $color-black;
+    background: $color-white;
     border: 1px solid $color-gray;
+    border-radius: 4px;
+
+    &:focus-visible {
+      outline: 2px solid $color-accent;
+      outline-offset: 3px;
+    }
   }
 
   .pagination button.active {
@@ -61,7 +79,7 @@
 
   .pagination__next-icon {
     display: block;
-    width: 16px;
-    height: 16px;
+    width: 6.362px;
+    height: 11.245px;
   }
 </style>

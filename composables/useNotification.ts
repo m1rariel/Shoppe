@@ -9,37 +9,14 @@ export enum NotificationTypes {
 export interface NotificationPayload {
   message: string
   type?: NotificationTypes
+  action?: 'open-cart'
+  actionText?: string
 }
 
 export const useNotification = () => {
   const notificationStore = useNotificationStore()
-  let timer: ReturnType<typeof setTimeout> | null = null
-
-  const showNotification = async ({
-    message,
-    type = NotificationTypes.INFO,
-  }: NotificationPayload) => {
-    await notificationStore.showNotification({ message, type })
-
-    if (timer) {
-      clearTimeout(timer)
-    }
-
-    timer = setTimeout(() => {
-      notificationStore.hideNotification()
-    }, 5000)
-  }
-
-  const hideNotification = () => {
-    if (timer) {
-      clearTimeout(timer)
-    }
-
-    notificationStore.hideNotification()
-  }
-
   return {
-    showNotification,
-    hideNotification,
+    showNotification: notificationStore.showNotification,
+    hideNotification: notificationStore.hideNotification,
   }
 }

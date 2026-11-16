@@ -7,12 +7,14 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
+    "test": "node --test tests/*.test.js",
     "lint:styles": "stylelint \"**/*.{vue,scss}\"",
     "format": "prettier --write .",
     "lint:fix": "npm run format && npm run lint:styles -- --fix && npm run lint -- --fix",
     "prepare": "husky",
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "api:fixtures": "node scripts/fixtures/product-api.mjs",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

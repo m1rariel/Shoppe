@@ -1,6 +1,14 @@
 @use './variables' as *;
 @use './layout';
 
+body {
+  font-family: $font-main;
+  font-size: 16px;
+  font-weight: $font-weight-regular;
+  line-height: 1.5;
+  color: $color-black;
+}
+
 .allerta-stencil-regular {
   font-family: $font-accent;
   font-weight: $font-weight-regular;
