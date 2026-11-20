@@ -29,11 +29,13 @@
     },
   ]
   const EMAIL_STORAGE_KEY = 'shoppe:newsletter-email'
+  const NEWSLETTER_EMAIL_PATTERN = /^[^\s@]+@[^\s@]+$/
+
   const email = ref('')
   const hasSubmitAttempt = ref(false)
   const hasNativeEmailError = ref(false)
   const { showNotification } = useNotification()
-  const isValidEmail = computed(() => /^[^\s@]+@[^\s@]+$/.test(email.value.trim()))
+  const isValidEmail = computed(() => NEWSLETTER_EMAIL_PATTERN.test(email.value.trim()))
   const hasEmailError = computed(
     () => hasSubmitAttempt.value && (!isValidEmail.value || hasNativeEmailError.value),
   )

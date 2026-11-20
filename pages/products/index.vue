@@ -6,7 +6,12 @@
   import { useCartStore } from '~/stores/cartStore'
 
   const cartStore = useCartStore()
-  const { data: categories } = await useGetCategories()
+  const {
+    data: categories,
+    pending: categoriesPending,
+    error: categoriesError,
+    refresh: refreshCategories,
+  } = useGetCategories()
   const {
     filters,
     searchDraft,
@@ -22,6 +27,12 @@
     changePage,
     retry,
   } = await useRoutedProductCatalog()
+
+  const retryCategories = async () => {
+    if (categoriesPending.value) return
+
+    await refreshCategories({ dedupe: 'defer' })
+  }
 
   const handleAddToCart = async (product: Product) => {
     await cartStore.addItem(product)
@@ -41,7 +52,10 @@
         class="products-page__filters"
         :filters="filters"
         :categories="categories || []"
+        :categories-pending="categoriesPending"
+        :categories-error="!!categoriesError"
         :search-draft="searchDraft"
+        @retry-categories="retryCategories"
         @search="setSearch"
         @category="setCategory"
         @sort="setSort"

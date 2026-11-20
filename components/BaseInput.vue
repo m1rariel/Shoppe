@@ -55,6 +55,6 @@
   }
 
   .base-input__error {
-    color: red;
+    color: $color-error-red;
   }
 </style>
