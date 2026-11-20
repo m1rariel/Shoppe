@@ -2,6 +2,8 @@
   import { nextTick, reactive, ref } from 'vue'
   import { useNotification } from '~/composables/useNotification'
 
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
   const { showNotification } = useNotification()
   const fields = [{ name: 'email', label: 'Email', type: 'email', autocomplete: 'email' }]
   const values = reactive<Record<string, string>>({ email: '' })
@@ -10,7 +12,7 @@
 
   const resetPassword = async () => {
     errors.value = {}
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) {
+    if (!emailPattern.test(values.email.trim())) {
       errors.value.email = 'Enter a valid email address.'
       await nextTick()
       form.value?.focus('email')
@@ -32,6 +34,7 @@
     </p>
     <AccountForm
       ref="form"
+      class="reset-password__form"
       :fields="fields"
       :values="values"
       :errors="errors"
@@ -58,17 +61,13 @@
         transform: translateX(-50%);
       }
     }
+  }
 
-    :deep(.account-form) {
-      gap: 39px;
+  .reset-password__form {
+    --account-form-submit-gap: 39px;
 
-      @media (min-width: $breakpoints-m) {
-        gap: 64px;
-      }
-    }
-
-    :deep(.account-form__submit) {
-      margin-top: 0;
+    @media (min-width: $breakpoints-m) {
+      --account-form-submit-gap: 64px;
     }
   }
 
@@ -85,11 +84,6 @@
   }
 
   .reset-password__back {
-    margin-top: -23px;
     text-align: center;
-
-    @media (min-width: $breakpoints-m) {
-      margin-top: -51px;
-    }
   }
 </style>

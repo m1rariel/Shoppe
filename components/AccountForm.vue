@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { nextTick } from 'vue'
+  import type BaseInput from '~/components/BaseInput.vue'
   import UsernameClearIcon from '~/assets/icons/username-clear-icon.svg'
 
   defineProps<{
@@ -16,21 +17,15 @@
     loading?: boolean
     buttonLabel: string
   }>()
+
   const emit = defineEmits<{
     update: [name: string, value: string]
     submit: []
   }>()
-  const inputs: Record<string, { focus: () => void }> = {}
 
-  const isFocusable = (input: unknown): input is { focus: () => void } =>
-    Boolean(
-      input && typeof input === 'object' && 'focus' in input && typeof input.focus === 'function',
-    )
+  type InputInstance = InstanceType<typeof BaseInput>
 
-  const setInput = (name: string, input: unknown) => {
-    if (isFocusable(input)) inputs[name] = input
-    else delete inputs[name]
-  }
+  const inputs: Record<string, InputInstance | null> = {}
 
   const clearField = async (name: string) => {
     emit('update', name, '')
@@ -48,44 +43,51 @@
     :aria-busy="loading || undefined"
     @submit.prevent="$emit('submit')"
   >
-    <div
-      v-for="field in fields"
-      :key="field.name"
-      class="account-form__field"
-      :class="{ 'account-form__field--clearable': field.clearable }"
-    >
-      <BaseInput
-        :id="`account-${field.name}`"
-        :ref="(input) => setInput(field.name, input)"
-        :model-value="values[field.name]"
-        :name="field.name"
-        :type="field.type"
-        :autocomplete="field.autocomplete"
-        :placeholder="field.label"
-        :aria-label="field.label"
-        :error="Boolean(errors[field.name])"
-        :error-message="errors[field.name]"
-        :error-id="`account-${field.name}-error`"
-        :aria-describedby="errors[field.name] ? `account-${field.name}-error` : undefined"
-        @update:model-value="$emit('update', field.name, String($event ?? ''))"
-      />
-      <button
-        v-if="field.clearable && values[field.name]"
-        type="button"
-        class="account-form__clear"
-        :aria-label="`Clear ${field.label}`"
-        @click="clearField(field.name)"
+    <div class="account-form__fields">
+      <div
+        v-for="field in fields"
+        :key="field.name"
+        class="account-form__field"
+        :class="{ 'account-form__field--clearable': field.clearable }"
       >
-        <UsernameClearIcon width="12" height="12" aria-hidden="true" />
-      </button>
+        <BaseInput
+          :id="`account-${field.name}`"
+          :ref="(input) => (inputs[field.name] = input as InputInstance | null)"
+          :model-value="values[field.name]"
+          :name="field.name"
+          :type="field.type"
+          :autocomplete="field.autocomplete"
+          :placeholder="field.label"
+          :aria-label="field.label"
+          :error="Boolean(errors[field.name])"
+          :error-message="errors[field.name]"
+          :error-id="`account-${field.name}-error`"
+          :aria-describedby="errors[field.name] ? `account-${field.name}-error` : undefined"
+          @update:model-value="$emit('update', field.name, String($event ?? ''))"
+        />
+        <button
+          v-if="field.clearable && values[field.name]"
+          type="button"
+          class="account-form__clear"
+          :aria-label="`Clear ${field.label}`"
+          @click="clearField(field.name)"
+        >
+          <UsernameClearIcon width="12" height="12" aria-hidden="true" />
+        </button>
+      </div>
     </div>
     <p v-if="errorMessage" class="account-form__error" role="alert">{{ errorMessage }}</p>
-    <div v-if="$slots.actions" class="account-form__actions"><slot name="actions"></slot></div>
-    <BaseButton class="account-form__submit" button-type="submit" :disabled="loading">
-      <span v-if="loading" class="account-form__spinner" aria-hidden="true"></span>
-      {{ loading ? 'Signing in…' : buttonLabel }}
-    </BaseButton>
-    <slot></slot>
+    <div
+      class="account-form__controls"
+      :class="{ 'account-form__controls--with-actions': $slots.actions }"
+    >
+      <div v-if="$slots.actions" class="account-form__actions"><slot name="actions"></slot></div>
+      <BaseButton class="account-form__submit" button-type="submit" :disabled="loading">
+        <span v-if="loading" class="account-form__spinner" aria-hidden="true"></span>
+        {{ loading ? 'Signing in…' : buttonLabel }}
+      </BaseButton>
+    </div>
+    <div v-if="$slots.default" class="account-form__footer"><slot></slot></div>
   </form>
 </template>
 
@@ -93,8 +95,13 @@
   .account-form {
     display: flex;
     flex-direction: column;
-    gap: 47px;
     text-align: left;
+  }
+
+  .account-form__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 47px;
 
     @media (min-width: $breakpoints-m) {
       gap: 46px;
@@ -162,26 +169,51 @@
     }
   }
 
-  .account-form__actions {
-    margin-top: -25px;
-    margin-bottom: -42px;
+  .account-form__controls {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--account-form-submit-gap, 54px);
 
     @media (min-width: $breakpoints-m) {
-      margin-top: -31px;
+      margin-top: var(--account-form-submit-gap, 111px);
+    }
+
+    &--with-actions {
+      gap: 12px;
+      margin-top: 22px;
+
+      @media (min-width: $breakpoints-m) {
+        gap: 69px;
+        margin-top: 15px;
+      }
+    }
+  }
+
+  .account-form__footer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+
+    @media (min-width: $breakpoints-m) {
+      margin-top: 13px;
     }
   }
 
   .account-form__error {
+    margin-top: 47px;
     font-size: 14px;
     line-height: 22px;
     color: $color-errors;
+
+    @media (min-width: $breakpoints-m) {
+      margin-top: 46px;
+    }
   }
 
   .account-form__submit {
     gap: 12px;
     min-height: 32px;
     padding: 5px 16px;
-    margin-top: 7px;
     font-size: 12px;
     font-weight: $font-weight-regular;
     line-height: 20px;
@@ -193,7 +225,6 @@
     @media (min-width: $breakpoints-m) {
       min-height: 53px;
       padding: 15px 20px;
-      margin-top: 65px;
       font-size: 16px;
       font-weight: $font-weight-bold;
       line-height: 21px;

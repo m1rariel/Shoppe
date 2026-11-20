@@ -41,7 +41,7 @@
         handleImageError(imageUrls.value[index], index)
     })
 
-    swiper.value = new Swiper('.swiper', {
+    swiper.value = new Swiper(sliderElement.value, {
       modules: [Navigation, Pagination],
       slidesPerView: 1,
       spaceBetween: 0,

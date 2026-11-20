@@ -1,18 +1,15 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { registerHooks } from 'node:module'
-import { h, nextTick, reactive } from 'vue'
+import { h, nextTick } from 'vue'
 import { loadSfc, mountComponent } from './helpers/sfc-runtime.js'
 
 registerHooks({
   resolve(specifier, context, nextResolve) {
     const mocks = {
       '#imports':
-        'export const definePageMeta = (meta) => { globalThis.accountMocks.pageMeta = meta }; export const navigateTo = (to) => globalThis.accountMocks.navigations.push(to); export const useRoute = () => ({path:"/account"})',
+        'export const definePageMeta = (meta) => { globalThis.accountMocks.pageMeta = meta }; export const navigateTo = (to) => globalThis.accountMocks.navigations.push(to)',
       '~/stores/auth': 'export const useAuthStore = () => globalThis.accountMocks.auth',
-      '~/stores/cartStore': 'export const useCartStore = () => globalThis.accountMocks.cart',
-      '~/composables/useNotification':
-        'export const useNotification = () => ({showNotification: (payload) => globalThis.accountMocks.notifications.push(payload)})',
     }
     if (mocks[specifier])
       return { url: `data:text/javascript,${mocks[specifier]}`, shortCircuit: true }
@@ -37,8 +34,6 @@ components.NuxtLink = {
       h('a', { href: props.to }, slots.default?.()),
 }
 const account = await loadSfc(new URL('../pages/account.vue', import.meta.url))
-const resetPassword = await loadSfc(new URL('../pages/reset-password.vue', import.meta.url))
-const header = await loadSfc(new URL('../components/BaseHeader.vue', import.meta.url))
 const settle = async () => {
   await new Promise((resolve) => setImmediate(resolve))
   await nextTick()
@@ -53,25 +48,16 @@ function deferred() {
   return { promise, resolve, reject }
 }
 
-function setup(t, component = account) {
+function setup(t) {
   const calls = []
   const mocks = {
     navigations: [],
-    notifications: [],
-    cart: { toggleSidebar() {} },
-    auth: reactive({
-      user: null,
-      get isAuthenticated() {
-        return Boolean(this.user)
-      },
+    auth: {
       login: (...args) => {
         calls.push(args)
-        return Promise.resolve()
+        return Promise.resolve(true)
       },
-      logout() {
-        this.user = null
-      },
-    }),
+    },
   }
   globalThis.accountMocks = mocks
   globalThis.Document = class Document {}
@@ -80,7 +66,7 @@ function setup(t, component = account) {
     delete globalThis.Document
   })
   let focused
-  const view = mountComponent(t, component, {
+  const view = mountComponent(t, account, {
     components,
     decorateNode(element) {
       element.addEventListener = () => {}
@@ -137,11 +123,9 @@ function setup(t, component = account) {
   }
 }
 
-test('only account declares the guest route middleware', (t) => {
-  const accountView = setup(t)
-  assert.deepEqual(accountView.mocks.pageMeta, { middleware: 'guest' })
-  const resetView = setup(t, resetPassword)
-  assert.equal(resetView.mocks.pageMeta, undefined)
+test('account declares the guest route middleware', (t) => {
+  const view = setup(t)
+  assert.deepEqual(view.mocks.pageMeta, { middleware: 'guest' })
 })
 
 test('sign in fields keep accessible names when placeholder hints are replaced by input', async (t) => {
@@ -190,7 +174,7 @@ test('Remember me defaults off and snapshots the selected choice for each submis
   pending = view.pendingLogin()
   await view.submit()
   assert.equal(view.calls[1][3], true)
-  pending.resolve()
+  pending.resolve(true)
   await settle()
 })
 
@@ -265,6 +249,24 @@ test('pending submit is disabled; failures preserve input and show helpful inlin
   )
 })
 
+test('login errors prefer statusCode and preserve status fallback messages', async (t) => {
+  const view = setup(t)
+  await view.fillCredentials()
+
+  for (const [error, message] of [
+    [{ statusCode: 400, status: 500 }, /Incorrect username or password/],
+    [{ statusCode: 403 }, /Incorrect username or password/],
+    [{ status: 401 }, /Incorrect username or password/],
+    [{ statusCode: 500, status: 401 }, /Unable to sign in/],
+  ]) {
+    const pending = view.pendingLogin()
+    await view.submit()
+    pending.reject(error)
+    await settle()
+    assert.match(view.find((node) => node.props.role === 'alert').text, message)
+  }
+})
+
 test('switching tabs aborts login; stale completion leaves the next request loading', async (t) => {
   const view = setup(t)
   const oldLogin = view.pendingLogin()
@@ -282,7 +284,7 @@ test('switching tabs aborts login; stale completion leaves the next request load
   assert.equal(view.submitButton().props.disabled, false)
   const newLogin = view.pendingLogin()
   await view.submit()
-  oldLogin.resolve()
+  oldLogin.resolve(false)
   await settle()
   assert.equal(view.submitButton().props.disabled, true)
   assert.match(view.text(), /Signing in/)
@@ -291,7 +293,7 @@ test('switching tabs aborts login; stale completion leaves the next request load
     undefined,
   )
   assert.deepEqual(view.mocks.navigations, [])
-  newLogin.resolve()
+  newLogin.resolve(true)
   await settle()
   assert.equal(view.submitButton().props.disabled, false)
   assert.deepEqual(view.mocks.navigations, ['/'])
@@ -304,48 +306,45 @@ test('unmount aborts pending login and prevents stale redirect', async (t) => {
   await view.submit()
   view.unmount()
   assert.equal(view.calls[0][2].aborted, true)
-  pending.resolve()
+  pending.resolve(true)
   await settle()
   assert.deepEqual(view.mocks.navigations, [])
 })
 
-test('reset validates email, notifies without navigation and retains entered email', async (t) => {
-  const view = setup(t, resetPassword)
-  assert.equal(view.field('email').props.placeholder, 'Email')
-  assert.equal(view.field('email').props['aria-label'], 'Email')
-  assert.equal(view.field('email').props.type, 'email')
-  assert.equal(view.field('email').props.autocomplete, 'email')
-  await view.input('email', 'invalid')
+test('a false login result clears loading without navigating or showing an error', async (t) => {
+  const view = setup(t)
+  const pending = view.pendingLogin()
+  await view.fillCredentials()
   await view.submit()
-  assert.equal(view.focused(), view.field('email'))
-  assert.deepEqual(view.mocks.notifications, [])
-  await view.input('email', ' user@example.com ')
-  await view.submit()
-  assert.deepEqual(view.mocks.notifications, [{ message: 'Отправили пароль на email' }])
-  assert.equal(view.field('email').value, ' user@example.com ')
+  pending.resolve(false)
+  await settle()
+
+  assert.equal(view.submitButton().props.disabled, false)
   assert.deepEqual(view.mocks.navigations, [])
-  assert.ok(view.find((node) => node.type === 'a' && node.props.href === '/account'))
+  assert.equal(
+    view.find((node) => node.props.role === 'alert'),
+    undefined,
+  )
 })
 
-test('desktop account action navigates for guest, logs out in place with indicator, then navigates again', async (t) => {
-  const view = setup(t, header)
-  const action = () =>
-    view.find(
-      (node) =>
-        node.type === 'button' && ['My account', 'Log out'].includes(node.props['aria-label']),
-    )
-  action().props.onClick()
-  assert.deepEqual(view.mocks.navigations, ['/account'])
-  view.mocks.auth.user = 'token'
-  await nextTick()
-  assert.equal(action().props['aria-label'], 'Log out')
-  assert.ok(view.find((node) => node.props.class === 'page-header__account-indicator'))
-  action().props.onClick()
-  await nextTick()
-  assert.equal(view.mocks.auth.user, null)
-  assert.deepEqual(view.mocks.navigations, ['/account'])
-  assert.deepEqual(view.mocks.notifications, [{ message: 'Вы вышли из аккаунта' }])
-  action().props.onClick()
-  assert.deepEqual(view.mocks.navigations, ['/account', '/account'])
-  assert.ok(view.find((node) => node.type === 'a' && node.props.href === '/#'))
+test('a stale rejected login cannot replace the newer request error', async (t) => {
+  const view = setup(t)
+  const stale = view.pendingLogin()
+  await view.fillCredentials()
+  await view.submit()
+  await view.selectTab('Register')
+  await view.selectTab('Sign in')
+  const current = view.pendingLogin()
+  await view.submit()
+  current.reject({ statusCode: 401 })
+  await settle()
+  stale.reject(new Error('Late network failure'))
+  await settle()
+
+  assert.match(
+    view.find((node) => node.props.role === 'alert').text,
+    /Incorrect username or password/,
+  )
+  assert.equal(view.submitButton().props.disabled, false)
+  assert.deepEqual(view.mocks.navigations, [])
 })

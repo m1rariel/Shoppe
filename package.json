@@ -8,6 +8,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "node --test tests/*.test.js",
+    "test:auth:browser": "node scripts/check-auth-browser.mjs",
     "lint:styles": "stylelint \"**/*.{vue,scss}\"",
     "format": "prettier --write .",
     "lint:fix": "npm run format && npm run lint:styles -- --fix && npm run lint -- --fix",

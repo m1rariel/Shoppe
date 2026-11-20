@@ -137,7 +137,10 @@ test('hero requests ten photos and renders the original product text on each sli
   assert.equal(view.all((n) => n.type === 'button' && n.text === 'View Product').length, 10)
   assert.equal(view.all((n) => n.type === 'p' && n.text.includes('68,00')).length, 10)
   const slider = globalThis.heroTest.sliders[0]
-  assert.equal(slider.el, '.swiper')
+  assert.equal(
+    slider.el,
+    view.find((n) => n.props.class === 'swiper'),
+  )
   assert.equal(slider.options.loop, true)
   assert.equal(slider.options.slidesPerView, 1)
   assert.equal(slider.options.pagination.el, '.swiper-pagination')

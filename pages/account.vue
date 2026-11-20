@@ -21,13 +21,13 @@
   const values = reactive<Record<string, string>>({ username: '', password: '' })
   const errors = ref<Record<string, string>>({})
   const errorMessage = ref('')
-  const request = shallowRef<AbortController>()
-  const loading = computed(() => Boolean(request.value))
+  const loginController = shallowRef<AbortController>()
+  const loading = computed(() => Boolean(loginController.value))
   const form = ref<{ focus: (name: string) => void } | null>(null)
 
   const cancelLogin = () => {
-    request.value?.abort()
-    request.value = undefined
+    loginController.value?.abort()
+    loginController.value = undefined
   }
 
   watch(activeTab, cancelLogin, { flush: 'sync' })
@@ -49,29 +49,29 @@
     }
 
     const controller = new AbortController()
-    request.value = controller
+    loginController.value = controller
 
     try {
-      await authStore.login(
+      const success = await authStore.login(
         values.username.trim(),
         values.password,
         controller.signal,
         rememberMe.value,
       )
-      if (request.value === controller) await navigateTo('/')
+      if (success && loginController.value === controller) await navigateTo('/')
     } catch (error: unknown) {
-      if (request.value !== controller) return
+      if (loginController.value !== controller) return
 
-      const status =
-        (error as { statusCode?: number; status?: number }).statusCode ??
-        (error as { status?: number }).status
+      const loginError = error as { statusCode?: number; status?: number }
+      const status = loginError.statusCode ?? loginError.status
+
       errorMessage.value =
         status === 400 || status === 401 || status === 403
           ? 'Incorrect username or password. Please try again.'
           : 'Unable to sign in. Please try again.'
     } finally {
-      if (request.value === controller) {
-        request.value = undefined
+      if (loginController.value === controller) {
+        loginController.value = undefined
       }
     }
   }
@@ -164,11 +164,6 @@
   }
 
   .account-reset-link {
-    margin-top: -31px;
     text-align: center;
-
-    @media (min-width: $breakpoints-m) {
-      margin-top: -33px;
-    }
   }
 </style>

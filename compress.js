@@ -24,7 +24,6 @@ function compressFile(file) {
     const destination = `${file}.${extension}`
 
     if (compressed.length >= original.length) {
-      // Удаляем устаревшую версию от предыдущего запуска.
       rmSync(destination, { force: true })
       continue
     }

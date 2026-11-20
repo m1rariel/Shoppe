@@ -17,6 +17,7 @@ registerHooks({
     const files = {
       '~/stores/auth': '../stores/auth.js',
       '~/utils/apiConnection': '../utils/apiConnection.ts',
+      '~/utils/authCookie': '../utils/authCookie.ts',
     }
     if (files[specifier])
       return { url: new URL(files[specifier], import.meta.url).href, shortCircuit: true }
@@ -62,7 +63,7 @@ test('each navigation uses current authentication and allows entry after logout'
   const { store, cookie, destinations, redirect } = setup(t)
 
   assert.equal(guest(), undefined)
-  store.user = 'new-token'
+  store.authToken = 'new-token'
   assert.equal(guest(), redirect)
   store.logout()
   assert.equal(cookie.value, null)
