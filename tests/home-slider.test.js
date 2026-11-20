@@ -23,6 +23,11 @@ registerHooks({
         url: 'data:text/javascript,export const Navigation={};export const Pagination={}',
         shortCircuit: true,
       }
+    if (specifier === '@/utils/homeSliderPhotos')
+      return {
+        url: new URL('../utils/homeSliderPhotos.ts', import.meta.url).href,
+        shortCircuit: true,
+      }
     if (specifier === 'swiper')
       return {
         url: 'data:text/javascript,export default class Swiper { constructor(el,options){this.el=el;this.options=options;globalThis.heroTest.sliders.push(this)} update(){this.updates=(this.updates??0)+1} }',
@@ -61,9 +66,26 @@ async function load(name) {
   ).default
 }
 const [hero, textBlock] = await Promise.all([load('HomeSlider'), load('TextBlockSlider')])
-const node = (type, text = '') => markRaw({ type, text, props: {}, style: {}, children: [] })
+const node = (type, text = '') =>
+  markRaw({
+    type,
+    text,
+    props: {},
+    style: {},
+    children: [],
+    querySelectorAll: function (selector) {
+      return walk(this).filter((child) => child.type === selector)
+    },
+  })
 const renderer = createRenderer({
-  createElement: (type) => node(type),
+  createElement(type) {
+    const element = node(type)
+    if (type === 'img') {
+      const state = globalThis.heroTest.imageStates[globalThis.heroTest.imageCount++]
+      Object.assign(element, { complete: false, naturalWidth: 0 }, state)
+    }
+    return element
+  },
   createText: (text) => node('text', text),
   createComment: (text) => node('comment', text),
   insert(child, parent) {
@@ -86,8 +108,8 @@ const renderer = createRenderer({
   nextSibling: () => null,
 })
 const walk = (el) => [el, ...el.children.flatMap(walk)]
-async function setup(t, photos = []) {
-  globalThis.heroTest = { sliders: [], photos: ref(photos) }
+async function setup(t, photos = [], imageStates = []) {
+  globalThis.heroTest = { sliders: [], photos: ref(photos), imageStates, imageCount: 0 }
   const root = node('root')
   const app = renderer.createApp({
     setup: () => () => h(Suspense, null, { default: () => h(hero) }),
@@ -115,20 +137,79 @@ test('hero requests ten photos and renders the original product text on each sli
   assert.equal(view.all((n) => n.type === 'button' && n.text === 'View Product').length, 10)
   assert.equal(view.all((n) => n.type === 'p' && n.text.includes('68,00')).length, 10)
   const slider = globalThis.heroTest.sliders[0]
-  assert.equal(slider.el, '.swiper')
+  assert.equal(
+    slider.el,
+    view.find((n) => n.props.class === 'swiper'),
+  )
   assert.equal(slider.options.loop, true)
   assert.equal(slider.options.slidesPerView, 1)
   assert.equal(slider.options.pagination.el, '.swiper-pagination')
   assert.equal(slider.options.pagination.clickable, true)
 })
 
-test('hero handles no photos and updates the slider when photos arrive', async (t) => {
+test('hero uses ten Unsplash fallbacks for no photos and recovers when photos arrive', async (t) => {
   const view = await setup(t)
-  assert.equal(view.all((n) => n.type === 'img').length, 0)
+  assert.equal(view.all((n) => n.type === 'img').length, 10)
+  const fallbackUrls = view.all((n) => n.type === 'img').map((n) => n.props.src)
+  assert.equal(new Set(fallbackUrls).size, 10)
+  assert.ok(fallbackUrls.every((url) => new URL(url).hostname === 'images.unsplash.com'))
   const slider = globalThis.heroTest.sliders[0]
   globalThis.heroTest.photos.value = photos
   await nextTick()
   await nextTick()
   assert.equal(view.all((n) => n.type === 'img').length, 10)
   assert.equal(slider.updates, 1)
+  assert.deepEqual(
+    view.all((n) => n.type === 'img').map((n) => n.props.src),
+    photos.map((photo) => photo.download_url),
+  )
+})
+
+test('hero falls back once for a failed photo and ignores errors from its fallback', async (t) => {
+  const view = await setup(t, photos)
+  const images = view.all((n) => n.type === 'img')
+  const image = images[3]
+  const slider = globalThis.heroTest.sliders[0]
+  image.props.onError()
+  await nextTick()
+  await nextTick()
+  assert.equal(new URL(image.props.src).hostname, 'images.unsplash.com')
+  assert.equal(images[2].props.src, photos[2].download_url)
+  assert.equal(view.all((n) => n.type === 'img')[3], image)
+  assert.equal(slider.updates, 1)
+  image.props.onError()
+  await nextTick()
+  await nextTick()
+  assert.equal(slider.updates, 1)
+  assert.equal(view.all((n) => n.type === 'img')[3], image)
+})
+
+test('hero uses ten fallbacks for a failed request with no data', async (t) => {
+  const view = await setup(t, null)
+  const images = view.all((n) => n.type === 'img')
+  assert.equal(images.length, 10)
+  assert.ok(images.every((image) => new URL(image.props.src).hostname === 'images.unsplash.com'))
+  images[0].props.onError()
+  await nextTick()
+  await nextTick()
+  assert.equal(globalThis.heroTest.sliders[0].updates, undefined)
+})
+
+test('hero recovers an image that failed before mounting and preserves pending images', async (t) => {
+  const view = await setup(t, photos, [
+    { complete: true, naturalWidth: 0 },
+    { complete: false, naturalWidth: 0 },
+    { complete: true, naturalWidth: 1600 },
+  ])
+  const images = view.all((n) => n.type === 'img')
+  assert.equal(new URL(images[0].props.src).hostname, 'images.unsplash.com')
+  assert.equal(images[1].props.src, photos[1].download_url)
+  assert.equal(images[2].props.src, photos[2].download_url)
+  assert.equal(globalThis.heroTest.sliders[0].updates, 1)
+})
+
+test('hero ignores a fallback image that failed before mounting', async (t) => {
+  const view = await setup(t, null, [{ complete: true, naturalWidth: 0 }])
+  assert.equal(view.all((n) => n.type === 'img').length, 10)
+  assert.equal(globalThis.heroTest.sliders[0].updates, undefined)
 })

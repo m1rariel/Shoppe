@@ -12,12 +12,15 @@
     filters: ProductFilters
     searchDraft: string
     categories: string[]
+    categoriesPending?: boolean
+    categoriesError?: boolean
   }>()
 
   const emit = defineEmits<{
     search: [value: string | number | undefined]
     category: [value: string]
     sort: [value: ProductFilters['sortBy']]
+    retryCategories: []
   }>()
 
   const isOpen = ref(false)
@@ -25,7 +28,14 @@
   const trigger = ref<HTMLButtonElement | null>(null)
   const panel = ref<HTMLDivElement | null>(null)
   const searchInput = ref<HTMLInputElement | null>(null)
+  const categoriesRetryButton = ref<HTMLButtonElement | null>(null)
   let previousOverflow: string | undefined
+
+  const retryCategories = () => {
+    if (document.activeElement === categoriesRetryButton.value) searchInput.value?.focus()
+
+    emit('retryCategories')
+  }
 
   const closePanel = () => {
     isOpen.value = false
@@ -132,13 +142,47 @@
           <select
             aria-label="Category"
             :value="filters.category"
+            :disabled="categoriesPending || categoriesError"
+            :aria-describedby="
+              categoriesPending || categoriesError ? 'catalog-categories-status' : undefined
+            "
             @change="emit('category', ($event.target as HTMLSelectElement).value)"
           >
-            <option value="">Category</option>
-            <option v-for="category in categories" :key="category" :value="category">
+            <option value="" :selected="!filters.category">Category</option>
+            <option
+              v-if="filters.category && !categories.includes(filters.category)"
+              :value="filters.category"
+              selected
+            >
+              {{ filters.category }}
+            </option>
+            <option
+              v-for="category in categories"
+              :key="category"
+              :value="category"
+              :selected="filters.category === category"
+            >
               {{ category }}
             </option>
           </select>
+          <div
+            v-if="categoriesPending || categoriesError"
+            id="catalog-categories-status"
+            class="product-filters__categories-status"
+            :role="categoriesPending ? 'status' : 'alert'"
+          >
+            <p>{{ categoriesPending ? 'Loading categories…' : 'Unable to load categories.' }}</p>
+            <button
+              v-if="categoriesError"
+              ref="categoriesRetryButton"
+              type="button"
+              class="product-filters__categories-retry"
+              :disabled="categoriesPending"
+              @click="retryCategories"
+            >
+              Try categories again
+            </button>
+          </div>
         </div>
         <div class="product-filters__select">
           <select
@@ -146,10 +190,25 @@
             :value="filters.sortBy"
             @change="emit('sort', ($event.target as HTMLSelectElement).value as ProductSort | '')"
           >
-            <option value="">Sort By</option>
-            <option :value="ProductSort.PriceAsc">Цена: от меньшего к большему</option>
-            <option :value="ProductSort.PriceDesc">Цена: от большего к меньшему</option>
-            <option :value="ProductSort.TitleAsc">Название: от А до Я</option>
+            <option value="" :selected="!filters.sortBy">Sort By</option>
+            <option
+              :value="ProductSort.PriceAsc"
+              :selected="filters.sortBy === ProductSort.PriceAsc"
+            >
+              Цена: от меньшего к большему
+            </option>
+            <option
+              :value="ProductSort.PriceDesc"
+              :selected="filters.sortBy === ProductSort.PriceDesc"
+            >
+              Цена: от большего к меньшему
+            </option>
+            <option
+              :value="ProductSort.TitleAsc"
+              :selected="filters.sortBy === ProductSort.TitleAsc"
+            >
+              Название: от А до Я
+            </option>
           </select>
         </div>
       </div>
@@ -394,6 +453,31 @@
     width: 100%;
   }
 
+  .product-filters__categories-status {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 22px;
+    color: $color-dark-gray;
+    overflow-wrap: anywhere;
+  }
+
+  .product-filters__categories-retry {
+    min-height: 44px;
+    padding: 8px 12px;
+    margin-top: 8px;
+    font: inherit;
+    color: $color-black;
+    cursor: pointer;
+    background-color: $color-white;
+    border: 1px solid $color-gray;
+    border-radius: 4px;
+
+    &:disabled {
+      cursor: wait;
+      opacity: 0.5;
+    }
+  }
+
   .product-filters__select select {
     width: 100%;
     height: 53px;
@@ -410,7 +494,7 @@
 
   .product-filters__select::after {
     position: absolute;
-    top: 50%;
+    top: 26.5px;
     right: 19px;
     width: 10px;
     height: 10px;

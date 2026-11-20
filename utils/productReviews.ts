@@ -1,5 +1,8 @@
 import type { ProductReview, ReviewDraft } from '~/types/reviews'
 
+const REVIEW_EMAIL_PATTERN =
+  /^[a-z\d.!#$%&'*+/=?^_`{|}~-]+@[a-z\d](?:[a-z\d-]*[a-z\d])?(?:\.[a-z\d](?:[a-z\d-]*[a-z\d])?)+$/i
+
 export function reviewErrors(draft: ReviewDraft) {
   return {
     name:
@@ -7,10 +10,7 @@ export function reviewErrors(draft: ReviewDraft) {
         ? 'Enter a name between 1 and 80 characters.'
         : '',
     email:
-      draft.email.trim().length > 254 ||
-      !/^[a-z\d.!#$%&'*+/=?^_`{|}~-]+@[a-z\d](?:[a-z\d-]*[a-z\d])?(?:\.[a-z\d](?:[a-z\d-]*[a-z\d])?)+$/i.test(
-        draft.email.trim(),
-      )
+      draft.email.trim().length > 254 || !REVIEW_EMAIL_PATTERN.test(draft.email.trim())
         ? 'Enter a valid email address (up to 254 characters).'
         : '',
     rating:

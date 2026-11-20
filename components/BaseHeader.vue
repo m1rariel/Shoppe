@@ -1,12 +1,23 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-  import { useRoute } from '#imports'
+  import { navigateTo, useRoute } from '#imports'
+  import { useAuthStore } from '~/stores/auth'
+  import { useNotification } from '~/composables/useNotification'
   import SearchIcon from '@/assets/icons/search-icon.svg'
   import PeopleIcon from '@/assets/icons/people-icon.svg'
   import StoreIcon from '@/assets/icons/shop-icon.svg'
   import { useCartStore } from '~/stores/cartStore'
 
   const cartStore = useCartStore()
+  const authStore = useAuthStore()
+  const { showNotification } = useNotification()
+  const handleAccount = () => {
+    if (!authStore.isAuthenticated) return navigateTo('/account')
+
+    authStore.logout()
+    showNotification({ message: 'Вы вышли из аккаунта' })
+  }
+
   const route = useRoute()
   const hasDivider = computed(() => route.path !== '/')
   const isShopActive = computed(
@@ -51,8 +62,18 @@
           >
             <StoreIcon class="icon-button__nav icon-button__nav--cart" aria-hidden="true" />
           </BaseButton>
-          <BaseButton variant="transparent" aria-label="My account">
+          <BaseButton
+            variant="transparent"
+            class="page-header__account"
+            :aria-label="authStore.isAuthenticated ? 'Log out' : 'My account'"
+            @click="handleAccount"
+          >
             <PeopleIcon class="icon-button__nav" aria-hidden="true" />
+            <span
+              v-if="authStore.isAuthenticated"
+              class="page-header__account-indicator"
+              aria-hidden="true"
+            ></span>
           </BaseButton>
         </div>
       </div>
@@ -177,6 +198,20 @@
   .icon-button__nav--cart {
     width: 21px;
     height: 21px;
+  }
+
+  .page-header__account {
+    position: relative;
+  }
+
+  .page-header__account-indicator {
+    position: absolute;
+    top: -3px;
+    right: -6px;
+    width: 6px;
+    height: 6px;
+    background-color: $color-accent;
+    border-radius: 50%;
   }
 
   .page-header-nav__buttons {

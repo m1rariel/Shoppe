@@ -1,0 +1,14 @@
+node_modules
+dist
+.nuxt
+.output
+.git
+.env*
+.scratch
+.codex
+.agents
+.vscode
+.idea
+coverage
+*.log
+.DS_Store
