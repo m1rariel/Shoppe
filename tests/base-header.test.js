@@ -67,15 +67,19 @@ test('desktop account action navigates for guest, logs out in place with indicat
       (node) =>
         node.type === 'button' && ['My account', 'Log out'].includes(node.props['aria-label']),
     )
+  const indicator = () => view.find((node) => node.props.class === 'page-header__account-indicator')
+
+  assert.equal(indicator(), undefined)
   action().props.onClick()
   assert.deepEqual(view.mocks.navigations, ['/account'])
   view.mocks.auth.authToken = 'token'
   await nextTick()
   assert.equal(action().props['aria-label'], 'Log out')
-  assert.ok(view.find((node) => node.props.class === 'page-header__account-indicator'))
+  assert.ok(indicator())
   action().props.onClick()
   await nextTick()
   assert.equal(view.mocks.auth.authToken, null)
+  assert.equal(indicator(), undefined)
   assert.deepEqual(view.mocks.navigations, ['/account'])
   assert.deepEqual(view.mocks.notifications, [{ message: 'Вы вышли из аккаунта' }])
   action().props.onClick()

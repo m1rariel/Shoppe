@@ -207,10 +207,10 @@
   .page-header__account-indicator {
     position: absolute;
     top: -3px;
-    right: -6px;
+    left: -6px;
     width: 6px;
     height: 6px;
-    background-color: $color-accent;
+    background-color: $color-success;
     border-radius: 50%;
   }
 
