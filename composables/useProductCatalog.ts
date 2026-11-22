@@ -5,6 +5,8 @@ import { useVisiblePages } from '~/composables/useVisiblePages'
 import { ProductSort } from '~/types/api'
 import type { ProductFilters } from '~/types/catalog'
 
+const PAGE_SIZE = 6
+
 export const useProductCatalog = (
   filters: ComputedRef<ProductFilters>,
   requestedPage: ComputedRef<number>,
@@ -50,7 +52,7 @@ export const useProductCatalog = (
     return products
   })
 
-  const totalPages = computed(() => Math.ceil(filteredProducts.value.length / 6))
+  const totalPages = computed(() => Math.ceil(filteredProducts.value.length / PAGE_SIZE))
   const dataReady = computed(
     () => categoryReady.value && !pending.value && status.value === 'success' && !error.value,
   )
@@ -62,7 +64,10 @@ export const useProductCatalog = (
   })
 
   const products = computed(() =>
-    filteredProducts.value.slice((currentPage.value - 1) * 6, currentPage.value * 6),
+    filteredProducts.value.slice(
+      (currentPage.value - 1) * PAGE_SIZE,
+      currentPage.value * PAGE_SIZE,
+    ),
   )
 
   const visiblePages = useVisiblePages(currentPage, totalPages)

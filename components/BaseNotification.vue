@@ -120,6 +120,6 @@
   }
 
   .base-notification__message--error {
-    color: red;
+    color: $color-error-red;
   }
 </style>

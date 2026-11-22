@@ -46,7 +46,9 @@ const components = Object.fromEntries(
       'BaseAccordion',
       'BaseButton',
       'ProductGallery',
+      'ProductImageViewer',
       'ProductInfo',
+      'ProductShare',
       'ProductSimilarItems',
       'ProductCard',
     ].map(async (name) => [

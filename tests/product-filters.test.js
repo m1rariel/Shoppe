@@ -2,7 +2,8 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { registerHooks } from 'node:module'
 import { loadSfc, mountComponent, observeTree } from './helpers/sfc-runtime.js'
-import { nextTick } from 'vue'
+import { createSSRApp, h, nextTick } from 'vue'
+import { renderToString } from 'vue/server-renderer'
 
 registerHooks({
   resolve(specifier, context, nextResolve) {
@@ -36,7 +37,7 @@ const decorateNode = (element) =>
       )
     },
   })
-async function setup(t) {
+async function setup(t, initialProps = {}) {
   const listeners = new Set()
   globalThis.window = {
     innerWidth: 390,
@@ -58,6 +59,7 @@ async function setup(t) {
       onSearch: (value) => events.push(['search', value]),
       onCategory: (value) => events.push(['category', value]),
       onSort: (value) => events.push(['sort', value]),
+      ...initialProps,
     },
   })
   await nextTick()
@@ -77,6 +79,7 @@ async function setup(t) {
     events,
     unmount,
     find,
+    props: view.props,
     async resize(width) {
       window.innerWidth = width
       listeners.forEach((fn) => fn())
@@ -141,4 +144,59 @@ test('search, category and sorting emit existing catalog contracts', async (t) =
     ['category', 'jewelery'],
     ['sort', 'price-minus'],
   ])
+})
+
+test('category retry keeps keyboard focus inside the panel while pending and after recovery', async (t) => {
+  let retries = 0
+  const view = await setup(t, {
+    categoriesError: true,
+    onRetryCategories: () => {
+      retries++
+      view.props.categoriesPending = true
+    },
+  })
+  await view.trigger.props.onClick()
+  const retry = view.find((node) => node.props.class === 'product-filters__categories-retry')
+  retry.focus()
+  retry.props.onClick()
+  await nextTick()
+  assert.equal(retries, 1)
+  assert.equal(retry.props.disabled, true)
+  assert.equal(document.activeElement, view.search)
+
+  const sort = view.find((node) => node.props['aria-label'] === 'Sort products')
+  sort.focus()
+  view.props.categoriesPending = false
+  view.props.categoriesError = false
+  await nextTick()
+  assert.equal(
+    view.find((node) => node.props.class === 'product-filters__categories-retry'),
+    undefined,
+  )
+  assert.equal(document.activeElement, sort, 'recovery preserves focus moved by the user')
+  view.panel.props.onKeydown({ key: 'Escape', preventDefault() {} })
+  await nextTick()
+  assert.equal(view.trigger.props['aria-expanded'], false)
+  assert.equal(document.activeElement, view.trigger)
+})
+
+test('SSR marks the applied category and sort options as selected, including empty placeholders', async () => {
+  for (const filters of [
+    { search: '', category: 'chains', sortBy: 'price-minus' },
+    { search: '', category: '', sortBy: '' },
+  ]) {
+    const html = await renderToString(
+      createSSRApp({
+        render: () => h(component, { filters, searchDraft: '', categories: ['chains', 'rings'] }),
+      }),
+    )
+    const selectedValues = [...html.matchAll(/<option\b[^>]*>/g)]
+      .map(([option]) => option)
+      .filter((option) => /\sselected(?:\s|=|>)/.test(option))
+      .map((option) => {
+        const value = /\svalue(?:="([^"]*)")?(?=\s|>)/.exec(option)
+        return value ? (value[1] ?? '') : undefined
+      })
+    assert.deepEqual(selectedValues, [filters.category, filters.sortBy])
+  }
 })
