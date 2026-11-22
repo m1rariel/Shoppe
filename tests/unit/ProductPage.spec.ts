@@ -22,7 +22,6 @@ import { product, similarProducts } from '@/tests/fixtures/products'
 import { server, products } from '@/tests/unit/mocks/product-server'
 import { apiBaseURL } from '@/tests/unit/mocks/nuxt-http'
 
-// Node fetch requires a Node AbortSignal, rather than jsdom's DOM signal.
 vi.hoisted(async () => {
   const { transferableAbortController } = await import('node:util')
   vi.stubGlobal('AbortController', transferableAbortController().constructor)

@@ -55,6 +55,5 @@ export function useFetch<T>(
     version++
     controller?.abort()
   })
-  // lazy useFetch lets the page render its loading state before HTTP completes.
   return { data, error, pending, status, refresh }
 }

@@ -84,7 +84,6 @@ describe('ProductInfo', () => {
     { rate: 4.5, count: Number.MAX_SAFE_INTEGER + 1 },
     { rate: 4.5, count: undefined },
   ])('shows No ratings for an absent or invalid rating: %j', (rating) => {
-    // Malformed API values deliberately cross the typed prop boundary.
     const view = renderInfo({ ...product, rating } as Product)
 
     expect(view.text()).toContain('No ratings')

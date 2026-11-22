@@ -32,7 +32,6 @@ const renderGallery = (photos = images) =>
 const mainImage = (view: ReturnType<typeof renderGallery>) =>
   view.get(`button[aria-label="Open enlarged image of ${product.title}"] img`)
 
-// Swiper and the viewer have their own regression tests; these tests exercise gallery props and clicks.
 describe('ProductGallery', () => {
   it('shows the first photo and presents each supplied photo with an accessible description', () => {
     const view = renderGallery()
