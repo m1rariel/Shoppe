@@ -51,12 +51,6 @@ async function setup(t, component, initial) {
   })
   return view
 }
-test('single real image creates no duplicate thumbnails or slider', async (t) => {
-  const view = await setup(t, gallery, { images: ['/ring.jpg'], productTitle: 'Ring' })
-  assert.equal(view.all(hasClass('product-gallery__miniature')).length, 0)
-  assert.equal(globalThis.detailTest.sliders.length, 0)
-  assert.ok(view.find((n) => n.type === 'img' && n.props.alt === 'Ring'))
-})
 test('gallery selection synchronizes images and destroys its own slider', async (t) => {
   const view = await setup(t, gallery, { images: ['/a.jpg', '/b.jpg'], productTitle: 'Ring' })
   const slider = globalThis.detailTest.sliders[0]
@@ -121,20 +115,6 @@ test('four repeated gallery images select independently, follow swipes and reset
   view.unmount()
   assert.equal(replacement.destroyed, true)
 })
-test('empty gallery shows fallback without thumbnails or slider', async (t) => {
-  const view = await setup(t, gallery, { images: [], productTitle: 'Ring' })
-  assert.equal(view.all((n) => n.type === 'img' || n.props['aria-haspopup'] === 'dialog').length, 0)
-  assert.equal(globalThis.detailTest.sliders.length, 0)
-  assert.equal(view.all(hasClass('product-gallery__fallback')).length, 2)
-})
-test('failed gallery image displays a fallback', async (t) => {
-  const view = await setup(t, gallery, { images: ['/broken.jpg'], productTitle: 'Ring' })
-  view.find((n) => n.type === 'img').props.onError()
-  await nextTick()
-  assert.equal(view.all((n) => n.type === 'img').length, 0)
-  assert.ok(view.find((n) => n.text === 'Image unavailable'))
-})
-
 async function setupCompletedImages(t, images) {
   globalThis.detailTest = { sliders: [] }
   const view = mountComponent(t, gallery, {

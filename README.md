@@ -20,6 +20,29 @@ yarn install
 bun install
 ```
 
+## Tests
+
+```bash
+npm test                 # сохранённый набор node:test (tests/*.test.js)
+npm run test:unit        # весь набор Vitest, однократно
+npm run test:unit:watch  # Vitest в режиме разработки
+npm run test:unit -- ProductPage
+npm run test:unit:related -- components/ProductCard.vue
+```
+
+Vitest запускает только `tests/unit/**/*.spec.ts`, используя Vue Test Utils и jsdom.
+В тестах отдельных компонентов фикстуры из `tests/fixtures/products.ts` передаются
+через props. В интеграционном тесте страницы товара MSW отвечает на HTTP-запросы
+товара, похожих товаров и корзины. Тесты выполняются без реального API, а запрос
+без обработчика приводит к ошибке. Тестовый адаптер Nuxt передаёт запросы в
+`ofetch`, поэтому загрузчики приложения получают HTTP-ответы мок-сервера.
+
+В CI весь Vitest выполняется до сборки и публикации. Перед commit lint-staged
+однократно запускает связанные тесты для изменённых исходников и тестов; отсутствие
+связанных тестов допустимо, падение найденного теста блокирует commit. При изменении
+конфига, setup или зависимостей выполняется весь набор. Аргументы передаются процессу
+без shell, включая пути страниц с `[id]`.
+
 ## Development Server
 
 ```bash
