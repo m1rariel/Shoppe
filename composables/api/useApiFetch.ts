@@ -15,7 +15,6 @@ export const useApiFetch = <ResT = unknown, DataT = ResT>(
   const defaults: UseFetchOptions<ResT, DataT> = {
     baseURL,
     key,
-    // Public catalog access requires amigo regardless of the user's login token.
     headers: createApiHeaders(null),
   }
   const fetchOptions: UseFetchOptions<ResT, DataT> = { ...defaults, ...options }

@@ -2,7 +2,6 @@ import { useState } from 'nuxt/app'
 import { useApiFetch } from '~/composables/api/useApiFetch'
 import type { PicsumPhoto } from '~/types/api'
 
-// Static HTML and its extracted payload must use the same selection on every render.
 const prerenderPage = import.meta.prerender ? Math.floor(Math.random() * 100) : undefined
 
 export const useGetRandomPhotos = (limit = 10) => {

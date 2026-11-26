@@ -3,7 +3,6 @@ import { useAuthStore } from '~/stores/auth'
 import { useCartStore } from '~/stores/cartStore'
 
 export default defineNuxtRouteMiddleware(async () => {
-  // The cart lives in localStorage, so access is decided after client-side restoration.
   if (import.meta.server) return
 
   const cartStore = useCartStore()

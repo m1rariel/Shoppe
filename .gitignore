@@ -5,7 +5,6 @@ dist
 .env
 .DS_Store
 
-# Local agent settings and working notes
 /.codex/
 /.scratch/
 /AGENTS.md
