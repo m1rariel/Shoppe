@@ -1,0 +1,12 @@
+{
+  "before": {
+    "mainThreadMs": 262.1387999999999,
+    "bootupMs": 100.78560000000013,
+    "longTaskCounts": [0, 0, 0]
+  },
+  "after": {
+    "mainThreadMs": 230.8595999999998,
+    "bootupMs": 109.32840000000019,
+    "longTaskCounts": [0, 0, 0]
+  }
+}

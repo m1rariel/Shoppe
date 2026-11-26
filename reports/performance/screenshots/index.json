@@ -1,0 +1,68 @@
+[
+  {
+    "page": "home",
+    "phase": "before",
+    "strategy": "mobile",
+    "source": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/o1fokvmhkonn6cbjms7mr5",
+    "fetchTime": "2026-11-26T13:08:12.032Z",
+    "score": 72,
+    "medianScore": 72,
+    "renderedBy": "Official Lighthouse 13.6 ReportGenerator from saved PSI JSON; representative run closest to median score, then LCP",
+    "image": "screenshots/home-before-mobile.png"
+  },
+  {
+    "page": "catalog",
+    "phase": "before",
+    "strategy": "mobile",
+    "source": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products/lfqqeagejwul2kiscf7wui",
+    "fetchTime": "2026-11-26T13:19:17.941Z",
+    "score": 93,
+    "medianScore": 93,
+    "renderedBy": "Official Lighthouse 13.6 ReportGenerator from saved PSI JSON; representative run closest to median score, then LCP",
+    "image": "screenshots/catalog-before-mobile.png"
+  },
+  {
+    "page": "product",
+    "phase": "before",
+    "strategy": "mobile",
+    "source": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products-3024/2rqh870xxmmsaqm3folpot",
+    "fetchTime": "2026-11-26T13:19:25.020Z",
+    "score": 95,
+    "medianScore": 95,
+    "renderedBy": "Official Lighthouse 13.6 ReportGenerator from saved PSI JSON; representative run closest to median score, then LCP",
+    "image": "screenshots/product-before-mobile.png"
+  },
+  {
+    "page": "home",
+    "phase": "after",
+    "strategy": "mobile",
+    "source": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/ygb9t88ezq6i5ciaewdtun",
+    "fetchTime": "2026-11-26T14:19:37.500Z",
+    "score": 97,
+    "medianScore": 97,
+    "renderedBy": "Official Lighthouse 13.6 ReportGenerator from saved PSI JSON; representative run closest to median score, then LCP",
+    "image": "screenshots/home-after-mobile.png"
+  },
+  {
+    "page": "catalog",
+    "phase": "after",
+    "strategy": "mobile",
+    "source": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products/495raxf7mm2n1d5edevar5",
+    "fetchTime": "2026-11-26T14:19:40.335Z",
+    "score": 96,
+    "medianScore": 96,
+    "renderedBy": "Official Lighthouse 13.6 ReportGenerator from saved PSI JSON; representative run closest to median score, then LCP",
+    "image": "screenshots/catalog-after-mobile.png"
+  },
+  {
+    "page": "product",
+    "phase": "after",
+    "strategy": "mobile",
+    "source": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products-3024/ql1hxukv7vfqbd7z73vg4j",
+    "fetchTime": "2026-11-26T14:19:42.490Z",
+    "score": 98,
+    "medianScore": 98,
+    "renderedBy": "Official Lighthouse 13.6 ReportGenerator from saved PSI JSON; representative run closest to median score, then LCP",
+    "image": "screenshots/product-after-mobile.png"
+  }
+]

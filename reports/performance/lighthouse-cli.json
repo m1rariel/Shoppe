@@ -1,0 +1,3970 @@
+{
+  "purpose": "Independent production Lighthouse CLI corroboration; do not mix with PSI medians",
+  "version": "13.6.0",
+  "browser": "Headless Chromium 159",
+  "runsPerPageAndDevice": 3,
+  "before": {
+    "medians": [
+      {
+        "page": "home",
+        "mode": "mobile",
+        "runs": 3,
+        "score": 73,
+        "FCP": 1829.7465,
+        "LCP": 9755.767,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 3681.01767681872,
+        "requests": 41,
+        "bytes": 5621387
+      },
+      {
+        "page": "home",
+        "mode": "desktop",
+        "runs": 3,
+        "score": 82,
+        "FCP": 688.9955,
+        "LCP": 2872.494,
+        "TBT": 0,
+        "CLS": 0.00018570844460496746,
+        "SpeedIndex": 1695.7358726523053,
+        "requests": 41,
+        "bytes": 3658732
+      },
+      {
+        "page": "catalog",
+        "mode": "mobile",
+        "runs": 3,
+        "score": 96,
+        "FCP": 1768.8269999999998,
+        "LCP": 2405.812,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 2566.800836564276,
+        "requests": 41,
+        "bytes": 485966
+      },
+      {
+        "page": "catalog",
+        "mode": "desktop",
+        "runs": 3,
+        "score": 99,
+        "FCP": 672.9849999999999,
+        "LCP": 788.709,
+        "TBT": 0,
+        "CLS": 3.9102940854566164e-5,
+        "SpeedIndex": 1088.5676336826182,
+        "requests": 40,
+        "bytes": 484020
+      },
+      {
+        "page": "product",
+        "mode": "mobile",
+        "runs": 3,
+        "score": 97,
+        "FCP": 1891.183,
+        "LCP": 2378.981,
+        "TBT": 9,
+        "CLS": 2.704261529155777e-5,
+        "SpeedIndex": 2461.0998490144666,
+        "requests": 35,
+        "bytes": 477466
+      },
+      {
+        "page": "product",
+        "mode": "desktop",
+        "runs": 3,
+        "score": 99,
+        "FCP": 696.863,
+        "LCP": 706.1345,
+        "TBT": 0,
+        "CLS": 2.2881534016285795e-5,
+        "SpeedIndex": 988.2954237398308,
+        "requests": 37,
+        "bytes": 519774
+      }
+    ],
+    "runs": [
+      {
+        "file": "catalog-desktop-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T13:06:16.158Z",
+        "score": 99,
+        "FCP": 671.0425,
+        "LCP": 789.2235000000001,
+        "TBT": 0,
+        "CLS": 3.9102940854566164e-5,
+        "SpeedIndex": 1149.721684925298,
+        "requests": 40,
+        "bytes": 484020,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82381,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55394,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38915,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35510,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28291,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27483,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26112,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24463,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24055,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 360 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 50 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 143 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 620 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 138 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 290 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "catalog-desktop-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T13:06:27.818Z",
+        "score": 99,
+        "FCP": 677.3239999999998,
+        "LCP": 677.3239999999998,
+        "TBT": 0,
+        "CLS": 5.096283709832764e-5,
+        "SpeedIndex": 1023.686335371055,
+        "requests": 40,
+        "bytes": 483995,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82498,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 63116,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55394,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38793,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35412,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28292,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27480,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26113,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24337,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24177,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 310 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 50 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 143 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 390 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 138 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 350 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "catalog-desktop-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T13:06:39.221Z",
+        "score": 99,
+        "FCP": 672.9849999999999,
+        "LCP": 788.709,
+        "TBT": 0,
+        "CLS": 3.9102940854566164e-5,
+        "SpeedIndex": 1088.5676336826182,
+        "requests": 40,
+        "bytes": 484035,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82404,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 63115,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55403,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38793,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35393,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28291,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27484,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26112,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24363,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24177,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 360 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 50 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 143 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 470 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 138 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 300 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "catalog-mobile-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T13:08:08.554Z",
+        "score": 96,
+        "FCP": 1774.8644999999997,
+        "LCP": 2418.66,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 2599.771286727151,
+        "requests": 41,
+        "bytes": 485994,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82384,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55391,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38793,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35550,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28312,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27591,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26110,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24509,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24052,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 920 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 50 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 143 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 510 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 135 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 840 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "catalog-mobile-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T13:05:53.249Z",
+        "score": 96,
+        "FCP": 1768.8269999999998,
+        "LCP": 2405.812,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 2566.800836564276,
+        "requests": 41,
+        "bytes": 485966,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82474,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55404,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38793,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35440,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28415,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27480,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26110,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24360,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24056,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 910 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 50 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 143 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 470 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 135 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 850 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "catalog-mobile-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T13:06:04.733Z",
+        "score": 97,
+        "FCP": 1696.998,
+        "LCP": 2341.257,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 2505.5965232706744,
+        "requests": 41,
+        "bytes": 485935,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82550,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55394,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38802,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35386,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28414,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27480,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26113,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24410,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24055,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 840 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 50 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 143 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 400 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 135 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 840 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "home-desktop-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T13:04:58.160Z",
+        "score": 77,
+        "FCP": 830.4399999999999,
+        "LCP": 3026.6775,
+        "TBT": 0,
+        "CLS": 0.00018570844460496746,
+        "SpeedIndex": 2401.7842614244905,
+        "requests": 41,
+        "bytes": 3658764,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://fastly.picsum.photos/id/1028/5000/3333.jpg?hmac=dPBM0Vsf5Qp7_SuYalNwdDIe0R-Y6egb6F9fPtMQZa0",
+            "bytes": 1012739,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1020/4288/2848.jpg?hmac=Jo3ofatg0fee3HGOliAIIkcg4KGXC8UOTO1dm5qIIPc",
+            "bytes": 1002439,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1019/5000/3333.jpg?hmac=2V66Wqn0UvUHktrTWb1iPIAFuueai2R80eKzICYauhM",
+            "bytes": 905322,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.BzLrHTvG.png",
+            "bytes": 280232,
+            "type": "Other"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1021/2048/1206.jpg?hmac=fqT2NWHx783Pily1V_39ug_GFH1A4GlbmOMu8NWB3Ts",
+            "bytes": 108307,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82330,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BIaQL_Qn.png",
+            "bytes": 81825,
+            "type": "Other"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35488,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24390,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "unsized-images",
+            "title": "Image elements do not have explicit `width` and `height`"
+          },
+          {
+            "id": "total-byte-weight",
+            "title": "Avoid enormous network payloads",
+            "display": "Total size was 3,573 KiB"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 129 KiB"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 1,822 KiB"
+          },
+          {
+            "id": "lcp-breakdown-insight",
+            "title": "LCP breakdown"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 370 ms"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "home-desktop-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T13:05:13.609Z",
+        "score": 82,
+        "FCP": 688.9955,
+        "LCP": 2872.494,
+        "TBT": 0,
+        "CLS": 0.00018570844460496746,
+        "SpeedIndex": 1545.5189664499133,
+        "requests": 41,
+        "bytes": 3658705,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://fastly.picsum.photos/id/1028/5000/3333.jpg?hmac=dPBM0Vsf5Qp7_SuYalNwdDIe0R-Y6egb6F9fPtMQZa0",
+            "bytes": 1012543,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1020/4288/2848.jpg?hmac=Jo3ofatg0fee3HGOliAIIkcg4KGXC8UOTO1dm5qIIPc",
+            "bytes": 1002484,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1019/5000/3333.jpg?hmac=2V66Wqn0UvUHktrTWb1iPIAFuueai2R80eKzICYauhM",
+            "bytes": 905268,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.BzLrHTvG.png",
+            "bytes": 280247,
+            "type": "Other"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1021/2048/1206.jpg?hmac=fqT2NWHx783Pily1V_39ug_GFH1A4GlbmOMu8NWB3Ts",
+            "bytes": 108487,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82354,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BIaQL_Qn.png",
+            "bytes": 81620,
+            "type": "Other"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35370,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24337,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "unsized-images",
+            "title": "Image elements do not have explicit `width` and `height`"
+          },
+          {
+            "id": "total-byte-weight",
+            "title": "Avoid enormous network payloads",
+            "display": "Total size was 3,573 KiB"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 129 KiB"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 1,822 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 310 ms"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "home-desktop-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T13:05:25.542Z",
+        "score": 82,
+        "FCP": 616.0550000000001,
+        "LCP": 2777.058,
+        "TBT": 0,
+        "CLS": 0.00018570844460496746,
+        "SpeedIndex": 1695.7358726523053,
+        "requests": 41,
+        "bytes": 3658732,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://fastly.picsum.photos/id/1028/5000/3333.jpg?hmac=dPBM0Vsf5Qp7_SuYalNwdDIe0R-Y6egb6F9fPtMQZa0",
+            "bytes": 1012534,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1020/4288/2848.jpg?hmac=Jo3ofatg0fee3HGOliAIIkcg4KGXC8UOTO1dm5qIIPc",
+            "bytes": 1002431,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1019/5000/3333.jpg?hmac=2V66Wqn0UvUHktrTWb1iPIAFuueai2R80eKzICYauhM",
+            "bytes": 905314,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.BzLrHTvG.png",
+            "bytes": 280327,
+            "type": "Other"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1021/2048/1206.jpg?hmac=fqT2NWHx783Pily1V_39ug_GFH1A4GlbmOMu8NWB3Ts",
+            "bytes": 108486,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82356,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BIaQL_Qn.png",
+            "bytes": 81769,
+            "type": "Other"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35444,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24340,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "unsized-images",
+            "title": "Image elements do not have explicit `width` and `height`"
+          },
+          {
+            "id": "total-byte-weight",
+            "title": "Avoid enormous network payloads",
+            "display": "Total size was 3,573 KiB"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 129 KiB"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 1,822 KiB"
+          },
+          {
+            "id": "lcp-breakdown-insight",
+            "title": "LCP breakdown"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 290 ms"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "home-mobile-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T13:04:18.873Z",
+        "score": 70,
+        "FCP": 1939.7665,
+        "LCP": 9755.767,
+        "TBT": 0,
+        "CLS": 4.353226340780857e-5,
+        "SpeedIndex": 5246.155120554891,
+        "requests": 41,
+        "bytes": 5621359,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://fastly.picsum.photos/id/1023/3955/2094.jpg?hmac=AW_7mARdoPWuI7sr6SG8t-2fScyyewuNscwMWtQRawU",
+            "bytes": 1077279,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1028/5000/3333.jpg?hmac=dPBM0Vsf5Qp7_SuYalNwdDIe0R-Y6egb6F9fPtMQZa0",
+            "bytes": 1012515,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1020/4288/2848.jpg?hmac=Jo3ofatg0fee3HGOliAIIkcg4KGXC8UOTO1dm5qIIPc",
+            "bytes": 1002494,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1022/5000/2813.jpg?hmac=ntmA52ZVulTcB4Mn4Jg0UdMbni1WGiJ7YYTfmmgIeuU",
+            "bytes": 930344,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1019/5000/3333.jpg?hmac=2V66Wqn0UvUHktrTWb1iPIAFuueai2R80eKzICYauhM",
+            "bytes": 905456,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.BzLrHTvG.png",
+            "bytes": 280249,
+            "type": "Other"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1021/2048/1206.jpg?hmac=fqT2NWHx783Pily1V_39ug_GFH1A4GlbmOMu8NWB3Ts",
+            "bytes": 108298,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82356,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BIaQL_Qn.png",
+            "bytes": 81631,
+            "type": "Other"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          }
+        ],
+        "issues": [
+          {
+            "id": "total-byte-weight",
+            "title": "Avoid enormous network payloads",
+            "display": "Total size was 5,490 KiB"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 120 KiB"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 4,739 KiB"
+          },
+          {
+            "id": "lcp-breakdown-insight",
+            "title": "LCP breakdown"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 900 ms"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "home-mobile-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T13:04:32.992Z",
+        "score": 73,
+        "FCP": 1808.441,
+        "LCP": 9546.727499999999,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 3420.0282734419548,
+        "requests": 41,
+        "bytes": 5621424,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://fastly.picsum.photos/id/1023/3955/2094.jpg?hmac=AW_7mARdoPWuI7sr6SG8t-2fScyyewuNscwMWtQRawU",
+            "bytes": 1077306,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1028/5000/3333.jpg?hmac=dPBM0Vsf5Qp7_SuYalNwdDIe0R-Y6egb6F9fPtMQZa0",
+            "bytes": 1012561,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1020/4288/2848.jpg?hmac=Jo3ofatg0fee3HGOliAIIkcg4KGXC8UOTO1dm5qIIPc",
+            "bytes": 1002476,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1022/5000/2813.jpg?hmac=ntmA52ZVulTcB4Mn4Jg0UdMbni1WGiJ7YYTfmmgIeuU",
+            "bytes": 930360,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1019/5000/3333.jpg?hmac=2V66Wqn0UvUHktrTWb1iPIAFuueai2R80eKzICYauhM",
+            "bytes": 905254,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.BzLrHTvG.png",
+            "bytes": 280248,
+            "type": "Other"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1021/2048/1206.jpg?hmac=fqT2NWHx783Pily1V_39ug_GFH1A4GlbmOMu8NWB3Ts",
+            "bytes": 108487,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82328,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BIaQL_Qn.png",
+            "bytes": 81630,
+            "type": "Other"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          }
+        ],
+        "issues": [
+          {
+            "id": "total-byte-weight",
+            "title": "Avoid enormous network payloads",
+            "display": "Total size was 5,490 KiB"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 120 KiB"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 4,739 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 940 ms"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "home-mobile-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T13:04:45.484Z",
+        "score": 73,
+        "FCP": 1829.7465,
+        "LCP": 14559.293000000001,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 3681.01767681872,
+        "requests": 41,
+        "bytes": 5621387,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://fastly.picsum.photos/id/1023/3955/2094.jpg?hmac=AW_7mARdoPWuI7sr6SG8t-2fScyyewuNscwMWtQRawU",
+            "bytes": 1077269,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1028/5000/3333.jpg?hmac=dPBM0Vsf5Qp7_SuYalNwdDIe0R-Y6egb6F9fPtMQZa0",
+            "bytes": 1012551,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1020/4288/2848.jpg?hmac=Jo3ofatg0fee3HGOliAIIkcg4KGXC8UOTO1dm5qIIPc",
+            "bytes": 1002493,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1022/5000/2813.jpg?hmac=ntmA52ZVulTcB4Mn4Jg0UdMbni1WGiJ7YYTfmmgIeuU",
+            "bytes": 930359,
+            "type": "Image"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1019/5000/3333.jpg?hmac=2V66Wqn0UvUHktrTWb1iPIAFuueai2R80eKzICYauhM",
+            "bytes": 905253,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.BzLrHTvG.png",
+            "bytes": 280238,
+            "type": "Other"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1021/2048/1206.jpg?hmac=fqT2NWHx783Pily1V_39ug_GFH1A4GlbmOMu8NWB3Ts",
+            "bytes": 108487,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82548,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BIaQL_Qn.png",
+            "bytes": 81628,
+            "type": "Other"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          }
+        ],
+        "issues": [
+          {
+            "id": "total-byte-weight",
+            "title": "Avoid enormous network payloads",
+            "display": "Total size was 5,490 KiB"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 120 KiB"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 4,739 KiB"
+          },
+          {
+            "id": "lcp-breakdown-insight",
+            "title": "LCP breakdown"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 880 ms"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "product-desktop-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T13:07:26.170Z",
+        "score": 99,
+        "FCP": 692.2285,
+        "LCP": 692.2285,
+        "TBT": 0,
+        "CLS": 2.2881534016285795e-5,
+        "SpeedIndex": 1301.461002585111,
+        "requests": 37,
+        "bytes": 519704,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86341,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82356,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55391,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38790,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35495,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28432,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26136,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24391,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14543,
+            "type": "Document"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 350 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 143 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 900 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 63 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 290 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "product-desktop-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T13:07:38.551Z",
+        "score": 99,
+        "FCP": 699.968,
+        "LCP": 706.1345,
+        "TBT": 0,
+        "CLS": 2.2881534016285795e-5,
+        "SpeedIndex": 988.2954237398308,
+        "requests": 37,
+        "bytes": 519774,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86332,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82381,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55417,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38790,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35490,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28424,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26110,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24508,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14530,
+            "type": "Document"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 340 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 143 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 410 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 63 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 300 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "product-desktop-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T13:07:50.336Z",
+        "score": 99,
+        "FCP": 696.863,
+        "LCP": 811.2909999999999,
+        "TBT": 0,
+        "CLS": 2.2881534016285795e-5,
+        "SpeedIndex": 913.129107822772,
+        "requests": 37,
+        "bytes": 519866,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86342,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82405,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55412,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38790,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?f964c022-4257-4762-9e4f-4c8c0d8c9747",
+            "bytes": 35401,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28414,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26137,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24392,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14529,
+            "type": "Document"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 340 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 143 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 410 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 63 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 300 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "product-mobile-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T13:06:50.757Z",
+        "score": 95,
+        "FCP": 2026.1435000000001,
+        "LCP": 2316.325,
+        "TBT": 10,
+        "CLS": 0,
+        "SpeedIndex": 3595.486380549647,
+        "requests": 35,
+        "bytes": 477450,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86341,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82375,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62700,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55391,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38790,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28414,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26137,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24448,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14554,
+            "type": "Document"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/aw_pTwhX.js",
+            "bytes": 12085,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 970 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 136 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 990 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 97 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 910 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "product-mobile-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T13:07:03.101Z",
+        "score": 97,
+        "FCP": 1891.183,
+        "LCP": 2381.745,
+        "TBT": 9,
+        "CLS": 2.704261529155777e-5,
+        "SpeedIndex": 2461.0998490144666,
+        "requests": 35,
+        "bytes": 477466,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86323,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82351,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55417,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38792,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28423,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26112,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24359,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14529,
+            "type": "Document"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/aw_pTwhX.js",
+            "bytes": 12229,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 880 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 136 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 450 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 97 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 850 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "product-mobile-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T13:07:14.687Z",
+        "score": 97,
+        "FCP": 1885.0825,
+        "LCP": 2378.981,
+        "TBT": 9,
+        "CLS": 2.704261529155777e-5,
+        "SpeedIndex": 2369.0740691548945,
+        "requests": 35,
+        "bytes": 477687,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86350,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CzY9yjNu.js",
+            "bytes": 82354,
+            "type": "Script"
+          },
+          {
+            "url": "https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2",
+            "bytes": 62701,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55417,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38790,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28414,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26110,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BFGILSpv.js",
+            "bytes": 24447,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14530,
+            "type": "Document"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/aw_pTwhX.js",
+            "bytes": 12098,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 880 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 136 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 420 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 97 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 840 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      }
+    ]
+  },
+  "after": {
+    "medians": [
+      {
+        "page": "home",
+        "mode": "mobile",
+        "runs": 3,
+        "score": 93,
+        "FCP": 1095.431,
+        "LCP": 3195.431,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 2676.0083295427025,
+        "requests": 29,
+        "bytes": 276041
+      },
+      {
+        "page": "home",
+        "mode": "desktop",
+        "runs": 3,
+        "score": 98,
+        "FCP": 451.10900000000004,
+        "LCP": 1070.7530000000002,
+        "TBT": 0,
+        "CLS": 0.000188632280083472,
+        "SpeedIndex": 1128.23258214938,
+        "requests": 33,
+        "bytes": 325322
+      },
+      {
+        "page": "catalog",
+        "mode": "mobile",
+        "runs": 3,
+        "score": 97,
+        "FCP": 1034.069,
+        "LCP": 2676.264,
+        "TBT": 21.5,
+        "CLS": 0,
+        "SpeedIndex": 1486.5396360116958,
+        "requests": 39,
+        "bytes": 483386
+      },
+      {
+        "page": "catalog",
+        "mode": "desktop",
+        "runs": 3,
+        "score": 100,
+        "FCP": 344.772,
+        "LCP": 728.7235000000001,
+        "TBT": 0,
+        "CLS": 3.9102940854566164e-5,
+        "SpeedIndex": 619.6949475341081,
+        "requests": 38,
+        "bytes": 481775
+      },
+      {
+        "page": "product",
+        "mode": "mobile",
+        "runs": 3,
+        "score": 98,
+        "FCP": 1044.1280000000002,
+        "LCP": 2244.128,
+        "TBT": 5,
+        "CLS": 0,
+        "SpeedIndex": 2099.3690769633904,
+        "requests": 33,
+        "bytes": 475257
+      },
+      {
+        "page": "product",
+        "mode": "desktop",
+        "runs": 3,
+        "score": 100,
+        "FCP": 389.7289999999999,
+        "LCP": 748.8535,
+        "TBT": 0,
+        "CLS": 2.2881534016285795e-5,
+        "SpeedIndex": 650.7506703617056,
+        "requests": 35,
+        "bytes": 517497
+      }
+    ],
+    "runs": [
+      {
+        "file": "catalog-desktop-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T14:20:42.871Z",
+        "score": 99,
+        "FCP": 431.276,
+        "LCP": 893.8065000000001,
+        "TBT": 0,
+        "CLS": 3.9102940854566164e-5,
+        "SpeedIndex": 822.4965150705893,
+        "requests": 38,
+        "bytes": 481443,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82405,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62910,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55394,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38793,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35520,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28301,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27516,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26110,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24369,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24177,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 390 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 51 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 205 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 520 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 138 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "catalog-desktop-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T14:20:54.240Z",
+        "score": 100,
+        "FCP": 331.29200000000003,
+        "LCP": 674.1315000000001,
+        "TBT": 0,
+        "CLS": 3.9102940854566164e-5,
+        "SpeedIndex": 535.128802309825,
+        "requests": 38,
+        "bytes": 481804,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82381,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62890,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55418,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38924,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35398,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28311,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27489,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26110,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24514,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24073,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 290 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 51 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 205 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 350 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 138 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "catalog-desktop-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T14:21:05.151Z",
+        "score": 100,
+        "FCP": 344.772,
+        "LCP": 728.7235000000001,
+        "TBT": 0,
+        "CLS": 3.9102940854566164e-5,
+        "SpeedIndex": 619.6949475341081,
+        "requests": 38,
+        "bytes": 481775,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82380,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62927,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55391,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38799,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35544,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28292,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27582,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26145,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24546,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24055,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 300 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 51 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 206 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 380 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 138 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "catalog-mobile-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T14:20:09.731Z",
+        "score": 95,
+        "FCP": 1106.652,
+        "LCP": 2906.652,
+        "TBT": 22.499999999999773,
+        "CLS": 0,
+        "SpeedIndex": 2083.8973340266225,
+        "requests": 39,
+        "bytes": 483386,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82351,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62778,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55400,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38924,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35401,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28289,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27480,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26113,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24343,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24056,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 960 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 51 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 205 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 520 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 135 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 130 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "catalog-mobile-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T14:20:21.115Z",
+        "score": 97,
+        "FCP": 1034.069,
+        "LCP": 2637.7815,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 1486.5396360116958,
+        "requests": 39,
+        "bytes": 483312,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82352,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62783,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55394,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38793,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35397,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28301,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27582,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26121,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24529,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24075,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 880 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 51 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 205 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 410 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 135 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 140 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "catalog-mobile-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/",
+        "time": "2026-11-26T14:20:31.951Z",
+        "score": 97,
+        "FCP": 1002.817,
+        "LCP": 2676.264,
+        "TBT": 21.5,
+        "CLS": 0,
+        "SpeedIndex": 1463.8683959744453,
+        "requests": 39,
+        "bytes": 483406,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82351,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62777,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55403,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38790,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35416,
+            "type": "Other"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28289,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/rings/koltso-iz-zheltogo-zolota-s-topazom-10312-000104.jpg",
+            "bytes": 27480,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26110,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24432,
+            "type": "Script"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081359.jpg",
+            "bytes": 24186,
+            "type": "Image"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 850 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 51 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 205 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 420 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 135 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 140 ms"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products) was redirected to https://m1rariel.github.io/Shoppe/products/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "home-desktop-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T14:19:35.820Z",
+        "score": 96,
+        "FCP": 573.5620000000001,
+        "LCP": 1286.69,
+        "TBT": 0,
+        "CLS": 0.00018570844460496746,
+        "SpeedIndex": 1222.1460317013964,
+        "requests": 33,
+        "bytes": 325322,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82466,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62896,
+            "type": "Font"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35441,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1008/1280/640.webp?hmac=VppkxL2D-o0e7xOHqnpQ4T83Xb9WrnOS9J_lupm6tiY",
+            "bytes": 31944,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24398,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.CE1pFFYF.webp",
+            "bytes": 14408,
+            "type": "Other"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/",
+            "bytes": 11324,
+            "type": "Document"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/allerta-stencil-latin.DmR2cykG.woff2",
+            "bytes": 8053,
+            "type": "Font"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1009/1280/640.webp?hmac=br6PL9yewhXqsQFQG-y8fBNcTy3zv7gXgUrvWcRBYug",
+            "bytes": 7624,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BdEJKOGO.webp",
+            "bytes": 7302,
+            "type": "Other"
+          }
+        ],
+        "issues": [
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 192 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "home-desktop-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T14:19:47.282Z",
+        "score": 98,
+        "FCP": 451.10900000000004,
+        "LCP": 1070.7530000000002,
+        "TBT": 0,
+        "CLS": 0.000188632280083472,
+        "SpeedIndex": 1128.23258214938,
+        "requests": 33,
+        "bytes": 325192,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82566,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62906,
+            "type": "Font"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35426,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1008/1280/640.webp?hmac=VppkxL2D-o0e7xOHqnpQ4T83Xb9WrnOS9J_lupm6tiY",
+            "bytes": 31942,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24374,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.CE1pFFYF.webp",
+            "bytes": 14425,
+            "type": "Other"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/",
+            "bytes": 11325,
+            "type": "Document"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/allerta-stencil-latin.DmR2cykG.woff2",
+            "bytes": 8064,
+            "type": "Font"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1009/1280/640.webp?hmac=br6PL9yewhXqsQFQG-y8fBNcTy3zv7gXgUrvWcRBYug",
+            "bytes": 7647,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BdEJKOGO.webp",
+            "bytes": 7402,
+            "type": "Other"
+          }
+        ],
+        "issues": [
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 191 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "home-desktop-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T14:19:58.504Z",
+        "score": 98,
+        "FCP": 390.751,
+        "LCP": 1016.5724999999999,
+        "TBT": 0,
+        "CLS": 0.000188632280083472,
+        "SpeedIndex": 1085.7297446665627,
+        "requests": 33,
+        "bytes": 325437,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82347,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62778,
+            "type": "Font"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35545,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1008/1280/640.webp?hmac=VppkxL2D-o0e7xOHqnpQ4T83Xb9WrnOS9J_lupm6tiY",
+            "bytes": 31942,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24376,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.CE1pFFYF.webp",
+            "bytes": 14454,
+            "type": "Other"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/",
+            "bytes": 11323,
+            "type": "Document"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/allerta-stencil-latin.DmR2cykG.woff2",
+            "bytes": 8179,
+            "type": "Font"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1009/1280/640.webp?hmac=br6PL9yewhXqsQFQG-y8fBNcTy3zv7gXgUrvWcRBYug",
+            "bytes": 7646,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BdEJKOGO.webp",
+            "bytes": 7293,
+            "type": "Other"
+          }
+        ],
+        "issues": [
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 192 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "home-mobile-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T14:19:01.850Z",
+        "score": 92,
+        "FCP": 1154.626,
+        "LCP": 3256.67,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 2676.0083295427025,
+        "requests": 29,
+        "bytes": 276041,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82486,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62822,
+            "type": "Font"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1008/800/800.webp?hmac=2_GMQThqekSNMutVAI-sJHs_cM6FUOphqEu9Mb4tQLY",
+            "bytes": 25816,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24377,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.CE1pFFYF.webp",
+            "bytes": 14392,
+            "type": "Other"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/",
+            "bytes": 11324,
+            "type": "Document"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1009/800/800.webp?hmac=LPDyICZPVCvBN7SbkknZBHkZ1xO6Crf9E2ea2z2l-mc",
+            "bytes": 10524,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/allerta-stencil-latin.DmR2cykG.woff2",
+            "bytes": 7974,
+            "type": "Font"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BdEJKOGO.webp",
+            "bytes": 7277,
+            "type": "Other"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CI7U2OmU.js",
+            "bytes": 5561,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 182 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 110 ms"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "home-mobile-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T14:19:13.396Z",
+        "score": 93,
+        "FCP": 1095.431,
+        "LCP": 3195.431,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 2296.7838555128114,
+        "requests": 29,
+        "bytes": 275928,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82409,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62767,
+            "type": "Font"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1008/800/800.webp?hmac=2_GMQThqekSNMutVAI-sJHs_cM6FUOphqEu9Mb4tQLY",
+            "bytes": 25789,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24395,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.CE1pFFYF.webp",
+            "bytes": 14536,
+            "type": "Other"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/",
+            "bytes": 11321,
+            "type": "Document"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1009/800/800.webp?hmac=LPDyICZPVCvBN7SbkknZBHkZ1xO6Crf9E2ea2z2l-mc",
+            "bytes": 10513,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/allerta-stencil-latin.DmR2cykG.woff2",
+            "bytes": 8052,
+            "type": "Font"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BdEJKOGO.webp",
+            "bytes": 7242,
+            "type": "Other"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CI7U2OmU.js",
+            "bytes": 5399,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 182 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 140 ms"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "home-mobile-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/",
+        "time": "2026-11-26T14:19:24.516Z",
+        "score": 93,
+        "FCP": 996.972,
+        "LCP": 3096.9720000000007,
+        "TBT": 0,
+        "CLS": 0,
+        "SpeedIndex": 2780.284803983498,
+        "requests": 29,
+        "bytes": 276059,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82506,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62769,
+            "type": "Font"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1008/800/800.webp?hmac=2_GMQThqekSNMutVAI-sJHs_cM6FUOphqEu9Mb4tQLY",
+            "bytes": 25789,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24360,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img.CE1pFFYF.webp",
+            "bytes": 14525,
+            "type": "Other"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/",
+            "bytes": 11321,
+            "type": "Document"
+          },
+          {
+            "url": "https://fastly.picsum.photos/id/1009/800/800.webp?hmac=LPDyICZPVCvBN7SbkknZBHkZ1xO6Crf9E2ea2z2l-mc",
+            "bytes": 10490,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/allerta-stencil-latin.DmR2cykG.woff2",
+            "bytes": 8032,
+            "type": "Font"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/about-img-mobile.BdEJKOGO.webp",
+            "bytes": 7253,
+            "type": "Other"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/CI7U2OmU.js",
+            "bytes": 5425,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 27 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 182 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests",
+            "display": "Est savings of 140 ms"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "file": "product-desktop-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T14:21:49.808Z",
+        "score": 100,
+        "FCP": 373.98499999999996,
+        "LCP": 665.5785,
+        "TBT": 0,
+        "CLS": 2.2881534016285795e-5,
+        "SpeedIndex": 710.4580143342216,
+        "requests": 35,
+        "bytes": 517523,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86323,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82548,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62800,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55391,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38792,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35547,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28423,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26136,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24398,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14932,
+            "type": "Document"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 320 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 206 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 540 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 63 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "product-desktop-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T14:22:01.098Z",
+        "score": 100,
+        "FCP": 431.514,
+        "LCP": 748.8535,
+        "TBT": 0,
+        "CLS": 2.2881534016285795e-5,
+        "SpeedIndex": 643.7873185285806,
+        "requests": 35,
+        "bytes": 517497,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86323,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82431,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62849,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55426,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38792,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35483,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28414,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26112,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24349,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14918,
+            "type": "Document"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 380 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 206 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 390 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 63 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "product-desktop-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T14:22:12.337Z",
+        "score": 100,
+        "FCP": 389.7289999999999,
+        "LCP": 750.9005,
+        "TBT": 0,
+        "CLS": 2.2881534016285795e-5,
+        "SpeedIndex": 650.7506703617056,
+        "requests": 35,
+        "bytes": 517272,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86332,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82375,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62798,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55403,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38790,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/_payload.json?3909e9cb-6aa9-4972-86ee-c1aa83e608c6",
+            "bytes": 35436,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28414,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26110,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24346,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14943,
+            "type": "Document"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 340 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 206 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 470 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 63 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "product-mobile-1.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T14:21:15.989Z",
+        "score": 98,
+        "FCP": 1044.1280000000002,
+        "LCP": 2244.128,
+        "TBT": 5,
+        "CLS": 0,
+        "SpeedIndex": 2367.868017424205,
+        "requests": 33,
+        "bytes": 475257,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86323,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82351,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62776,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55391,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38793,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28423,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26112,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24439,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14884,
+            "type": "Document"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/DZUVyeN5.js",
+            "bytes": 12198,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 890 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 199 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 540 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 97 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "product-mobile-2.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T14:21:27.288Z",
+        "score": 99,
+        "FCP": 999.182,
+        "LCP": 2049.182,
+        "TBT": 7.5,
+        "CLS": 0,
+        "SpeedIndex": 2095.3128955803777,
+        "requests": 33,
+        "bytes": 475283,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86323,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82401,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62786,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55417,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38790,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28423,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26112,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24476,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14904,
+            "type": "Document"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/DZUVyeN5.js",
+            "bytes": 12126,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 850 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 199 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 510 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 97 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      },
+      {
+        "file": "product-mobile-3.report.json",
+        "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+        "time": "2026-11-26T14:21:38.614Z",
+        "score": 98,
+        "FCP": 1097.56,
+        "LCP": 2297.56,
+        "TBT": 3.5,
+        "CLS": 0,
+        "SpeedIndex": 2099.3690769633904,
+        "requests": 33,
+        "bytes": 475155,
+        "errors": [],
+        "topResources": [
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/products?category=chains",
+            "bytes": 86332,
+            "type": "Fetch"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/BVU4oPXq.js",
+            "bytes": 82409,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/dm-sans-normal-latin.BNY05QUC.woff2",
+            "bytes": 62902,
+            "type": "Font"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-dvojnoj-romb-082258.jpg",
+            "bytes": 55391,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-roza-081730.jpg",
+            "bytes": 38790,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/tsep-iz-zolota-pletenie-kardinal-081918.jpg",
+            "bytes": 28414,
+            "type": "Image"
+          },
+          {
+            "url": "https://shoppe-api-eleet.msk1.amvera.tech/img/chains/serebrjanaja-tsep-pletenie-jakornoe-081878.jpg",
+            "bytes": 26136,
+            "type": "Image"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/D1lEKNfe.js",
+            "bytes": 24327,
+            "type": "Script"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+            "bytes": 14885,
+            "type": "Document"
+          },
+          {
+            "url": "https://m1rariel.github.io/Shoppe/_nuxt/DZUVyeN5.js",
+            "bytes": 12079,
+            "type": "Script"
+          }
+        ],
+        "issues": [
+          {
+            "id": "redirects",
+            "title": "Avoid multiple page redirects",
+            "display": "Est savings of 950 ms"
+          },
+          {
+            "id": "unused-javascript",
+            "title": "Reduce unused JavaScript",
+            "display": "Est savings of 25 KiB"
+          },
+          {
+            "id": "cache-insight",
+            "title": "Use efficient cache lifetimes",
+            "display": "Est savings of 199 KiB"
+          },
+          {
+            "id": "document-latency-insight",
+            "title": "Document request latency",
+            "display": "Est savings of 450 ms"
+          },
+          {
+            "id": "image-delivery-insight",
+            "title": "Improve image delivery",
+            "display": "Est savings of 97 KiB"
+          },
+          {
+            "id": "lcp-discovery-insight",
+            "title": "LCP request discovery"
+          },
+          {
+            "id": "network-dependency-tree-insight",
+            "title": "Network dependency tree"
+          },
+          {
+            "id": "render-blocking-insight",
+            "title": "Render-blocking requests"
+          }
+        ],
+        "warnings": [
+          "The page may not be loading as expected because your test URL (https://m1rariel.github.io/Shoppe/products/3024) was redirected to https://m1rariel.github.io/Shoppe/products/3024/. Try testing the second URL directly."
+        ]
+      }
+    ]
+  }
+}

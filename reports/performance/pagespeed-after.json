@@ -1,0 +1,1379 @@
+{
+  "measuredCommit": "7bb6eb15ff86c81b489de254f6d6204c36f85f7c",
+  "deployment": "https://github.com/m1rariel/Shoppe/actions/runs/45836066785",
+  "requiredRunsPerPageAndDevice": 3,
+  "complete": true,
+  "status": "complete",
+  "runs": [
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/27mzczri0c05uvemw5ez4w",
+      "json": "27mzczri0c05uvemw5ez4w-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "timestamp": "2026-11-26T14:11:56.017Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 95.0,
+      "requests": 28,
+      "bytes": 376423,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 196 KiB"
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 23 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 460 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 27 KiB"
+        }
+      ],
+      "FCP": 1062.4983048941504,
+      "LCP": 2866.294236640111,
+      "TBT": 0,
+      "CLS": 0,
+      "SpeedIndex": 2908.355685315265,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/27mzczri0c05uvemw5ez4w",
+      "json": "27mzczri0c05uvemw5ez4w-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "timestamp": "2026-11-26T14:11:56.813Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 33,
+      "bytes": 354969,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 214 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 100 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 27 KiB"
+        }
+      ],
+      "FCP": 244.59175199627288,
+      "LCP": 645.6938139972046,
+      "TBT": 0,
+      "CLS": 0.0003354476855221912,
+      "SpeedIndex": 454.4621526149963,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/g0s0712b9wuzn8e8gwkvmu",
+      "json": "g0s0712b9wuzn8e8gwkvmu-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "timestamp": "2026-11-26T14:11:56.017Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 95.0,
+      "requests": 28,
+      "bytes": 376423,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 196 KiB"
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 23 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 460 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 27 KiB"
+        }
+      ],
+      "FCP": 1062.4983048941504,
+      "LCP": 2866.294236640111,
+      "TBT": 0,
+      "CLS": 0,
+      "SpeedIndex": 2908.355685315265,
+      "duplicate": true
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/g0s0712b9wuzn8e8gwkvmu",
+      "json": "g0s0712b9wuzn8e8gwkvmu-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "timestamp": "2026-11-26T14:11:56.813Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 33,
+      "bytes": 354969,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 214 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 100 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 27 KiB"
+        }
+      ],
+      "FCP": 244.59175199627288,
+      "LCP": 645.6938139972046,
+      "TBT": 0,
+      "CLS": 0.0003354476855221912,
+      "SpeedIndex": 454.4621526149963,
+      "duplicate": true
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/taqyzpvvwbgzi8s9lklmzv",
+      "json": "taqyzpvvwbgzi8s9lklmzv-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "timestamp": "2026-11-26T14:11:56.017Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 95.0,
+      "requests": 28,
+      "bytes": 376423,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 196 KiB"
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 23 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 460 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 27 KiB"
+        }
+      ],
+      "FCP": 1062.4983048941504,
+      "LCP": 2866.294236640111,
+      "TBT": 0,
+      "CLS": 0,
+      "SpeedIndex": 2908.355685315265,
+      "duplicate": true
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/taqyzpvvwbgzi8s9lklmzv",
+      "json": "taqyzpvvwbgzi8s9lklmzv-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "timestamp": "2026-11-26T14:11:56.813Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 33,
+      "bytes": 354969,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 214 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 100 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 27 KiB"
+        }
+      ],
+      "FCP": 244.59175199627288,
+      "LCP": 645.6938139972046,
+      "TBT": 0,
+      "CLS": 0.0003354476855221912,
+      "SpeedIndex": 454.4621526149963,
+      "duplicate": true
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products/exuxwsi4348ehcuc7gktjn",
+      "json": "exuxwsi4348ehcuc7gktjn-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/",
+      "timestamp": "2026-11-26T14:15:47.560Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 92.0,
+      "requests": 38,
+      "bytes": 500340,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 135 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 420 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 50 KiB"
+        }
+      ],
+      "FCP": 909.074343709889,
+      "LCP": 3313.0557577824165,
+      "TBT": 0,
+      "CLS": 0,
+      "SpeedIndex": 2889.355820529405,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products/exuxwsi4348ehcuc7gktjn",
+      "json": "exuxwsi4348ehcuc7gktjn-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/",
+      "timestamp": "2026-11-26T14:15:46.520Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 37,
+      "bytes": 533437,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 140 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 120 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 50 KiB"
+        }
+      ],
+      "FCP": 244.59517048693738,
+      "LCP": 530.8867188390777,
+      "TBT": 0,
+      "CLS": 0.00010572726261370036,
+      "SpeedIndex": 438.14186667115206,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products-3024/j1986jvwq0m4qvf13629ty",
+      "json": "j1986jvwq0m4qvf13629ty-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+      "timestamp": "2026-11-26T14:16:15.797Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 98.0,
+      "requests": 32,
+      "bytes": 488787,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 207 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 97 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 430 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 25 KiB"
+        }
+      ],
+      "FCP": 922.0731345508193,
+      "LCP": 2401.255970927867,
+      "TBT": 0,
+      "CLS": 8.032414196413734e-5,
+      "SpeedIndex": 1289.9397314384928,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products-3024/j1986jvwq0m4qvf13629ty",
+      "json": "j1986jvwq0m4qvf13629ty-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+      "timestamp": "2026-11-26T14:16:16.183Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 34,
+      "bytes": 531997,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 65 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 110 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 25 KiB"
+        }
+      ],
+      "FCP": 269.08727965635785,
+      "LCP": 561.2618389690733,
+      "TBT": 7.5,
+      "CLS": 0.0001111951076872294,
+      "SpeedIndex": 272.49442187711605,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products/opkf37s5673lrgqx4h6m9w",
+      "json": "opkf37s5673lrgqx4h6m9w-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/",
+      "timestamp": "2026-11-26T14:15:46.520Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 37,
+      "bytes": 533437,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 140 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 120 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 50 KiB"
+        }
+      ],
+      "FCP": 244.59517048693738,
+      "LCP": 530.8867188390777,
+      "TBT": 0,
+      "CLS": 0.00010572726261370036,
+      "SpeedIndex": 438.14186667115206,
+      "duplicate": true
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products/opkf37s5673lrgqx4h6m9w",
+      "json": "opkf37s5673lrgqx4h6m9w-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/",
+      "timestamp": "2026-11-26T14:15:47.560Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 92.0,
+      "requests": 38,
+      "bytes": 500340,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 135 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 420 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 50 KiB"
+        }
+      ],
+      "FCP": 909.074343709889,
+      "LCP": 3313.0557577824165,
+      "TBT": 0,
+      "CLS": 0,
+      "SpeedIndex": 2889.355820529405,
+      "duplicate": true
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products-3024/6h0hszhg8vecgcuuie67bd",
+      "json": "6h0hszhg8vecgcuuie67bd-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+      "timestamp": "2026-11-26T14:16:15.797Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 98.0,
+      "requests": 32,
+      "bytes": 488787,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 207 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 97 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 430 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 25 KiB"
+        }
+      ],
+      "FCP": 922.0731345508193,
+      "LCP": 2401.255970927867,
+      "TBT": 0,
+      "CLS": 8.032414196413734e-5,
+      "SpeedIndex": 1289.9397314384928,
+      "duplicate": true
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products-3024/6h0hszhg8vecgcuuie67bd",
+      "json": "6h0hszhg8vecgcuuie67bd-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+      "timestamp": "2026-11-26T14:16:16.183Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 34,
+      "bytes": 531997,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 65 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 110 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 25 KiB"
+        }
+      ],
+      "FCP": 269.08727965635785,
+      "LCP": 561.2618389690733,
+      "TBT": 7.5,
+      "CLS": 0.0001111951076872294,
+      "SpeedIndex": 272.49442187711605,
+      "duplicate": true
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products-3024/ejzegr6bf7d3v4hl0tsxqc",
+      "json": "ejzegr6bf7d3v4hl0tsxqc-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+      "timestamp": "2026-11-26T14:18:00.574Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 97.0,
+      "requests": 32,
+      "bytes": 488849,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 207 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "forced-reflow-insight",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 97 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 420 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 25 KiB"
+        }
+      ],
+      "FCP": 931.1895940501294,
+      "LCP": 2586.710977687985,
+      "TBT": 0,
+      "CLS": 8.032414196413734e-5,
+      "SpeedIndex": 1555.816041174514,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products-3024/ejzegr6bf7d3v4hl0tsxqc",
+      "json": "ejzegr6bf7d3v4hl0tsxqc-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+      "timestamp": "2026-11-26T14:18:01.160Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 99.0,
+      "requests": 34,
+      "bytes": 532029,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "forced-reflow-insight",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 65 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 70 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 25 KiB"
+        }
+      ],
+      "FCP": 295.0600854513349,
+      "LCP": 561.1802563540045,
+      "TBT": 108.99999999999989,
+      "CLS": 0.00010293325258619172,
+      "SpeedIndex": 516.5593298652213,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products/e1tdi6g505qg2dl9qq2c0d",
+      "json": "e1tdi6g505qg2dl9qq2c0d-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/",
+      "timestamp": "2026-11-26T14:17:57.290Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 98.0,
+      "requests": 38,
+      "bytes": 500355,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 135 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 430 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 50 KiB"
+        }
+      ],
+      "FCP": 904.5939631481084,
+      "LCP": 2413.5788710183797,
+      "TBT": 0,
+      "CLS": 4.648694191965079e-5,
+      "SpeedIndex": 1529.8191630591339,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products/e1tdi6g505qg2dl9qq2c0d",
+      "json": "e1tdi6g505qg2dl9qq2c0d-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/",
+      "timestamp": "2026-11-26T14:17:58.020Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 37,
+      "bytes": 533419,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "forced-reflow-insight",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 140 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 100 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 50 KiB"
+        }
+      ],
+      "FCP": 244.87786217002795,
+      "LCP": 605.6641209675768,
+      "TBT": 0,
+      "CLS": 0.0001064428563626091,
+      "SpeedIndex": 509.18647945254054,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/haa2cfpxgnsvg6uzsrug4z",
+      "json": "haa2cfpxgnsvg6uzsrug4z-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "timestamp": "2026-11-26T14:17:57.191Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 32,
+      "bytes": 489979,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 214 KiB"
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 9 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 90 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 27 KiB"
+        }
+      ],
+      "FCP": 246.4235512125075,
+      "LCP": 646.4269021820269,
+      "TBT": 1.5,
+      "CLS": 0.0002141310650265939,
+      "SpeedIndex": 557.8851794805057,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/haa2cfpxgnsvg6uzsrug4z",
+      "json": "haa2cfpxgnsvg6uzsrug4z-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "timestamp": "2026-11-26T14:17:55.990Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 98.0,
+      "requests": 28,
+      "bytes": 376565,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 196 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 440 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 27 KiB"
+        }
+      ],
+      "FCP": 904.5981917439949,
+      "LCP": 2407.703836527688,
+      "TBT": 0,
+      "CLS": 4.648694191965079e-5,
+      "SpeedIndex": 1352.9665784531112,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products-3024/ql1hxukv7vfqbd7z73vg4j",
+      "json": "ql1hxukv7vfqbd7z73vg4j-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+      "timestamp": "2026-11-26T14:19:42.490Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 98.0,
+      "requests": 32,
+      "bytes": 488778,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 207 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 97 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 420 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 25 KiB"
+        }
+      ],
+      "FCP": 928.1400181673525,
+      "LCP": 2401.4900635857334,
+      "TBT": 1.5,
+      "CLS": 8.032414196413734e-5,
+      "SpeedIndex": 998.617260607581,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products-3024/ql1hxukv7vfqbd7z73vg4j",
+      "json": "ql1hxukv7vfqbd7z73vg4j-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+      "timestamp": "2026-11-26T14:19:41.714Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 34,
+      "bytes": 531992,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 65 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 110 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 25 KiB"
+        }
+      ],
+      "FCP": 257.0834924300676,
+      "LCP": 608.2504772902028,
+      "TBT": 0,
+      "CLS": 0.0001111951076872294,
+      "SpeedIndex": 294.43579676153405,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products/495raxf7mm2n1d5edevar5",
+      "json": "495raxf7mm2n1d5edevar5-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/",
+      "timestamp": "2026-11-26T14:19:39.712Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 37,
+      "bytes": 533395,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 140 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 110 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 50 KiB"
+        }
+      ],
+      "FCP": 244.59275618100764,
+      "LCP": 653.5746466335268,
+      "TBT": 0,
+      "CLS": 0.0001064428563626091,
+      "SpeedIndex": 344.3838303549895,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-products/495raxf7mm2n1d5edevar5",
+      "json": "495raxf7mm2n1d5edevar5-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/products/",
+      "timestamp": "2026-11-26T14:19:40.335Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 96.0,
+      "requests": 38,
+      "bytes": 500303,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 215 KiB"
+        },
+        {
+          "id": "color-contrast",
+          "display": null
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 135 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 430 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 50 KiB"
+        }
+      ],
+      "FCP": 904.5903410852761,
+      "LCP": 2855.192755813957,
+      "TBT": 0,
+      "CLS": 4.648694191965079e-5,
+      "SpeedIndex": 1048.4909015585308,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/ygb9t88ezq6i5ciaewdtun",
+      "json": "ygb9t88ezq6i5ciaewdtun-desktop.json",
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "timestamp": "2026-11-26T14:19:37.297Z",
+      "strategy": "desktop",
+      "version": "13.6.0",
+      "score": 100,
+      "requests": 32,
+      "bytes": 489863,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 214 KiB"
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 9 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 110 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 27 KiB"
+        }
+      ],
+      "FCP": 244.5985559524685,
+      "LCP": 646.7036589285872,
+      "TBT": 0,
+      "CLS": 0.0002141310650265939,
+      "SpeedIndex": 447.22107006912677,
+      "duplicate": false
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe/ygb9t88ezq6i5ciaewdtun",
+      "json": "ygb9t88ezq6i5ciaewdtun-mobile.json",
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "timestamp": "2026-11-26T14:19:37.500Z",
+      "strategy": "mobile",
+      "version": "13.6.0",
+      "score": 97.0,
+      "requests": 28,
+      "bytes": 376541,
+      "errors": [],
+      "issues": [
+        {
+          "id": "cache-insight",
+          "display": "Est savings of 196 KiB"
+        },
+        {
+          "id": "image-delivery-insight",
+          "display": "Est savings of 23 KiB"
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "display": null
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "display": null
+        },
+        {
+          "id": "render-blocking-insight",
+          "display": "Est savings of 430 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "display": "Est savings of 27 KiB"
+        }
+      ],
+      "FCP": 904.5981917326781,
+      "LCP": 2564.493218997544,
+      "TBT": 0,
+      "CLS": 4.648694191965079e-5,
+      "SpeedIndex": 1125.1552847879639,
+      "duplicate": false
+    }
+  ],
+  "medians": [
+    {
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "strategy": "mobile",
+      "uniqueRuns": 3,
+      "metrics": {
+        "score": 97.0,
+        "FCP": 904.5981917439949,
+        "LCP": 2564.493218997544,
+        "TBT": 0,
+        "CLS": 4.648694191965079e-5,
+        "SpeedIndex": 1352.9665784531112,
+        "requests": 28,
+        "bytes": 376541
+      }
+    },
+    {
+      "url": "https://m1rariel.github.io/Shoppe/",
+      "strategy": "desktop",
+      "uniqueRuns": 3,
+      "metrics": {
+        "score": 100,
+        "FCP": 244.5985559524685,
+        "LCP": 646.4269021820269,
+        "TBT": 0,
+        "CLS": 0.0002141310650265939,
+        "SpeedIndex": 454.4621526149963,
+        "requests": 32,
+        "bytes": 489863
+      }
+    },
+    {
+      "url": "https://m1rariel.github.io/Shoppe/products/",
+      "strategy": "mobile",
+      "uniqueRuns": 3,
+      "metrics": {
+        "score": 96.0,
+        "FCP": 904.5939631481084,
+        "LCP": 2855.192755813957,
+        "TBT": 0,
+        "CLS": 4.648694191965079e-5,
+        "SpeedIndex": 1529.8191630591339,
+        "requests": 38,
+        "bytes": 500340
+      }
+    },
+    {
+      "url": "https://m1rariel.github.io/Shoppe/products/",
+      "strategy": "desktop",
+      "uniqueRuns": 3,
+      "metrics": {
+        "score": 100,
+        "FCP": 244.59517048693738,
+        "LCP": 605.6641209675768,
+        "TBT": 0,
+        "CLS": 0.0001064428563626091,
+        "SpeedIndex": 438.14186667115206,
+        "requests": 37,
+        "bytes": 533419
+      }
+    },
+    {
+      "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+      "strategy": "mobile",
+      "uniqueRuns": 3,
+      "metrics": {
+        "score": 98.0,
+        "FCP": 928.1400181673525,
+        "LCP": 2401.4900635857334,
+        "TBT": 0,
+        "CLS": 8.032414196413734e-5,
+        "SpeedIndex": 1289.9397314384928,
+        "requests": 32,
+        "bytes": 488787
+      }
+    },
+    {
+      "url": "https://m1rariel.github.io/Shoppe/products/3024/",
+      "strategy": "desktop",
+      "uniqueRuns": 3,
+      "metrics": {
+        "score": 100,
+        "FCP": 269.08727965635785,
+        "LCP": 561.2618389690733,
+        "TBT": 7.5,
+        "CLS": 0.0001111951076872294,
+        "SpeedIndex": 294.43579676153405,
+        "requests": 34,
+        "bytes": 531997
+      }
+    }
+  ],
+  "excludedReports": [
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product/v8f2b1ugwj6fsagik5awfh",
+      "strategy": "mobile",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product/v8f2b1ugwj6fsagik5awfh",
+      "strategy": "desktop",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product/vkfyig2nlahcdx8up9p6lq",
+      "strategy": "desktop",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product/vkfyig2nlahcdx8up9p6lq",
+      "strategy": "mobile",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product/c5tbd3r5mc4mh9vw60txqc",
+      "strategy": "desktop",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product/c5tbd3r5mc4mh9vw60txqc",
+      "strategy": "mobile",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product-3024/ozir6r5efae9nfe158za3j",
+      "strategy": "desktop",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/3024",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product-3024/ozir6r5efae9nfe158za3j",
+      "strategy": "mobile",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/3024",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product-3024/6jafnq5xzpadpppwqwg3vv",
+      "strategy": "desktop",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/3024",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product-3024/6jafnq5xzpadpppwqwg3vv",
+      "strategy": "mobile",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/3024",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product-3024/r2j66tydmezf0z9a5ch2x8",
+      "strategy": "desktop",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/3024",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    },
+    {
+      "reportURL": "https://pagespeed.web.dev/analysis/https-m1rariel-github-io-Shoppe-product-3024/r2j66tydmezf0z9a5ch2x8",
+      "strategy": "mobile",
+      "measuredURL": "https://m1rariel.github.io/Shoppe/product/3024",
+      "reason": "HTTP 404; wrong route: use products, plural"
+    }
+  ]
+}
