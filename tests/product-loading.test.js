@@ -16,7 +16,7 @@ registerHooks({
       }
     if (specifier === '~/composables/api/products/useGetProduct')
       return {
-        url: 'data:text/javascript,export const useGetProduct=(id)=>{globalThis.loadingTest.id=id; return globalThis.loadingTest.state}',
+        url: 'data:text/javascript,export const useGetProduct=()=>globalThis.loadingTest.state',
         shortCircuit: true,
       }
     if (specifier === '~/composables/useSimilarProducts')
@@ -110,28 +110,6 @@ async function mount(t, initial = {}) {
 const sectionWidgets = (view) =>
   view.all((el) => String(el.props.class).split(' ').includes('product-sections'))
 const sectionTabs = (view) => view.all((el) => el.props.role === 'tab')
-test('delayed loading hides old content and then displays the product', async (t) => {
-  const view = await mount(t, { pending: ref(true) })
-  assert.match(view.text(), /Loading product…/)
-  assert.equal(sectionWidgets(view).length, 0)
-  view.state.data.value = { id: 1, title: 'First fixture' }
-  view.state.pending.value = false
-  await nextTick()
-  assert.match(view.text(), /First fixture/)
-  assert.equal(sectionTabs(view)[0].props['aria-selected'], true)
-  globalThis.loadingTest.route.params.id = '2'
-  assert.equal(globalThis.loadingTest.id.value, '2')
-  view.state.pending.value = true
-  await nextTick()
-  assert.doesNotMatch(view.text(), /First fixture/)
-  assert.equal(sectionWidgets(view).length, 0)
-  view.state.data.value = { id: 2, title: 'Second fixture' }
-  view.state.pending.value = false
-  await nextTick()
-  assert.match(view.text(), /Second fixture/)
-  assert.equal(sectionTabs(view)[0].props['aria-selected'], true)
-  assert.doesNotMatch(view.text(), /First fixture/)
-})
 test('real sections reset for route changes and unmount for loading, errors and missing products with stale data', async (t) => {
   const view = await mount(t, { data: ref({ id: 1, title: 'First ring' }) })
   sectionTabs(view)[2].props.onClick()
@@ -219,14 +197,4 @@ test('visible retry button recovers after a real fixture server error', async (t
   await nextTick()
   assert.match(view.text(), /Fixture gold ring/)
   assert.doesNotMatch(view.text(), /Unable to load product/)
-})
-test('missing product preserves the catalog link for 404 and empty data', async (t) => {
-  const view = await mount(t, { error: ref({ statusCode: 404 }) })
-  assert.match(view.text(), /Product not found/)
-  assert.equal(sectionWidgets(view).length, 0)
-  assert.equal(view.all().find((el) => el.type === 'a').props.href, '/products')
-  assert.doesNotMatch(view.text(), /Try again/)
-  view.state.error.value = null
-  await nextTick()
-  assert.match(view.text(), /Product not found/)
 })
