@@ -54,7 +54,7 @@ function setup(t) {
   return { state, reads, writes }
 }
 
-test('both adapters share URL and headers while preserving their cookie timing', async (t) => {
+test('public reads keep the API access header while cart writes use the current token', async (t) => {
   const { state, writes } = setup(t)
   const read = useApiFetch('/products')
   const post = useAddNewCart()
@@ -69,12 +69,36 @@ test('both adapters share URL and headers while preserving their cookie timing',
   const authenticatedRead = useApiFetch('/products')
   state.token.value = 'second-token'
   await post(1, [])
-  assert.equal(authenticatedRead.headers.Authorization, 'Bearer first-token')
+  assert.equal(authenticatedRead.headers.Authorization, 'amigo')
   assert.equal(writes[1][1].headers.Authorization, 'Bearer second-token')
   state.token.value = ''
   await post(1, [])
   assert.equal(writes[2][1].headers.Authorization, 'amigo')
   assert.equal(read.headers.Authorization, 'amigo')
+})
+
+test('catalog, categories and product requests succeed for guests and signed-in users', (t) => {
+  const { state } = setup(t)
+  const product = { id: 3024, title: 'Chain', price: 10 }
+  const responses = new Map([
+    ['/products', [product]],
+    ['/products/categories', ['chains']],
+    ['/products/3024', product],
+  ])
+  state.read = (request, options) => {
+    if (options.headers.Authorization !== 'amigo') {
+      throw Object.assign(new Error('API access denied'), { statusCode: 403 })
+    }
+    return responses.get(request)
+  }
+
+  for (const token of [null, 'signed-in-token']) {
+    state.token.value = token
+    for (const [path, response] of responses) {
+      assert.deepEqual(useApiFetch(path), response)
+    }
+    assert.equal(state.token.value, token)
+  }
 })
 
 test('both adapters reject missing configuration before invoking transport; read accepts its own URL', (t) => {

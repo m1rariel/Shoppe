@@ -132,6 +132,29 @@ test('current restore sums quantities and uses last snapshot before first add', 
   assert.deepEqual(JSON.parse(memory.get('cart')), { version: 1, items: cart.items })
 })
 
+test('checkout totals reflect the cart and successful clearing persists an empty cart', async (t) => {
+  const necklace = { ...product(2, 'Necklace'), price: 8.5 }
+  const { cart, fresh, posts } = setup(t, snapshot(1, [entry(2), entry(3, necklace)]))
+  await cart.initialize()
+
+  assert.deepEqual(cart.orderLines, [
+    { productId: 1, title: 'Ring', quantity: 2, total: 20 },
+    { productId: 2, title: 'Necklace', quantity: 3, total: 25.5 },
+  ])
+  assert.equal(cart.subtotal, 45.5)
+  assert.equal(cart.total, 45.5)
+
+  assert.equal(await cart.clearCart(), true)
+  assert.equal(await cart.clearCart(), false)
+  assert.deepEqual(posts, [{ userId: 1, items: [] }])
+  assert.deepEqual(cart.orderLines, [])
+  assert.equal(cart.total, 0)
+
+  const restored = fresh()
+  await restored.initialize()
+  assert.deepEqual(restored.items, [])
+})
+
 test('invalid quantities leave state and saved payload unchanged', async (t) => {
   const { cart, memory } = setup(t)
   await cart.addItem(product())
@@ -203,12 +226,16 @@ test('failed writes rollback all mutations, notify ERROR and queue recovers', as
     () => cart.addItem(product(2)),
     () => cart.updateQuantity(1, 4),
     () => cart.removeItem(1),
+    () => cart.clearCart(),
   ]) {
     assert.equal(await mutate(), false)
     assert.equal(cart.totalItems, 1)
     assert.equal(cart.isSidebarOpen, false)
     assert.equal(useNotificationStore().type, 'error')
-    assert.equal(useNotificationStore().message, 'Не удалось сохранить корзину. Попробуйте ещё раз.')
+    assert.equal(
+      useNotificationStore().message,
+      'Не удалось сохранить корзину. Попробуйте ещё раз.',
+    )
     assert.equal(memory.get('cart'), saved)
     assert.equal(posts.length, 1)
   }

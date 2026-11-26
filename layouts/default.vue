@@ -19,7 +19,9 @@
     :class="{ 'layout--catalog': $route.path === '/products', 'layout--home': $route.path === '/' }"
   >
     <BaseHeader />
-    <MobileMenu :hide-search="$route.path.startsWith('/products/')" />
+    <MobileMenu
+      :hide-search="$route.path === '/checkout' || $route.path.startsWith('/products/')"
+    />
     <main>
       <slot />
     </main>

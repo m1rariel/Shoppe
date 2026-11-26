@@ -8,7 +8,7 @@ registerHooks({
   resolve(specifier, context, nextResolve) {
     const mocks = {
       '#imports':
-        'export const definePageMeta = (meta) => { globalThis.accountMocks.pageMeta = meta }; export const navigateTo = (to) => globalThis.accountMocks.navigations.push(to)',
+        'export const definePageMeta = (meta) => { globalThis.accountMocks.pageMeta = meta }; export const navigateTo = (to) => globalThis.accountMocks.navigations.push(to); export const useRoute = () => globalThis.accountMocks.route',
       '~/stores/auth': 'export const useAuthStore = () => globalThis.accountMocks.auth',
     }
     if (mocks[specifier])
@@ -48,10 +48,11 @@ function deferred() {
   return { promise, resolve, reject }
 }
 
-function setup(t) {
+function setup(t, query = {}) {
   const calls = []
   const mocks = {
     navigations: [],
+    route: { query },
     auth: {
       login: (...args) => {
         calls.push(args)
@@ -220,6 +221,21 @@ test('sign in validates first invalid input and submits trimmed username with un
   await view.submit()
   assert.deepEqual(view.calls[0].slice(0, 2), ['user', ' p '])
   assert.deepEqual(view.mocks.navigations, ['/'])
+})
+
+test('sign-in return target accepts only the exact checkout route', async (t) => {
+  for (const [returnTo, destination] of [
+    ['/checkout', '/checkout'],
+    ['//other.example', '/'],
+    [['/checkout', '//other.example'], '/'],
+  ]) {
+    await t.test(JSON.stringify(returnTo), async (subtest) => {
+      const view = setup(subtest, { returnTo })
+      await view.fillCredentials()
+      await view.submit()
+      assert.deepEqual(view.mocks.navigations, [destination])
+    })
+  }
 })
 
 test('pending submit is disabled; failures preserve input and show helpful inline errors', async (t) => {

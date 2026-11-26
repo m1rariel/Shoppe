@@ -4,6 +4,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  routeRules: {
+    '/checkout': { ssr: false },
+  },
+
   nitro: {
     compressPublicAssets: { gzip: true, brotli: true },
   },
@@ -31,7 +35,6 @@ export default defineNuxtConfig({
   css: ['normalize.css', '~/assets/styles/reset.scss', '~/assets/styles/basic.scss'],
 
   app: {
-    baseURL: '/',
     head: {
       title: 'Shoppe',
       meta: [

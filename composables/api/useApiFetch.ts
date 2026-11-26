@@ -1,4 +1,4 @@
-import { useCookie, useFetch, useRuntimeConfig } from 'nuxt/app'
+import { useFetch, useRuntimeConfig } from 'nuxt/app'
 import type { UseFetchOptions } from 'nuxt/app'
 import { computed, toValue } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
@@ -9,14 +9,14 @@ export const useApiFetch = <ResT = unknown, DataT = ResT>(
   options?: UseFetchOptions<ResT, DataT>,
 ) => {
   const config = useRuntimeConfig()
-  const authToken = useCookie('authToken')
   const baseURL = resolveApiBaseURL(config.public.apiBaseUrl, options?.baseURL)
   const key = computed(() => toValue(request) + JSON.stringify(toValue(options?.params) || {}))
 
   const defaults: UseFetchOptions<ResT, DataT> = {
     baseURL,
     key,
-    headers: createApiHeaders(authToken.value),
+    // Public catalog access requires amigo regardless of the user's login token.
+    headers: createApiHeaders(null),
   }
   const fetchOptions: UseFetchOptions<ResT, DataT> = { ...defaults, ...options }
 

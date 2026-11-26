@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import { computed, nextTick, onBeforeUnmount, reactive, ref, shallowRef, watch } from 'vue'
-  import { definePageMeta, navigateTo } from '#imports'
+  import { definePageMeta, navigateTo, useRoute } from '#imports'
   import { useAuthStore } from '~/stores/auth'
 
   definePageMeta({ middleware: 'guest' })
 
+  const route = useRoute()
   const authStore = useAuthStore()
   const activeTab = ref('sign-in')
   const rememberMe = ref(false)
@@ -58,7 +59,10 @@
         controller.signal,
         rememberMe.value,
       )
-      if (success && loginController.value === controller) await navigateTo('/')
+      if (success && loginController.value === controller) {
+        const destination = route.query.returnTo === '/checkout' ? '/checkout' : '/'
+        await navigateTo(destination)
+      }
     } catch (error: unknown) {
       if (loginController.value !== controller) return
 

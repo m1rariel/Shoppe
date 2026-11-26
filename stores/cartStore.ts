@@ -65,9 +65,16 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   const totalItems = computed(() => items.value.reduce((sum, item) => sum + item.quantity, 0))
-  const subtotal = computed(() =>
-    items.value.reduce((sum, item) => sum + item.product.price * item.quantity, 0),
+  const orderLines = computed(() =>
+    items.value.map(({ product, quantity }) => ({
+      productId: product.id,
+      title: product.title,
+      quantity,
+      total: product.price * quantity,
+    })),
   )
+  const subtotal = computed(() => orderLines.value.reduce((sum, line) => sum + line.total, 0))
+  const total = computed(() => subtotal.value)
 
   const initialize = () => {
     initializationPromise ??= persistence.restore().then((savedItems) => {
@@ -154,6 +161,8 @@ export const useCartStore = defineStore('cart', () => {
   const removeItem = (productId: number) =>
     mutate(() => items.value.filter((item) => item.product.id !== productId))
 
+  const clearCart = () => mutate(() => (items.value.length ? [] : null))
+
   const updateQuantity = (productId: number, newQuantity: number) =>
     mutate(() => {
       if (newQuantity !== 0 && !isValidQuantity(newQuantity)) return null
@@ -188,10 +197,13 @@ export const useCartStore = defineStore('cart', () => {
     openSidebar,
     closeSidebar,
     totalItems,
+    orderLines,
     subtotal,
+    total,
     initialize,
     addItem,
     removeItem,
+    clearCart,
     updateQuantity,
     adjustQuantity,
   }
