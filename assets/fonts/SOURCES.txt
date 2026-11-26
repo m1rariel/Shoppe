@@ -1,0 +1,25 @@
+Downloaded from official Google Fonts endpoints on 2026-11-26.
+DM Sans retains the opsz 9–40 and wght 100–1000 variation axes.
+Latin and Latin Extended subsets are loaded on demand through unicode-range.
+The original SIL Open Font License files are included beside the font files.
+
+dm-sans-italic-latin-ext.woff2
+https://fonts.gstatic.com/s/dmsans/v17/rP2Fp2ywxg089UriCZa4ET-DJF4e8BH9.woff2
+
+dm-sans-italic-latin.woff2
+https://fonts.gstatic.com/s/dmsans/v17/rP2Fp2ywxg089UriCZa4Hz-DJF4e8A.woff2
+
+dm-sans-normal-latin-ext.woff2
+https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZ2IHTWEBlwu8Q.woff2
+
+dm-sans-normal-latin.woff2
+https://fonts.gstatic.com/s/dmsans/v17/rP2Hp2ywxg089UriCZOIHTWEBlw.woff2
+
+allerta-stencil-latin.woff2
+https://fonts.gstatic.com/s/allertastencil/v24/HTx0L209KT-LmIE9N7OR6eiycOe1_Db29XP-vA.woff2
+
+DM-Sans-OFL.txt
+https://raw.githubusercontent.com/google/fonts/main/ofl/dmsans/OFL.txt
+
+Allerta-Stencil-OFL.txt
+https://raw.githubusercontent.com/google/fonts/main/ofl/allertastencil/OFL.txt

@@ -1,0 +1,134 @@
+{
+  "before": {
+    "totalRenderedModuleBytes": 508175,
+    "swiperRenderedBytes": 85376,
+    "topModules": [
+      {
+        "id": "/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js",
+        "renderedBytes": 76143
+      },
+      {
+        "id": "/node_modules/swiper/shared/swiper-core.mjs",
+        "renderedBytes": 65629
+      },
+      {
+        "id": "/node_modules/vee-validate/dist/vee-validate.mjs",
+        "renderedBytes": 32286
+      },
+      {
+        "id": "/node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js",
+        "renderedBytes": 22625
+      },
+      {
+        "id": "/node_modules/vue-router/dist/vue-router.js",
+        "renderedBytes": 22210
+      },
+      {
+        "id": "/node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js",
+        "renderedBytes": 20115
+      },
+      {
+        "id": "/node_modules/swiper/modules/pagination.mjs",
+        "renderedBytes": 8992
+      },
+      {
+        "id": "/node_modules/vue-router/dist/devtools-BuSwVM2w.js",
+        "renderedBytes": 6919
+      },
+      {
+        "id": "/components/ProductFilter.vue?vue&type=script&setup=true&lang.ts",
+        "renderedBytes": 6917
+      },
+      {
+        "id": "/components/ProductReviews.vue?vue&type=script&setup=true&lang.ts",
+        "renderedBytes": 6676
+      },
+      {
+        "id": "/components/MobileMenu.vue?vue&type=script&setup=true&lang.ts",
+        "renderedBytes": 5626
+      },
+      {
+        "id": "/node_modules/ofetch/dist/shared/ofetch.CWycOUEr.mjs",
+        "renderedBytes": 5588
+      },
+      {
+        "id": "/node_modules/nuxt/dist/app/components/nuxt-link.js",
+        "renderedBytes": 5439
+      },
+      {
+        "id": "/components/ProductGallery.vue?vue&type=script&setup=true&lang.ts",
+        "renderedBytes": 5358
+      },
+      {
+        "id": "/node_modules/ufo/dist/index.mjs",
+        "renderedBytes": 5325
+      }
+    ]
+  },
+  "after": {
+    "totalRenderedModuleBytes": 505847,
+    "swiperRenderedBytes": 81169,
+    "topModules": [
+      {
+        "id": "/node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js",
+        "renderedBytes": 76143
+      },
+      {
+        "id": "/node_modules/swiper/shared/swiper-core.mjs",
+        "renderedBytes": 65629
+      },
+      {
+        "id": "/node_modules/vee-validate/dist/vee-validate.mjs",
+        "renderedBytes": 32286
+      },
+      {
+        "id": "/node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js",
+        "renderedBytes": 22625
+      },
+      {
+        "id": "/node_modules/vue-router/dist/vue-router.js",
+        "renderedBytes": 22210
+      },
+      {
+        "id": "/node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js",
+        "renderedBytes": 20115
+      },
+      {
+        "id": "/node_modules/swiper/modules/pagination.mjs",
+        "renderedBytes": 8992
+      },
+      {
+        "id": "/node_modules/vue-router/dist/devtools-BuSwVM2w.js",
+        "renderedBytes": 6919
+      },
+      {
+        "id": "/components/ProductFilter.vue?vue&type=script&setup=true&lang.ts",
+        "renderedBytes": 6917
+      },
+      {
+        "id": "/components/ProductReviews.vue?vue&type=script&setup=true&lang.ts",
+        "renderedBytes": 6676
+      },
+      {
+        "id": "/components/MobileMenu.vue?vue&type=script&setup=true&lang.ts",
+        "renderedBytes": 5626
+      },
+      {
+        "id": "/node_modules/ofetch/dist/shared/ofetch.CWycOUEr.mjs",
+        "renderedBytes": 5588
+      },
+      {
+        "id": "/components/ProductGallery.vue?vue&type=script&setup=true&lang.ts",
+        "renderedBytes": 5508
+      },
+      {
+        "id": "/node_modules/nuxt/dist/app/components/nuxt-link.js",
+        "renderedBytes": 5439
+      },
+      {
+        "id": "/node_modules/ufo/dist/index.mjs",
+        "renderedBytes": 5325
+      }
+    ]
+  }
+}

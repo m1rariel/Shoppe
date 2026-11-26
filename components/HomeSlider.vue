@@ -1,16 +1,18 @@
 <script setup>
-  import { computed, nextTick, onMounted, ref, watch } from 'vue'
+  import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
   import Swiper from 'swiper'
-  import { Navigation, Pagination } from 'swiper/modules'
+  import { Pagination } from 'swiper/modules'
   import { useGetRandomPhotos } from '@/composables/useGetRandomPhotos'
-  import { homeSliderFallbackPhotos } from '@/utils/homeSliderPhotos'
+  import { createHomeSliderImage, homeSliderFallbackPhotos } from '@/utils/homeSliderPhotos'
   import 'swiper/css'
-  import 'swiper/css/navigation'
   import 'swiper/css/pagination'
 
   const { data: photos } = await useGetRandomPhotos(10)
-  const swiper = ref(null)
+  const swiper = shallowRef(null)
   const sliderElement = ref(null)
+  const activeSlide = ref(0)
+  const requestedSlides = ref(new Set([0]))
+  const readySlides = new Set()
 
   const failedPhotoUrls = ref(new Set())
 
@@ -23,6 +25,17 @@
       failedPhotoUrls.value.has(url) ? homeSliderFallbackPhotos[index] : url,
     )
   })
+
+  const images = computed(() => imageUrls.value.map(createHomeSliderImage))
+
+  const handleImageLoad = (index) => {
+    readySlides.add(index)
+    if (index !== activeSlide.value) return
+
+    const count = imageUrls.value.length
+    requestedSlides.value.add((index + 1) % count)
+    requestedSlides.value.add((index + count - 1) % count)
+  }
 
   const handleImageError = (url, index) => {
     if (url === homeSliderFallbackPhotos[index] || failedPhotoUrls.value.has(url)) return
@@ -37,21 +50,33 @@
 
   onMounted(() => {
     sliderElement.value.querySelectorAll('img').forEach((image, index) => {
-      if (image.complete && image.naturalWidth === 0)
-        handleImageError(imageUrls.value[index], index)
+      if (!requestedSlides.value.has(index) || !image.complete) return
+
+      if (image.naturalWidth === 0) handleImageError(imageUrls.value[index], index)
+      else handleImageLoad(index)
     })
 
     swiper.value = new Swiper(sliderElement.value, {
-      modules: [Navigation, Pagination],
+      modules: [Pagination],
       slidesPerView: 1,
       spaceBetween: 0,
       loop: true,
-      lazyPreloadPrevNext: 1,
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
       },
+      on: {
+        slideChange(instance) {
+          activeSlide.value = instance.realIndex
+          requestedSlides.value.add(instance.realIndex)
+          if (readySlides.has(instance.realIndex)) handleImageLoad(instance.realIndex)
+        },
+      },
     })
+  })
+
+  onBeforeUnmount(() => {
+    swiper.value?.destroy(true, true)
   })
 </script>
 
@@ -59,14 +84,31 @@
   <div class="home-slider container">
     <div ref="sliderElement" class="swiper">
       <div class="swiper-wrapper">
-        <div v-for="(url, index) in imageUrls" :key="index" class="swiper-slide">
-          <img
-            :src="url"
-            alt="Slide Photo"
-            class="home-slider__image"
-            loading="lazy"
-            @error="handleImageError(url, index)"
-          />
+        <div v-for="(image, index) in images" :key="index" class="swiper-slide">
+          <picture class="home-slider__picture">
+            <source
+              v-if="image.mobileSrcset && requestedSlides.has(index)"
+              media="(width < 768px)"
+              :srcset="image.mobileSrcset"
+              sizes="calc(100vw - 32px)"
+              width="800"
+              height="800"
+            />
+            <img
+              :src="requestedSlides.has(index) ? image.src : undefined"
+              :srcset="requestedSlides.has(index) ? image.srcset : undefined"
+              sizes="(min-width: 1440px) 1248px, (min-width: 768px) calc(100vw - 72px), calc(100vw - 32px)"
+              :width="image.width"
+              :height="image.height"
+              alt="Slide Photo"
+              class="home-slider__image"
+              :loading="index === 0 ? 'eager' : 'lazy'"
+              :fetchpriority="index === 0 ? 'high' : 'auto'"
+              decoding="async"
+              @load="handleImageLoad(index)"
+              @error="handleImageError(imageUrls[index], index)"
+            />
+          </picture>
           <div class="swiper-lazy-preloader"></div>
           <TextBlockSlider class="home-slider__text" />
         </div>
@@ -135,10 +177,15 @@
     margin-top: 16px;
     overflow: hidden;
 
+    &__picture,
     &__image {
       display: block;
       width: 100%;
       height: 100%;
+    }
+
+    &__image {
+      object-fit: cover;
     }
 
     &__text {

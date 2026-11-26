@@ -1,6 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { registerHooks } from 'node:module'
+import { registerHooks, stripTypeScriptTypes } from 'node:module'
+import { readFileSync } from 'node:fs'
 
 registerHooks({
   resolve(specifier, context, nextResolve) {
@@ -33,6 +34,37 @@ test('random photos bounds the Picsum request and disables retries', () => {
     assert.equal(options.retry, 0)
     assert.deepEqual(options.headers, {})
   } finally {
+    delete globalThis.randomPhotosResult
+    delete globalThis.randomPhotosTest
+  }
+})
+
+test('prerendered pages share one random selection across independent SSR requests', async () => {
+  const originalRandom = Math.random
+  let randomCalls = 0
+  Math.random = () => [0.12, 0.67, 0.91][randomCalls++]
+  const source = stripTypeScriptTypes(
+    readFileSync(
+      new URL('../composables/useGetRandomPhotos.ts', import.meta.url),
+      'utf8',
+    ).replaceAll('import.meta.prerender', 'true'),
+    { mode: 'transform' },
+  )
+  globalThis.randomPhotosResult = { data: { value: [] } }
+
+  try {
+    const { useGetRandomPhotos: prerenderPhotos } = await import(
+      `data:text/javascript;base64,${Buffer.from(source).toString('base64')}`
+    )
+    prerenderPhotos(10)
+    const firstPage = globalThis.randomPhotosTest.options.params.page
+    prerenderPhotos(10)
+    const secondPage = globalThis.randomPhotosTest.options.params.page
+
+    assert.equal(firstPage, secondPage)
+    assert.equal(randomCalls, 1)
+  } finally {
+    Math.random = originalRandom
     delete globalThis.randomPhotosResult
     delete globalThis.randomPhotosTest
   }

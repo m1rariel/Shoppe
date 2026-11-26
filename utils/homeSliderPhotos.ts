@@ -10,3 +10,38 @@ export const homeSliderFallbackPhotos = [
   'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1600&q=80',
   'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80',
 ]
+
+export const createHomeSliderImage = (source: string) => {
+  let url: URL
+  try {
+    url = new URL(source)
+  } catch {
+    return { src: source }
+  }
+
+  const picsumId =
+    url.hostname === 'picsum.photos' ? url.pathname.match(/^\/id\/([^/]+)\//)?.[1] : null
+  const isUnsplash = url.hostname === 'images.unsplash.com'
+  if (!picsumId && !isUnsplash) return { src: source }
+
+  const resize = (width: number, height: number) => {
+    if (picsumId) return `https://picsum.photos/id/${picsumId}/${width}/${height}.webp`
+
+    const resized = new URL(url)
+    resized.searchParams.set('w', String(width))
+    resized.searchParams.set('h', String(height))
+    return resized.href
+  }
+
+  return {
+    src: resize(1280, 640),
+    srcset: [768, 1280, 1920, 2560]
+      .map((width) => `${resize(width, width / 2)} ${width}w`)
+      .join(', '),
+    mobileSrcset: [400, 640, 800, 1280, 1536]
+      .map((width) => `${resize(width, width)} ${width}w`)
+      .join(', '),
+    width: 1280,
+    height: 640,
+  }
+}

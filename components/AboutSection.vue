@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import aboutDesktopImg from '@/assets/images/about-img.png'
-  import aboutMobileImg from '@/assets/images/about-img-mobile.png'
+  import aboutDesktopImg from '@/assets/images/about-img.webp'
+  import aboutMobileImg from '@/assets/images/about-img-mobile.webp'
 </script>
 <template>
   <section class="about-section container">
@@ -24,8 +24,16 @@
     <div class="about__content">
       <h3 class="about__head">Top trends</h3>
       <picture class="about__picture">
-        <source media="(width < 768px)" :srcset="aboutMobileImg" />
-        <img class="about__img" :src="aboutDesktopImg" alt="About image" />
+        <source media="(width < 768px)" :srcset="aboutMobileImg" width="288" height="200" />
+        <img
+          class="about__img"
+          :src="aboutDesktopImg"
+          alt="About image"
+          width="670"
+          height="300"
+          loading="lazy"
+          decoding="async"
+        />
       </picture>
 
       <p class="about__text">

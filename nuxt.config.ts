@@ -32,33 +32,24 @@ export default defineNuxtConfig({
     },
   },
 
-  css: ['normalize.css', '~/assets/styles/reset.scss', '~/assets/styles/basic.scss'],
+  css: [
+    'normalize.css',
+    '~/assets/styles/fonts.scss',
+    '~/assets/styles/reset.scss',
+    '~/assets/styles/basic.scss',
+  ],
 
   app: {
     head: {
       title: 'Shoppe',
+      htmlAttrs: { lang: 'en' },
       meta: [
         { name: 'charset', content: 'UTF-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-      ],
-      link: [
         {
-          rel: 'preconnect',
-          href: 'https://fonts.googleapis.com',
-        },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.gstatic.com',
-          crossorigin: '',
-        },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap',
-        },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap',
-          crossorigin: '',
+          name: 'description',
+          content:
+            'Discover jewelry and accessories at Shoppe. Explore the collection and find your next favorite piece.',
         },
       ],
     },

@@ -21,9 +21,10 @@
     :aria-label="variant === 'similar' ? 'Similar products' : undefined"
   >
     <ProductCard
-      v-for="product in products"
+      v-for="(product, index) in products"
       :key="product.id"
       :product="product"
+      :eager="variant !== 'similar' && index < 6"
       :disabled="pendingIds?.includes(product.id)"
       @add-to-cart="emit('addToCart', product)"
     />

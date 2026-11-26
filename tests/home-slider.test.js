@@ -30,7 +30,7 @@ registerHooks({
       }
     if (specifier === 'swiper')
       return {
-        url: 'data:text/javascript,export default class Swiper { constructor(el,options){this.el=el;this.options=options;globalThis.heroTest.sliders.push(this)} update(){this.updates=(this.updates??0)+1} }',
+        url: 'data:text/javascript,export default class Swiper { constructor(el,options){this.el=el;this.options=options;globalThis.heroTest.sliders.push(this)} update(){this.updates=(this.updates??0)+1} destroy(){this.destroyed=true} }',
         shortCircuit: true,
       }
     return nextResolve(
@@ -131,7 +131,7 @@ test('hero requests ten photos and renders the original product text on each sli
   assert.equal(globalThis.heroTest.limit, 10)
   assert.deepEqual(
     view.all((n) => n.type === 'img').map((n) => n.props.src),
-    photos.map((photo) => photo.download_url),
+    [photos[0].download_url, ...Array(9).fill(undefined)],
   )
   assert.equal(view.all((n) => n.text === 'Gold big hoops').length, 10)
   assert.equal(view.all((n) => n.type === 'button' && n.text === 'View Product').length, 10)
@@ -147,11 +147,68 @@ test('hero requests ten photos and renders the original product text on each sli
   assert.equal(slider.options.pagination.clickable, true)
 })
 
+test('hero prioritizes the first visible photo and defers the remaining slides', async (t) => {
+  const view = await setup(t, photos)
+  const images = view.all((n) => n.type === 'img')
+
+  assert.equal(images[0].props.loading, 'eager')
+  assert.equal(images[0].props.fetchpriority, 'high')
+  assert.ok(images.slice(1).every((image) => image.props.loading === 'lazy'))
+  assert.ok(images.slice(1).every((image) => image.props.fetchpriority !== 'high'))
+})
+
+test('hero starts adjacent downloads after the visible slide loads and supports pagination jumps', async (t) => {
+  const view = await setup(t, photos)
+  const images = view.all((n) => n.type === 'img')
+  assert.equal(images.filter((image) => image.props.src).length, 1)
+
+  images[0].props.onLoad()
+  await nextTick()
+  assert.deepEqual(
+    images.flatMap((image, index) => (image.props.src ? [index] : [])),
+    [0, 1, 9],
+  )
+
+  images[1].props.onLoad()
+  await nextTick()
+  assert.equal(images[2].props.src, undefined)
+
+  globalThis.heroTest.sliders[0].options.on.slideChange({ realIndex: 5 })
+  await nextTick()
+  assert.equal(images[5].props.src, photos[5].download_url)
+  images[5].props.onLoad()
+  await nextTick()
+  assert.equal(images[4].props.src, photos[4].download_url)
+  assert.equal(images[6].props.src, photos[6].download_url)
+})
+
+test('hero serves responsive versions of the same Picsum photo and replaces failed sources', async (t) => {
+  const source = 'https://picsum.photos/id/1019/5000/3333'
+  const view = await setup(t, [{ download_url: source }])
+  const image = view.find((n) => n.type === 'img')
+  const mobile = view.find((n) => n.type === 'source')
+
+  assert.equal(image.props.src, 'https://picsum.photos/id/1019/1280/640.webp')
+  assert.match(image.props.srcset, /https:\/\/picsum.photos\/id\/1019\/2560\/1280\.webp 2560w/)
+  assert.match(mobile.props.srcset, /https:\/\/picsum.photos\/id\/1019\/800\/800\.webp 800w/)
+  assert.equal(image.props.width, 1280)
+  assert.equal(image.props.height, 640)
+
+  image.props.onError()
+  await nextTick()
+  await nextTick()
+
+  assert.equal(new URL(image.props.src).hostname, 'images.unsplash.com')
+  assert.ok(!image.props.srcset.includes('picsum.photos'))
+  assert.ok(!mobile.props.srcset.includes('picsum.photos'))
+  assert.ok(mobile.props.srcset.includes('h=800'))
+})
+
 test('hero uses ten Unsplash fallbacks for no photos and recovers when photos arrive', async (t) => {
   const view = await setup(t)
   assert.equal(view.all((n) => n.type === 'img').length, 10)
-  const fallbackUrls = view.all((n) => n.type === 'img').map((n) => n.props.src)
-  assert.equal(new Set(fallbackUrls).size, 10)
+  const fallbackUrls = view.all((n) => n.type === 'img').flatMap((n) => n.props.src || [])
+  assert.equal(fallbackUrls.length, 1)
   assert.ok(fallbackUrls.every((url) => new URL(url).hostname === 'images.unsplash.com'))
   const slider = globalThis.heroTest.sliders[0]
   globalThis.heroTest.photos.value = photos
@@ -161,7 +218,7 @@ test('hero uses ten Unsplash fallbacks for no photos and recovers when photos ar
   assert.equal(slider.updates, 1)
   assert.deepEqual(
     view.all((n) => n.type === 'img').map((n) => n.props.src),
-    photos.map((photo) => photo.download_url),
+    [photos[0].download_url, ...Array(9).fill(undefined)],
   )
 })
 
@@ -170,11 +227,13 @@ test('hero falls back once for a failed photo and ignores errors from its fallba
   const images = view.all((n) => n.type === 'img')
   const image = images[3]
   const slider = globalThis.heroTest.sliders[0]
+  slider.options.on.slideChange({ realIndex: 3 })
+  await nextTick()
   image.props.onError()
   await nextTick()
   await nextTick()
   assert.equal(new URL(image.props.src).hostname, 'images.unsplash.com')
-  assert.equal(images[2].props.src, photos[2].download_url)
+  assert.equal(images[2].props.src, undefined)
   assert.equal(view.all((n) => n.type === 'img')[3], image)
   assert.equal(slider.updates, 1)
   image.props.onError()
@@ -188,7 +247,7 @@ test('hero uses ten fallbacks for a failed request with no data', async (t) => {
   const view = await setup(t, null)
   const images = view.all((n) => n.type === 'img')
   assert.equal(images.length, 10)
-  assert.ok(images.every((image) => new URL(image.props.src).hostname === 'images.unsplash.com'))
+  assert.equal(new URL(images[0].props.src).hostname, 'images.unsplash.com')
   images[0].props.onError()
   await nextTick()
   await nextTick()
@@ -203,8 +262,10 @@ test('hero recovers an image that failed before mounting and preserves pending i
   ])
   const images = view.all((n) => n.type === 'img')
   assert.equal(new URL(images[0].props.src).hostname, 'images.unsplash.com')
+  images[0].props.onLoad()
+  await nextTick()
   assert.equal(images[1].props.src, photos[1].download_url)
-  assert.equal(images[2].props.src, photos[2].download_url)
+  assert.equal(images[2].props.src, undefined)
   assert.equal(globalThis.heroTest.sliders[0].updates, 1)
 })
 

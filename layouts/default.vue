@@ -11,17 +11,18 @@
       BaseFooter,
       BaseNotification,
     },
+    computed: {
+      pagePath() {
+        return this.$route.path.replace(/\/+$/, '') || '/'
+      },
+    },
   }
 </script>
 
 <template>
-  <div
-    :class="{ 'layout--catalog': $route.path === '/products', 'layout--home': $route.path === '/' }"
-  >
+  <div :class="{ 'layout--catalog': pagePath === '/products', 'layout--home': pagePath === '/' }">
     <BaseHeader />
-    <MobileMenu
-      :hide-search="$route.path === '/checkout' || $route.path.startsWith('/products/')"
-    />
+    <MobileMenu :hide-search="pagePath === '/checkout' || pagePath.startsWith('/products/')" />
     <main>
       <slot />
     </main>
