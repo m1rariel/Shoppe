@@ -1,13 +1,16 @@
 <script setup lang="ts">
+  import { PaymentMethod } from '~/types/checkout'
   import PaypalIcon from '~/assets/icons/paypal-icon.svg'
 
   defineProps<{ disabled?: boolean }>()
-  const method = defineModel<string>({ default: 'bank' })
+
+  const method = defineModel<PaymentMethod>({ default: PaymentMethod.Bank })
+
   const methods = [
-    { value: 'bank', label: 'Direct bank transfer' },
-    { value: 'check', label: 'Check payments' },
-    { value: 'cash', label: 'Cash on delivery' },
-    { value: 'paypal', label: 'PayPal' },
+    { value: PaymentMethod.Bank, label: 'Direct bank transfer' },
+    { value: PaymentMethod.Check, label: 'Check payments' },
+    { value: PaymentMethod.Cash, label: 'Cash on delivery' },
+    { value: PaymentMethod.Paypal, label: 'PayPal' },
   ]
 </script>
 
@@ -18,14 +21,25 @@
       v-for="option in methods"
       :key="option.value"
       class="payment-methods__option"
-      :class="{ 'payment-methods__option--expanded': option.value === 'bank' && method === 'bank' }"
+      :class="{
+        'payment-methods__option--expanded':
+          option.value === PaymentMethod.Bank && method === PaymentMethod.Bank,
+      }"
     >
       <label>
         <input v-model="method" type="radio" name="payment" :value="option.value" />
         <span>{{ option.label }}</span>
-        <PaypalIcon v-if="option.value === 'paypal'" width="13" height="16" aria-hidden="true" />
+        <PaypalIcon
+          v-if="option.value === PaymentMethod.Paypal"
+          width="13"
+          height="16"
+          aria-hidden="true"
+        />
       </label>
-      <p v-if="option.value === 'bank' && method === 'bank'" class="payment-methods__description">
+      <p
+        v-if="option.value === PaymentMethod.Bank && method === PaymentMethod.Bank"
+        class="payment-methods__description"
+      >
         Make your payment directly into our bank account. Please use your Order ID as the payment
         reference. Your order will not be shipped until the funds have cleared in our account
       </p>

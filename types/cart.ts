@@ -2,6 +2,13 @@ import type { Product } from '~/types/api'
 
 export type CartItem = { product: Product; quantity: number }
 
+export interface CartOrderLine {
+  productId: number
+  title: string
+  quantity: number
+  total: number
+}
+
 export interface CartRequest {
   userId: number
   date: string

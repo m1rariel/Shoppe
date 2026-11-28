@@ -1,8 +1,12 @@
 <script setup lang="ts">
-  import { storeToRefs } from 'pinia'
-  import { useCartStore } from '~/stores/cartStore'
+  import type { CartOrderLine } from '~/types/cart'
 
-  const { orderLines, subtotal, total } = storeToRefs(useCartStore())
+  defineProps<{
+    orderLines: CartOrderLine[]
+    subtotal: number
+    total: number
+  }>()
+
   const currency = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',

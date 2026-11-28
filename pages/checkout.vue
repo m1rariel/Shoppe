@@ -1,37 +1,37 @@
 <script setup lang="ts">
+  import { storeToRefs } from 'pinia'
   import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
   import { definePageMeta, navigateTo } from '#imports'
   import { useAuthStore } from '~/stores/auth'
   import { useCartStore } from '~/stores/cartStore'
   import { NotificationTypes, useNotification } from '~/composables/useNotification'
+  import { PaymentMethod } from '~/types/checkout'
   import type BillingDetailsForm from '~/components/BillingDetailsForm.vue'
 
   definePageMeta({ middleware: 'checkout' })
 
   const authStore = useAuthStore()
   const cartStore = useCartStore()
+  const { orderLines, subtotal, total } = storeToRefs(cartStore)
   const { showNotification } = useNotification()
-  const billing = ref<InstanceType<typeof BillingDetailsForm> | null>(null)
+
+  const billingForm = ref<InstanceType<typeof BillingDetailsForm> | null>(null)
   const coupon = ref('')
-  const paymentMethod = ref('bank')
+  const paymentMethod = ref<PaymentMethod>(PaymentMethod.Bank)
   const submitting = ref(false)
+  let isMounted = true
+  let orderPlaced = false
+
   const busy = computed(() => submitting.value || cartStore.isMutating)
-  let active = true
-  let placed = false
 
   const checkAccess = () => {
-    if (!active || placed || import.meta.server) return
+    if (!isMounted || orderPlaced || import.meta.server) return
     if (!authStore.isAuthenticated) {
       void navigateTo({ path: '/account', query: { returnTo: '/checkout' } })
     } else if (!submitting.value && cartStore.totalItems === 0) {
       void navigateTo('/products')
     }
   }
-
-  watch(() => [authStore.isAuthenticated, cartStore.totalItems], checkAccess, { flush: 'sync' })
-  onBeforeUnmount(() => {
-    active = false
-  })
 
   const applyCoupon = () => {
     if (busy.value) return
@@ -42,22 +42,25 @@
   }
 
   const placeOrder = async () => {
-    if (busy.value || !active || placed) return
+    if (busy.value || !isMounted || orderPlaced) return
     submitting.value = true
 
     try {
-      if (!(await billing.value?.validate())) {
+      const formValid = await billingForm.value?.validate()
+      if (!formValid) {
         submitting.value = false
         await nextTick()
-        if (active) billing.value?.focusInvalid()
+
+        if (isMounted) billingForm.value?.focusInvalid()
         return
       }
-      if (!active || !authStore.isAuthenticated || cartStore.totalItems === 0) return
+
+      if (!isMounted || !authStore.isAuthenticated || cartStore.totalItems === 0) return
 
       const cleared = await cartStore.clearCart()
-      if (!cleared || !active || !authStore.isAuthenticated) return
+      if (!cleared || !isMounted || !authStore.isAuthenticated) return
 
-      placed = true
+      orderPlaced = true
       showNotification({
         message: 'Thank you! Your order has been placed.',
         type: NotificationTypes.SUCCESS,
@@ -68,6 +71,11 @@
       checkAccess()
     }
   }
+
+  watch(() => [authStore.isAuthenticated, cartStore.totalItems], checkAccess, { flush: 'sync' })
+  onBeforeUnmount(() => {
+    isMounted = false
+  })
 </script>
 
 <template>
@@ -81,10 +89,10 @@
         @submit.prevent="placeOrder"
       >
         <div class="checkout-page__billing">
-          <BillingDetailsForm ref="billing" :disabled="busy" />
+          <BillingDetailsForm ref="billingForm" :disabled="busy" />
           <CheckoutCoupon v-model="coupon" :disabled="busy" @apply="applyCoupon" />
         </div>
-        <OrderSummary>
+        <OrderSummary :order-lines="orderLines" :subtotal="subtotal" :total="total">
           <PaymentMethods v-model="paymentMethod" :disabled="busy" />
           <BaseButton class="checkout-page__submit" button-type="submit" :disabled="busy">
             {{ submitting ? 'PLACING ORDER…' : 'PLACE ORDER' }}

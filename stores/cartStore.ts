@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Product } from '~/types/api'
-import type { CartItem } from '~/types/cart'
+import type { CartItem, CartOrderLine } from '~/types/cart'
 import { createCartPersistence } from '~/utils/cartPersistence'
 import { NotificationTypes, useNotification } from '~/composables/useNotification'
 import { useAddNewCart } from '~/composables/api/carts/useAddNewCart'
@@ -65,7 +65,7 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   const totalItems = computed(() => items.value.reduce((sum, item) => sum + item.quantity, 0))
-  const orderLines = computed(() =>
+  const orderLines = computed<CartOrderLine[]>(() =>
     items.value.map(({ product, quantity }) => ({
       productId: product.id,
       title: product.title,

@@ -3,25 +3,29 @@
   import { email, regex, required } from '@vee-validate/rules'
   import type BaseInput from '~/components/BaseInput.vue'
 
+  type InputInstance = InstanceType<typeof BaseInput>
+
   defineProps<{ disabled?: boolean }>()
 
   const { validate } = useForm()
+
   const phonePattern = /^\+?(?=(?:\D*\d){7,15}\D*$)[\d ()-]+$/
-  const requiredName = (value: string) => required(value?.trim()) || 'This field is required.'
+  const requiredText = (value: string) => required(value?.trim()) || 'This field is required.'
   const emailRule = (value: string) =>
-    requiredName(value) === true
+    requiredText(value) === true
       ? email(value.trim()) || 'Enter a valid email address.'
       : 'This field is required.'
   const phoneRule = (value: string) =>
-    requiredName(value) === true
+    requiredText(value) === true
       ? regex(value.trim(), [phonePattern]) || 'Enter a valid phone number (7–15 digits).'
       : 'This field is required.'
 
-  const firstName = useField<string>('firstName', requiredName, { initialValue: '' })
-  const lastName = useField<string>('lastName', requiredName, { initialValue: '' })
+  const firstName = useField<string>('firstName', requiredText, { initialValue: '' })
+  const lastName = useField<string>('lastName', requiredText, { initialValue: '' })
   const phone = useField<string>('phone', phoneRule, { initialValue: '' })
   const emailAddress = useField<string>('email', emailRule, { initialValue: '' })
   const notes = useField<string>('notes', undefined, { initialValue: '' })
+
   const fields = [
     {
       name: 'firstName',
@@ -41,7 +45,7 @@
     { name: 'email', label: 'Email *', autocomplete: 'email', type: 'email', field: emailAddress },
     { name: 'notes', label: 'Order notes', autocomplete: 'off', type: 'text', field: notes },
   ]
-  type InputInstance = InstanceType<typeof BaseInput>
+
   const inputs: Record<string, InputInstance | null> = {}
 
   defineExpose({

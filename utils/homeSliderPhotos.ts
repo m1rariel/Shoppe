@@ -19,8 +19,9 @@ export const createHomeSliderImage = (source: string) => {
     return { src: source }
   }
 
+  const picsumPathPattern = /^\/id\/([^/]+)\//
   const picsumId =
-    url.hostname === 'picsum.photos' ? url.pathname.match(/^\/id\/([^/]+)\//)?.[1] : null
+    url.hostname === 'picsum.photos' ? url.pathname.match(picsumPathPattern)?.[1] : null
   const isUnsplash = url.hostname === 'images.unsplash.com'
   if (!picsumId && !isUnsplash) return { src: source }
 
