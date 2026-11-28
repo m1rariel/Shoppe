@@ -1,0 +1,499 @@
+{
+  "scope": "Mobile PSI, median of 3 independent runs per page, non-metric scored performance audits only",
+  "warning": "90+ Performance is achieved, but full closure of 80–90% of warnings is not claimed. Partial improvement is not counted as full closure.",
+  "pages": [
+    {
+      "page": "home",
+      "strategy": "mobile",
+      "beforeIndependentRuns": 3,
+      "afterIndependentRuns": 3,
+      "method": "Performance auditRefs excluding metrics group and derived metrics interactive/max-potential-fid; include audits with median score <1 before; fully closed means median score ==1 after. Informative/notApplicable/manual scores excluded.",
+      "fullyClosedCount": 2,
+      "initialCount": 8,
+      "audits": [
+        {
+          "id": "cache-insight",
+          "title": "Use efficient cache lifetimes",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 204641.25,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Est savings of 200 KiB",
+              "Est savings of 200 KiB",
+              "Est savings of 200 KiB"
+            ]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 201110.24999999997,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Est savings of 196 KiB",
+              "Est savings of 196 KiB",
+              "Est savings of 196 KiB"
+            ]
+          },
+          "fullyClosed": false,
+          "note": "Остаточное: GitHub Pages и внешние сервисы задают cache headers; routeRules не меняет заголовки на статическом Pages."
+        },
+        {
+          "id": "image-delivery-insight",
+          "title": "Improve image delivery",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 4926745,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Est savings of 4,811 KiB",
+              "Est savings of 4,811 KiB",
+              "Est savings of 4,811 KiB"
+            ]
+          },
+          "after": {
+            "medianScore": 0.5,
+            "medianNumericValue": 23155,
+            "numericUnit": "byte",
+            "displayValues": ["Est savings of 23 KiB", null, "Est savings of 23 KiB"]
+          },
+          "fullyClosed": false,
+          "note": "Частично: hero resized WebP, отложены скрытые слайды, About WebP. Остались изображения API без серверного resize и небольшой переразмеренный fallback."
+        },
+        {
+          "id": "lcp-breakdown-insight",
+          "title": "LCP breakdown",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": null,
+            "numericUnit": null,
+            "displayValues": [null, null, null]
+          },
+          "after": {
+            "medianScore": 1,
+            "medianNumericValue": null,
+            "numericUnit": null,
+            "displayValues": [null, null, null]
+          },
+          "fullyClosed": true,
+          "note": "Проверка разложения LCP закрыта на главной после уменьшения изображений и устранения задержки первого слайда."
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "title": "LCP request discovery",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 0,
+            "numericUnit": "millisecond",
+            "displayValues": [null, null, null]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 0,
+            "numericUnit": "millisecond",
+            "displayValues": [null, null, null]
+          },
+          "fullyClosed": false,
+          "note": "Частично: eager/high и начальный HTML. На главной PSI показывает priorityHinted=false при наличии fetchpriority=high в snippet; вероятная причина — редирект Picsum на CDN. На товаре есть высокий приоритет активного изображения."
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "title": "Network dependency tree",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": null,
+            "numericUnit": null,
+            "displayValues": [null, null, null]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": null,
+            "numericUnit": null,
+            "displayValues": [null, null, null]
+          },
+          "fullyClosed": false,
+          "note": "Частично: удалены Google Fonts CSS/preconnect и повторный запрос списка Picsum. Цепочки CSS/шрифтов и внешних ресурсов сохраняются."
+        },
+        {
+          "id": "render-blocking-insight",
+          "title": "Render-blocking requests",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 616,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 610 ms",
+              "Est savings of 620 ms",
+              "Est savings of 730 ms"
+            ]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 436,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 460 ms",
+              "Est savings of 440 ms",
+              "Est savings of 430 ms"
+            ]
+          },
+          "fullyClosed": false,
+          "note": "Частично: удалены внешние Google Fonts stylesheets; критический CSS Nuxt остаётся блокирующим для сохранения оформления при первой отрисовке."
+        },
+        {
+          "id": "total-byte-weight",
+          "title": "Avoid enormous network payloads",
+          "before": {
+            "medianScore": 0.5,
+            "medianNumericValue": 5718826,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Total size was 5,585 KiB",
+              "Total size was 5,585 KiB",
+              "Total size was 5,585 KiB"
+            ]
+          },
+          "after": {
+            "medianScore": 1,
+            "medianNumericValue": 376541,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Total size was 368 KiB",
+              "Total size was 368 KiB",
+              "Total size was 368 KiB"
+            ]
+          },
+          "fullyClosed": true,
+          "note": "Суммарный payload главной приведён к проходному значению."
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 150,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 27 KiB",
+              "Est savings of 27 KiB",
+              "Est savings of 27 KiB"
+            ]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 150,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 27 KiB",
+              "Est savings of 27 KiB",
+              "Est savings of 27 KiB"
+            ]
+          },
+          "fullyClosed": false,
+          "note": "Остаточное: Vue/Nuxt runtime и интерактивный Swiper; неиспользуемый Navigation удалён, но это не закрывает весь аудит."
+        }
+      ]
+    },
+    {
+      "page": "catalog",
+      "strategy": "mobile",
+      "beforeIndependentRuns": 3,
+      "afterIndependentRuns": 3,
+      "method": "Performance auditRefs excluding metrics group and derived metrics interactive/max-potential-fid; include audits with median score <1 before; fully closed means median score ==1 after. Informative/notApplicable/manual scores excluded.",
+      "fullyClosedCount": 0,
+      "initialCount": 6,
+      "audits": [
+        {
+          "id": "cache-insight",
+          "title": "Use efficient cache lifetimes",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 155674.75000000003,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Est savings of 152 KiB",
+              "Est savings of 152 KiB",
+              "Est savings of 152 KiB"
+            ]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 220397.8333333333,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Est savings of 215 KiB",
+              "Est savings of 215 KiB",
+              "Est savings of 215 KiB"
+            ]
+          },
+          "fullyClosed": false,
+          "note": "Остаточное: GitHub Pages и внешние сервисы задают cache headers; routeRules не меняет заголовки на статическом Pages."
+        },
+        {
+          "id": "image-delivery-insight",
+          "title": "Improve image delivery",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 138595,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Est savings of 135 KiB",
+              "Est savings of 135 KiB",
+              "Est savings of 135 KiB"
+            ]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 138595,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Est savings of 135 KiB",
+              "Est savings of 135 KiB",
+              "Est savings of 135 KiB"
+            ]
+          },
+          "fullyClosed": false,
+          "note": "Частично: hero resized WebP, отложены скрытые слайды, About WebP. Остались изображения API без серверного resize и небольшой переразмеренный fallback."
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "title": "LCP request discovery",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 0,
+            "numericUnit": "millisecond",
+            "displayValues": [null, null, null]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 0,
+            "numericUnit": "millisecond",
+            "displayValues": [null, null, null]
+          },
+          "fullyClosed": false,
+          "note": "Частично: eager/high и начальный HTML. На главной PSI показывает priorityHinted=false при наличии fetchpriority=high в snippet; вероятная причина — редирект Picsum на CDN. На товаре есть высокий приоритет активного изображения."
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "title": "Network dependency tree",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": null,
+            "numericUnit": null,
+            "displayValues": [null, null, null]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": null,
+            "numericUnit": null,
+            "displayValues": [null, null, null]
+          },
+          "fullyClosed": false,
+          "note": "Частично: удалены Google Fonts CSS/preconnect и повторный запрос списка Picsum. Цепочки CSS/шрифтов и внешних ресурсов сохраняются."
+        },
+        {
+          "id": "render-blocking-insight",
+          "title": "Render-blocking requests",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 728,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 740 ms",
+              "Est savings of 730 ms",
+              "Est savings of 720 ms"
+            ]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 426,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 420 ms",
+              "Est savings of 430 ms",
+              "Est savings of 430 ms"
+            ]
+          },
+          "fullyClosed": false,
+          "note": "Частично: удалены внешние Google Fonts stylesheets; критический CSS Nuxt остаётся блокирующим для сохранения оформления при первой отрисовке."
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 150,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 50 KiB",
+              "Est savings of 50 KiB",
+              "Est savings of 50 KiB"
+            ]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 150,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 50 KiB",
+              "Est savings of 50 KiB",
+              "Est savings of 50 KiB"
+            ]
+          },
+          "fullyClosed": false,
+          "note": "Остаточное: Vue/Nuxt runtime и интерактивный Swiper; неиспользуемый Navigation удалён, но это не закрывает весь аудит."
+        }
+      ]
+    },
+    {
+      "page": "product",
+      "strategy": "mobile",
+      "beforeIndependentRuns": 3,
+      "afterIndependentRuns": 3,
+      "method": "Performance auditRefs excluding metrics group and derived metrics interactive/max-potential-fid; include audits with median score <1 before; fully closed means median score ==1 after. Informative/notApplicable/manual scores excluded.",
+      "fullyClosedCount": 0,
+      "initialCount": 6,
+      "audits": [
+        {
+          "id": "cache-insight",
+          "title": "Use efficient cache lifetimes",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 147643.83333333334,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Est savings of 144 KiB",
+              "Est savings of 144 KiB",
+              "Est savings of 144 KiB"
+            ]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 212340.33333333334,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Est savings of 207 KiB",
+              "Est savings of 207 KiB",
+              "Est savings of 207 KiB"
+            ]
+          },
+          "fullyClosed": false,
+          "note": "Остаточное: GitHub Pages и внешние сервисы задают cache headers; routeRules не меняет заголовки на статическом Pages."
+        },
+        {
+          "id": "image-delivery-insight",
+          "title": "Improve image delivery",
+          "before": {
+            "medianScore": 0.5,
+            "medianNumericValue": 99553,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Est savings of 97 KiB",
+              "Est savings of 97 KiB",
+              "Est savings of 97 KiB"
+            ]
+          },
+          "after": {
+            "medianScore": 0.5,
+            "medianNumericValue": 99553,
+            "numericUnit": "byte",
+            "displayValues": [
+              "Est savings of 97 KiB",
+              "Est savings of 97 KiB",
+              "Est savings of 97 KiB"
+            ]
+          },
+          "fullyClosed": false,
+          "note": "Частично: hero resized WebP, отложены скрытые слайды, About WebP. Остались изображения API без серверного resize и небольшой переразмеренный fallback."
+        },
+        {
+          "id": "lcp-discovery-insight",
+          "title": "LCP request discovery",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 0,
+            "numericUnit": "millisecond",
+            "displayValues": [null, null, null]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 0,
+            "numericUnit": "millisecond",
+            "displayValues": [null, null, null]
+          },
+          "fullyClosed": false,
+          "note": "Частично: eager/high и начальный HTML. На главной PSI показывает priorityHinted=false при наличии fetchpriority=high в snippet; вероятная причина — редирект Picsum на CDN. На товаре есть высокий приоритет активного изображения."
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "title": "Network dependency tree",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": null,
+            "numericUnit": null,
+            "displayValues": [null, null, null]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": null,
+            "numericUnit": null,
+            "displayValues": [null, null, null]
+          },
+          "fullyClosed": false,
+          "note": "Частично: удалены Google Fonts CSS/preconnect и повторный запрос списка Picsum. Цепочки CSS/шрифтов и внешних ресурсов сохраняются."
+        },
+        {
+          "id": "render-blocking-insight",
+          "title": "Render-blocking requests",
+          "before": {
+            "medianScore": 0,
+            "medianNumericValue": 735,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 740 ms",
+              "Est savings of 740 ms",
+              "Est savings of 740 ms"
+            ]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 424,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 430 ms",
+              "Est savings of 420 ms",
+              "Est savings of 420 ms"
+            ]
+          },
+          "fullyClosed": false,
+          "note": "Частично: удалены внешние Google Fonts stylesheets; критический CSS Nuxt остаётся блокирующим для сохранения оформления при первой отрисовке."
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "before": {
+            "medianScore": 0.5,
+            "medianNumericValue": 0,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 25 KiB",
+              "Est savings of 25 KiB",
+              "Est savings of 25 KiB"
+            ]
+          },
+          "after": {
+            "medianScore": 0,
+            "medianNumericValue": 150,
+            "numericUnit": "millisecond",
+            "displayValues": [
+              "Est savings of 25 KiB",
+              "Est savings of 25 KiB",
+              "Est savings of 25 KiB"
+            ]
+          },
+          "fullyClosed": false,
+          "note": "Остаточное: Vue/Nuxt runtime и интерактивный Swiper; неиспользуемый Navigation удалён, но это не закрывает весь аудит."
+        }
+      ]
+    }
+  ]
+}

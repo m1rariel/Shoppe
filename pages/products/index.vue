@@ -46,7 +46,6 @@
         <span class="products-page__mobile-title">Shop</span>
       </h1>
     </header>
-
     <div class="products-page__layout">
       <ProductFilter
         class="products-page__filters"

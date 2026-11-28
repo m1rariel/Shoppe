@@ -6,6 +6,7 @@
   const props = defineProps<{
     product: Product
     disabled?: boolean
+    eager?: boolean
   }>()
 
   const emit = defineEmits<{
@@ -34,7 +35,7 @@
         class="product-card__image"
         :src="product.image"
         :alt="product.title"
-        loading="lazy"
+        :loading="eager ? 'eager' : 'lazy'"
         @error="imageFailed = true"
       />
       <span v-else class="product-card__image-fallback">Image unavailable</span>

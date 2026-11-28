@@ -177,6 +177,8 @@
           :src="activeImage"
           :alt="productTitle || 'Product image'"
           class="product-gallery__active-image"
+          fetchpriority="high"
+          decoding="async"
           :style="{ transform: hovering ? 'scale(2)' : 'scale(1)', transformOrigin: hoverOrigin }"
           @error="failImage(activeImage)"
         />
@@ -218,6 +220,9 @@
               :src="image"
               :alt="`${productTitle || 'Product image'} — ${index + 1}`"
               class="product-gallery__image"
+              :fetchpriority="index === activeIndex ? 'high' : 'auto'"
+              :loading="index === 0 ? 'eager' : 'lazy'"
+              decoding="async"
               @error="failImage(image)"
             />
           </button>

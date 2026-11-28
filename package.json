@@ -24,9 +24,11 @@
     "test:unit:related": "node scripts/test-unit-related.mjs"
   },
   "dependencies": {
+    "@vee-validate/rules": "^4.15.1",
     "normalize.css": "^8.0.1",
     "pinia": "^3.0.4",
     "swiper": "^12.1.4",
+    "vee-validate": "^4.15.1",
     "vue": "^3.5.34",
     "vue-router": "^5.0.6"
   },
